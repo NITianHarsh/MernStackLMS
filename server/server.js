@@ -19,6 +19,10 @@ app.use(express.json());
 //dB connection
 connectDB();
 
+//routes configuration
+const instructorCourseRoutes = require("./routes/instructor-routes/course-routes.js");
+app.use("/instructor/course", instructorCourseRoutes);
+
 //error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
