@@ -19,6 +19,11 @@ app.use(express.json());
 //dB connection
 connectDB();
 
+// routes
+const authRoutes = require("./routes/auth");
+
+app.use("/auth", authRoutes);
+
 //error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
