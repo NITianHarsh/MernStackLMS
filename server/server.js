@@ -19,10 +19,14 @@ app.use(express.json());
 //dB connection
 connectDB();
 
-// routes
+//routes configuration
 const authRoutes = require("./routes/auth");
+const mediaRoutes = require("./routes/instructor-routes/media-routes.js");
+const instructorCourseRoutes = require("./routes/instructor-routes/course-routes.js");
 
 app.use("/auth", authRoutes);
+app.use("/media", mediaRoutes);
+app.use("/instructor/course", instructorCourseRoutes);
 
 //error handling middleware
 app.use((err, req, res, next) => {

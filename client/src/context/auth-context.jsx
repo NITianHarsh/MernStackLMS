@@ -45,9 +45,10 @@ export default function AuthProvider({ children }) {
     e.preventDefault();
     try {
       const { data } = await axiosInstance.post("/auth/login", signInFormData);
+      console.log("Login data is ---> ", data);
 
       if (data?.success) {
-        setAuth({ isAuthenticated: true, user: data.user });
+        setAuth({ isAuthenticated: true, user: data.data.user });
 
         sessionStorage.setItem(
           "accessToken",
@@ -56,8 +57,6 @@ export default function AuthProvider({ children }) {
 
         // Optional: Show toast or alert
         alert("User logged in successfully!");
-
-        navigate("/");
       } else {
         setAuth({ isAuthenticated: false, user: null });
         alert("User login failed!");
@@ -70,25 +69,42 @@ export default function AuthProvider({ children }) {
     }
   }
 
-  async function checkAuth() {
+  async function checkAuthUser() {
     try {
       const { data } = await axiosInstance.get("/auth/check-auth");
-
-      if (data?.success) {
-        setAuth({ isAuthenticated: true, user: data.user });
+      if (data.success) {
+        setAuth({
+          isAuthenticated: true,
+          user: data.data.user,
+        });
+        setLoading(false);
       } else {
-        setAuth({ isAuthenticated: false, user: null });
+        setAuth({
+          isAuthenticated: false,
+          user: null,
+        });
+        setLoading(false);
       }
     } catch (error) {
-      console.error("Auth check error:", error);
-      setAuth({ isAuthenticated: false, user: null });
-    } finally {
-      setLoading(false);
+      console.log(error);
+      if (!error?.response?.data?.success) {
+        setAuth({
+          isAuthenticated: false,
+          user: null,
+        });
+        setLoading(false);
+      }
     }
+  }
+  function resetCredentials() {
+    setAuth({
+      isAuthenticated: false,
+      user: null,
+    });
   }
 
   useEffect(() => {
-    checkAuth();
+    checkAuthUser();
   }, []);
 
   // passing down the state and setState functions to the context
@@ -102,6 +118,7 @@ export default function AuthProvider({ children }) {
         setSignUpFormData,
         handleRegisterUser,
         handleLoginUser,
+        resetCredentials,
       }}
     >
       {loading ? <Skeleton /> : children}

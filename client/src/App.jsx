@@ -6,9 +6,11 @@ import UserProtected from "./components/UserProtected.jsx";
 import InstructorDashboard from "./pages/instructor/index.jsx";
 import CommonLayout from "./components/student-view/CommonLayout.jsx";
 import StudentHomePage from "./pages/student/home.jsx";
+import AddNewCourse from "./pages/instructor/add-new-course.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
+  
   return (
     <Routes>
       <Route
@@ -26,6 +28,16 @@ function App() {
         element={
           <UserProtected
             element={<InstructorDashboard />}
+            authenticated={auth?.isAuthenticated}
+            user={auth?.user}
+          />
+        }
+      />
+      <Route
+        path="/instructor/create-new-course"
+        element={
+          <UserProtected
+            element={<AddNewCourse />}
             authenticated={auth?.isAuthenticated}
             user={auth?.user}
           />
