@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import VideoPlayer from "@/components/VideoPlayer";
 import { courseCurriculumInitialFormData } from "@/config";
 import { InstructorContext } from "@/context/instructor-context";
 import React, { useContext } from "react";
@@ -80,6 +81,14 @@ function CourseCurriculum() {
       }
     }
   }
+
+  const isCourseCurriculumFormDataValid = () => {
+    return courseCurriculumFormData.every((item) => {
+      return item && typeof item === "object" && item.title.trim() !== ""
+        && item.videoUrl.trim() !== "";
+    });
+  };
+
   return (
     <Card className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-md">
       <CardHeader>
@@ -90,6 +99,7 @@ function CourseCurriculum() {
 
       <CardContent>
         <Button
+        disabled={!isCourseCurriculumFormDataValid() || mediaUploadProgress}
           onClick={handleNewLecture}
           className="bg-green-600 hover:bg-green-700 text-white dark:bg-green-500 dark:hover:bg-green-600"
         >
@@ -137,16 +147,23 @@ function CourseCurriculum() {
                   </Label>
                 </div>
               </div>
-
               <div className="mt-6">
-                <Input
-                  type="file"
-                  accept="video/*"
-                  onChange={(e) => {
-                    handleSingleLectureUpload(e, index);
-                  }}
-                  className="mb-4 bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-300 dark:border-gray-600"
-                />
+                {courseCurriculumFormData[index]?.videoUrl ? (
+                  <div className="flex gap-3">
+                    <VideoPlayer width="450px" height="200px" url={courseCurriculumFormData[index]?.videoUrl}/>
+                    <Button>Replace Video</Button>
+                    <Button className="bg-red-900">Delete Lecture</Button>
+                  </div>
+                ) : (
+                  <Input
+                    type="file"
+                    accept="video/*"
+                    onChange={(e) => {
+                      handleSingleLectureUpload(e, index);
+                    }}
+                    className="mb-4 bg-white dark:bg-gray-800 text-black dark:text-white border border-gray-300 dark:border-gray-600"
+                  />
+                )}
               </div>
             </div>
           ))}
