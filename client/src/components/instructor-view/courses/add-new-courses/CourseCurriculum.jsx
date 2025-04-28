@@ -161,6 +161,42 @@ function CourseCurriculum() {
     }
   }
 
+  async function handleDeleteLecture(currentIndex) {
+    let cpyCourseCurriculumFormData = [...courseCurriculumFormData];
+    const getCurrentSelectedVideoPublicId =
+      cpyCourseCurriculumFormData[currentIndex].public_id;
+
+    const response = await axiosInstance.delete(
+      `/media/delete/${getCurrentSelectedVideoPublicId}`
+    );
+    if (response?.data?.success) {
+      cpyCourseCurriculumFormData = cpyCourseCurriculumFormData.filter(
+        (_, index) => index !== currentIndex
+      );
+
+      setCourseCurriculumFormData(cpyCourseCurriculumFormData);
+    }
+  }
+  async function handleReplaceVideo(currentIndex) {
+    let cpyCourseCurriculumFormData = [...courseCurriculumFormData];
+    const getCurrentVideoPublicId =
+      cpyCourseCurriculumFormData[currentIndex].public_id;
+
+    const deleteCurrentMediaResponse = await axiosInstance.delete(
+      `/media/delete/${getCurrentVideoPublicId}`
+    );
+
+    if (deleteCurrentMediaResponse?.data?.success) {
+      cpyCourseCurriculumFormData[currentIndex] = {
+        ...cpyCourseCurriculumFormData[currentIndex],
+        videoUrl: "",
+        public_id: "",
+      };
+
+      setCourseCurriculumFormData(cpyCourseCurriculumFormData);
+    }
+  }
+
   return (
     <Card className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-md">
       <CardHeader className="flex flex-row justify-between ">
@@ -248,8 +284,15 @@ function CourseCurriculum() {
                       height="200px"
                       url={courseCurriculumFormData[index]?.videoUrl}
                     />
-                    <Button>Replace Video</Button>
-                    <Button className="bg-red-900">Delete Lecture</Button>
+                    <Button onClick={() => handleReplaceVideo(index)}>
+                      Replace Video
+                    </Button>
+                    <Button
+                      onClick={() => handleDeleteLecture(index)}
+                      className="bg-red-900"
+                    >
+                      Delete Lecture
+                    </Button>
                   </div>
                 ) : (
                   <Input
