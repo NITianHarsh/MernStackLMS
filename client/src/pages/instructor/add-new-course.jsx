@@ -7,15 +7,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
 import { Moon, Sun } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { courseCurriculumInitialFormData, courseLandingInitialFormData } from "@/config";
-import { useNavigate } from "react-router-dom";
-
+import {
+  courseCurriculumInitialFormData,
+  courseLandingInitialFormData,
+} from "@/config";
+import { useNavigate, useParams } from "react-router-dom";
 
 function AddNewCourse() {
-
-
   const [darkMode, setDarkMode] = useState(false);
   useEffect(() => {
     const theme = localStorage.getItem("theme");
@@ -30,13 +30,19 @@ function AddNewCourse() {
     localStorage.setItem("theme", isDark ? "dark" : "light");
   }
 
+  const {
+    courseLandingFormData,
+    courseCurriculumFormData,
+    setCourseCurriculumFormData,
+    setCourseLandingFormData,
+    currentEditedCourseId,
+    setCurrentEditedCourseId,
+  } = useContext(InstructorContext);
 
+  const { auth } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const params = useParams();
 
-  const { courseLandingFormData, courseCurriculumFormData,setCourseCurriculumFormData,setCourseLandingFormData } =
-    useContext(InstructorContext);
-
-  const {auth}=useContext(AuthContext)
-  const navigate=useNavigate();
   const isEmpty = (value) => {
     if (Array.isArray(value)) {
       return value.length === 0;
@@ -67,10 +73,11 @@ function AddNewCourse() {
     return hasFreePreview;
   };
 
-
-
   async function addNewCourse(formData) {
-    const { data } = await axios.post(`http://localhost:5000/instructor/course/add`, formData);
+    const { data } = await axios.post(
+      `http://localhost:5000/instructor/course/add`,
+      formData
+    );
     return data;
   }
   const handleCreateCourse = async () => {
@@ -79,17 +86,42 @@ function AddNewCourse() {
       instructorName: auth?.user?.userName,
       date: new Date(),
       ...courseLandingFormData,
-      students: [],//while new course students in that course is no one
+      students: [], //while new course students in that course is no one
       curriculum: courseCurriculumFormData,
       isPublished: true,
     };
-    const response=await addNewCourse(courseFinalFormData);
-    if(response?.success){
+    const response = await addNewCourse(courseFinalFormData);
+    if (response?.success) {
       setCourseCurriculumFormData(courseCurriculumInitialFormData);
       setCourseLandingFormData(courseLandingInitialFormData);
-      navigate(-1);//go back to previous page
+      navigate(-1); //go back to previous page
     }
   };
+  const fetchCurrentCourseDetails = async () => {
+    const response = await axios.get(
+      `http://localhost:5000/instructor/course/get/${currentEditedCourseId}`
+    );
+    if (response?.data?.success) {
+      //fill all the details in the form so that instructor can edit
+      //mapping the data to the form
+      const setCourseFormData = Object.keys(courseLandingFormData).reduce(
+        (acc, key) => {
+          acc[key] = response?.data?.data[key] || courseLandingFormData[key];
+          return acc;
+        }, {});
+      setCourseLandingFormData(setCourseFormData);
+      setCourseCurriculumFormData(
+        response?.data?.data?.curriculum || courseCurriculumInitialFormData
+      );
+    }
+  };
+  useEffect(() => {    
+    if (currentEditedCourseId !== null) fetchCurrentCourseDetails();
+  }, [currentEditedCourseId]);
+
+  useEffect(() => {
+    if (params) setCurrentEditedCourseId(params.courseId);
+  }, [params]);
 
   return (
     <div className="container mx-auto p-4 bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none min-h-screen text-black dark:text-white transition-all duration-300 ease-in-out">

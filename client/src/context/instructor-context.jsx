@@ -16,7 +16,8 @@ function InstructorProvider({ children }) {
   const [mediaUploadProgress, setMediaUploadProgress] = useState(false);
   const [mediaUploadProgressPercentage, setMediaUploadProgressPercentage] =
     useState(0);
-  const [instructorCoursesList, setInstructorCoursesList] = useState([]);
+  const [instructorCoursesList, setInstructorCoursesList] = useState([]); //to show the list of courses created by the instructor
+  const [currentEditedCourseId, setCurrentEditedCourseId] = useState(null); //to show the course that is being edited by the instructor
   return (
     <InstructorContext.Provider
       value={{
@@ -30,6 +31,8 @@ function InstructorProvider({ children }) {
         setMediaUploadProgressPercentage,
         instructorCoursesList,
         setInstructorCoursesList,
+        currentEditedCourseId,
+        setCurrentEditedCourseId,
       }}
     >
       {children}

@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 
 function InstructorCourses({ listOfCourses }) {
   const navigate = useNavigate();
-
   return (
     <Card className="bg-white dark:bg-gray-800 shadow-md rounded-xl">
       <CardHeader className="flex justify-between flex-row items-center border-b border-gray-200 dark:border-gray-700 px-6 py-4">
