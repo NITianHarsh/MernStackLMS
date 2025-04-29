@@ -1,12 +1,15 @@
-import { Button } from "@/components/ui/button";
+import {Routes, Route } from "react-router-dom";
 import StudentViewCommonHeader from "./components/student-view/Header";
+import StudentHomePage from "./pages/student/home";
 
 function App() {
   return (
-    // <div className="flex flex-col items-center justify-center min-h-svh">
-    //   <Button className="bg-amber-400">Click me</Button>
-    // </div>
-    <StudentViewCommonHeader/>
+   <>
+   <StudentViewCommonHeader />
+    <Routes>    
+      <Route path="/home" element={<StudentHomePage/>} />
+      </Routes>
+      </>
   );
 }
 

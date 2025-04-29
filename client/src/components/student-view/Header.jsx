@@ -9,7 +9,6 @@ function StudentViewCommonHeader() {
   return (
     <header className="bg-gradient-to-r from-teal-400 to-lime-400 shadow-lg sticky top-0 z-50 border-b rounded-lg">
       <div className="flex items-center justify-between px-6 py-4">
-        {/* Logo + Name */}
         <Link to="/home" className="flex items-center gap-2 hover:text-white transition">
           <GraduationCap className="h-8 w-8 text-white" />
           <span className="text-xl font-bold tracking-tight text-white">LMS Learn</span>
