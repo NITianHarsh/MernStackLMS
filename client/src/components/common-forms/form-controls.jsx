@@ -39,7 +39,7 @@ function FormControls({ formControls = [], formData, setFormData }) {
         element = (
           <Select
             value={currentItemValue}
-            onvalueChange={(value) =>
+            onValueChange={(value) =>
               setFormData({ ...formData, [getControlItem.name]: value })
             }
           >

@@ -44,6 +44,16 @@ function App() {
         }
       />
       <Route
+        path="/instructor/edit-course/:courseId"
+        element={
+          <UserProtected
+            element={<AddNewCourse />}
+            authenticated={auth?.isAuthenticated}
+            user={auth?.user}
+          />
+        }
+      />
+      <Route
         path="/"
         element={
           <UserProtected

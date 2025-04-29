@@ -8,16 +8,24 @@ cloudinary.config({
 });
 
 const uploadMediaToCloudinary = async (filePath) => {
+  const fs = require('fs');
+
+  if (!fs.existsSync(filePath)) {
+    console.error('File does not exist at path:', filePath);
+    throw new Error('Local file not found');
+  }
+
   try {
     const result = await cloudinary.uploader.upload(filePath, {
       resource_type: "auto",
     });
     return result;
   } catch (error) {
-    console.log(error);
+    console.error('Cloudinary upload error:', error.response || error.message || error);
     throw new Error("Error uploading to Cloudinary");
   }
 };
+
 
 const deleteMediaFromCloudinary = async (publicId) => {
   try {
