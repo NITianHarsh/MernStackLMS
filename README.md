@@ -1,6 +1,6 @@
 # 🧠 Full-Stack Course Platform
 
-A full-featured web application built for managing and consuming online courses. This platform supports both **Instructor** and **Student** roles, with secure authentication, course creation, video streaming, and PayPal-based payments.
+A full-featured web application built for managing and consuming online courses. This platform supports both **Instructor** and **Student** roles, with secure authentication, course creation, video streaming, and Razorpay-based payments.
 
 ---
 

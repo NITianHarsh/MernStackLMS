@@ -8,12 +8,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { courseCurriculumInitialFormData, courseLandingInitialFormData } from "@/config";
+import { InstructorContext } from "@/context/instructor-context";
 import { Delete, Edit } from "lucide-react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 function InstructorCourses({ listOfCourses }) {
   const navigate = useNavigate();
-
+  //after editing courses the edited course should be shown in the list
+  const {setCurrentEditedCourseId,setCourseLandingFormData,setCourseCurriculumFormData}=useContext(InstructorContext);
   return (
     <Card className="bg-white dark:bg-gray-800 shadow-md rounded-xl">
       <CardHeader className="flex justify-between flex-row items-center border-b border-gray-200 dark:border-gray-700 px-6 py-4">
@@ -22,6 +26,9 @@ function InstructorCourses({ listOfCourses }) {
         </CardTitle>
         <Button
           onClick={() => {
+            setCurrentEditedCourseId(null);// Reset the form data to initial state to create a new course
+            setCourseLandingFormData(courseLandingInitialFormData);
+            setCourseCurriculumFormData(courseCurriculumInitialFormData);
             navigate("/instructor/create-new-course");
           }}
           className="px-6 py-2 bg-green-600 text-white dark:bg-green-500 hover:bg-green-700 dark:hover:bg-green-600"
