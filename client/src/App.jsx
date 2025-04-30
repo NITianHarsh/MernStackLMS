@@ -5,14 +5,21 @@ import { AuthContext } from "./context/auth-context.jsx";
 import UserProtected from "./components/UserProtected.jsx";
 import InstructorDashboard from "./pages/instructor/index.jsx";
 import CommonLayout from "./components/student-view/CommonLayout.jsx";
-import StudentHomePage from "./pages/student/home.jsx";
+import StudentHomePage from "./pages/student/home/index.jsx";
 import AddNewCourse from "./pages/instructor/add-new-course.jsx";
+import ExamSubmission from "./components/Exam/ExamSubmission.jsx";
+import Results from "./components/Exam/Result.jsx";
+import Leaderboard from "./components/Exam/Leaderboard.jsx";
+import CreateExam from "./components/Exam/CreateExam.jsx";
+import ExamList from "./components/Exam/ExamList.jsx";
+import PublishedExam from "./components/Exam/PublishedExam.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
-  
+
   return (
     <Routes>
+      {/* Auth route */}
       <Route
         path="/auth"
         element={
@@ -23,6 +30,8 @@ function App() {
           />
         }
       />
+
+      {/* Instructor routes */}
       <Route
         path="/instructor"
         element={
@@ -54,6 +63,28 @@ function App() {
         }
       />
       <Route
+        path="/instructor/createExam"
+        element={
+          <UserProtected
+            element={<CreateExam />}
+            authenticated={auth?.isAuthenticated}
+            user={auth?.user}
+          />
+        }
+      />
+      <Route
+        path="/instructor/getExamList"
+        element={
+          <UserProtected
+            element={<ExamList />}
+            authenticated={auth?.isAuthenticated}
+            user={auth?.user}
+          />
+        }
+      />
+
+      {/* Student layout with nested routes */}
+      <Route
         path="/"
         element={
           <UserProtected
@@ -68,8 +99,13 @@ function App() {
         <Route path="courses" element={<div>Courses</div>} />
         <Route path="profile" element={<div>Profile</div>} />
         <Route path="settings" element={<div>Settings</div>} />
-        
+        <Route path="PublishedExamList" element={<PublishedExam />} />
+        <Route path="exam/:examId/start" element={<ExamSubmission />} />
+        <Route path="results/:examId" element={<Results />} />
+        <Route path="exam/:examId/leaderboard" element={<Leaderboard />} />
       </Route>
+
+      {/* Catch-all route */}
       <Route path="*" element={<div>404 Not Found</div>} />
     </Routes>
   );

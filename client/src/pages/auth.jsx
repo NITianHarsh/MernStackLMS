@@ -51,14 +51,16 @@ function AuthPage() {
     );
   }
 
-  function checkIfSignUpFormIsValid() {    
+  function checkIfSignUpFormIsValid() {
     return (
       signUpFormData &&
       signUpFormData.userName !== "" &&
       signUpFormData.userEmail !== "" &&
-      signUpFormData.password !== ""
+      signUpFormData.password !== "" &&
+      signUpFormData.role !== ""
     );
   }
+  
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none text-gray-900 dark:text-white transition-colors duration-300">

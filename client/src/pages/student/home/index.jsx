@@ -1,6 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function StudentHomePage() {
+
   return (
     <div className='min-h-screen bg-white'>
 <section className="bg-gradient-to-r from-indigo-800 to-purple-600 text-white py-16 px-6 lg:px-20">
@@ -22,9 +23,6 @@ function StudentHomePage() {
     </div>
   </div>
 </section>
-
-
-
 
     </div>
   )

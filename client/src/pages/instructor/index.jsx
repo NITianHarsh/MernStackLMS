@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
-import { BarChart, Book, LogOut, Moon, Sun } from "lucide-react";
+import { BarChart, Book, ClipboardList, FilePlus, LogOut, Moon, Sun } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import CreateExam from "@/components/Exam/CreateExam";
+import ExamList from "@/components/Exam/ExamList";
 
 function InstructorDashboardpage() {
   const [darkMode, setDarkMode] = useState(false);
@@ -52,6 +54,18 @@ function InstructorDashboardpage() {
       label: "Courses",
       value: "courses",
       component: <InstructorCourses listOfCourses={instructorCoursesList} />,
+    },
+    {
+      icon: FilePlus, 
+      label: "Create Exam",
+      value: "create-exam",
+      component: <CreateExam />,
+    },
+    {
+      icon: ClipboardList, // or another icon like ClipboardList or List
+      label: "View Exams",
+      value: "exam-list",
+      component: <ExamList />,
     },
     {
       icon: LogOut,

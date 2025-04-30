@@ -1,10 +1,11 @@
-require("dotenv").config();
-const express = require("express");
+import dotenv from "dotenv";
+dotenv.config();
+import express, { json } from "express";
 const app = express();
 
-const cors = require("cors");
+import cors from "cors";
 const PORT = process.env.PORT || 5000;
-const connectDB = require("./db/db.js");
+import connectDB from "./db/db.js";
 
 app.use(
   cors({
@@ -14,19 +15,28 @@ app.use(
   })
 );
 
-app.use(express.json());
+app.use(json());
 
 //dB connection
 connectDB();
 
 //routes configuration
-const authRoutes = require("./routes/auth");
-const mediaRoutes = require("./routes/instructor-routes/media-routes.js");
-const instructorCourseRoutes = require("./routes/instructor-routes/course-routes.js");
+import authRoutes from "./routes/auth.js";
+import mediaRoutes from "./routes/instructor-routes/media-routes.js";
+import instructorCourseRoutes from "./routes/instructor-routes/course-routes.js";
+import examRoutes from "./routes/exam.js";
+import resultRoutes from "./routes/results.js";
+
 
 app.use("/auth", authRoutes);
 app.use("/media", mediaRoutes);
 app.use("/instructor/course", instructorCourseRoutes);
+
+
+app.use("/exam", examRoutes);
+app.use("/result", resultRoutes);
+
+
 
 //error handling middleware
 app.use((err, req, res, next) => {

@@ -21,7 +21,7 @@ export default function AuthProvider({ children }) {
     try {
       const { data } = await axiosInstance.post("/auth/register", {
         ...signUpFormData,
-        role: "user",
+        // role: "user",
       });
 
       console.log("data is ---> ", data);

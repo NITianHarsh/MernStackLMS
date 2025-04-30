@@ -1,9 +1,10 @@
-const express = require("express");
-const multer = require("multer");
-const {
+import express from "express";
+import multer from "multer";
+import {
   uploadMediaToCloudinary,
   deleteMediaFromCloudinary,
-} = require("../../helper/cloudinary");
+} from "../../helper/cloudinary.js";
+
 
 const router = express.Router();
 const upload = multer({ dest: "uploads/" }); // Temporary storage for uploaded files
@@ -59,4 +60,4 @@ router.post("/bulk-upload",upload.array("files",10), async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

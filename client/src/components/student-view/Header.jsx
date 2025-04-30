@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { GraduationCap, TvMinimalPlay, Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
+import { AuthContext } from '@/context/auth-context';
 
 function StudentViewCommonHeader() {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-
+ const { resetCredentials } = useContext(AuthContext);
+  function handleLogout() {
+      resetCredentials();
+    sessionStorage.clear();
+    console.log("Logout successful");
+    }
   return (
     <header className="bg-gradient-to-r from-teal-400 to-lime-400 shadow-lg sticky top-0 z-50 border-b rounded-lg">
       <div className="flex items-center justify-between px-6 py-4">
@@ -18,8 +25,9 @@ function StudentViewCommonHeader() {
           <Button
             variant="ghost"
             className="text-sm font-medium text-white hover:text-teal-300 hover:bg-teal-600 transition px-4 py-2 rounded-md"
+            onClick={() => navigate("/PublishedExamList")}
           >
-            Explore Courses
+            Explore Exams
           </Button>
 
           <div className="flex items-center gap-2 cursor-pointer hover:text-teal-300 transition">
@@ -27,8 +35,8 @@ function StudentViewCommonHeader() {
             <TvMinimalPlay className="w-6 h-6 text-white" />
           </div>
 
-          <Button className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 text-sm font-semibold rounded-md transition">
-            Sign Out
+          <Button className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 text-sm font-semibold rounded-md transition" onClick={handleLogout}>
+            LogOut
           </Button>
         </nav>
 
@@ -58,8 +66,8 @@ function StudentViewCommonHeader() {
           </button>
 
           {/* Sign Out */}
-          <Button className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 text-sm font-semibold rounded-md transition">
-            Sign Out
+          <Button className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 text-sm font-semibold rounded-md transition" onClick={handleLogout}>
+            LogOut
           </Button>
         </div>
       )}
