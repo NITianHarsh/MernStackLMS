@@ -54,6 +54,22 @@ function InstructorCourses({ listOfCourses }) {
     }
   };
 
+  const handleDeleteCourse = async (courseId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this course?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await axiosInstance.delete(`/instructor/course/${courseId}`);
+      setCourses((prev) => prev.filter((course) => course._id !== courseId));
+      toast.success("Course deleted successfully.");
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error("Failed to delete the course.");
+    }
+  };
+
   return (
     <Card className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-xl rounded-xl">
       <CardHeader className="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 px-6 py-4">
@@ -158,6 +174,7 @@ function InstructorCourses({ listOfCourses }) {
                       <Edit className="h-5 w-5" />
                     </Button>
                     <Button
+                      onClick={() => handleDeleteCourse(course._id)}
                       variant="ghost"
                       size="sm"
                       className="text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900"

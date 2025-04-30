@@ -107,11 +107,25 @@ const updateCoursePublishStatus = async (req, res) => {
   }
 };
 
+const deleteCourseByID = async (req, res) => {
+  try {
+    const courseId = req.params.courseId;
+    const deletedCourse = await Course.findByIdAndDelete(courseId);
+    if (!deletedCourse) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+    res.status(200).json({ message: "Course deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting course:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
 
 export {
   addNewCourse,
   getAllCourse,
   getCourseDetailsByID,
   updateCourseByID,
-  updateCoursePublishStatus
+  updateCoursePublishStatus,
+  deleteCourseByID
 };

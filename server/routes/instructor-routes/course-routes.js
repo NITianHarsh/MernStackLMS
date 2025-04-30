@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addNewCourse,
+  deleteCourseByID,
   getAllCourse,
   getCourseDetailsByID,
   updateCourseByID,
@@ -14,5 +15,6 @@ router.get("/get", getAllCourse);
 router.get("/get/:id", getCourseDetailsByID);
 router.put("/update/:id", updateCourseByID);
 router.put("/:courseId/publish", updateCoursePublishStatus);
+router.delete("/:courseId", deleteCourseByID);
 
 export default router;
