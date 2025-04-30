@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "@/axiosInstance";
 
 const Results = () => {
   const { examId } = useParams();
@@ -10,7 +10,7 @@ const Results = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/result/${examId}/results`);
+        const response = await axiosInstance.get(`/result/${examId}/results`);
         setResults(response.data);
       } catch (error) {
         console.error("Error fetching results", error);

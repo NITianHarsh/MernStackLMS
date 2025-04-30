@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import TimerComponent from "./TimerComponent";
 import PreventCheating from "./PreventCheating";
+import axiosInstance from "@/axiosInstance";
 
 const ExamSubmission = () => {
   const { examId } = useParams();
@@ -16,7 +16,7 @@ const ExamSubmission = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/exam/${examId}/questions`);
+        const response = await axiosInstance.get(`/exam/${examId}/questions`);
         setQuestions(response.data);
         setAnswers(response.data.map(() => ({ selectedOptionIndex: -1 })));
         setStartTime(Date.now());
@@ -59,7 +59,7 @@ const ExamSubmission = () => {
     };
 
     try {
-      await axios.post(`http://localhost:5000/result/${examId}/submit`, submission);
+      await axiosInstance.post(`/result/${examId}/submit`, submission);
       await exitFullScreenIfNeeded(); // exit full screen if active
       navigate(`/results/${examId}`);
     } catch (error) {

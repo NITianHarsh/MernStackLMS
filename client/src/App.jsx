@@ -13,6 +13,7 @@ import Leaderboard from "./components/Exam/Leaderboard.jsx";
 import CreateExam from "./components/Exam/CreateExam.jsx";
 import ExamList from "./components/Exam/ExamList.jsx";
 import PublishedExam from "./components/Exam/PublishedExam.jsx";
+import ForgotPassword from "./pages/forgotPassword.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -107,6 +108,7 @@ function App() {
 
       {/* Catch-all route */}
       <Route path="*" element={<div>404 Not Found</div>} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
     </Routes>
   );
 }

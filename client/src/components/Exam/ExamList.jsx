@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Loader2, Send } from "lucide-react";
+import axiosInstance from "@/axiosInstance";
 
 const ExamList = () => {
   const [exams, setExams] = useState([]);
@@ -10,7 +10,7 @@ const ExamList = () => {
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/exam/getExamList");
+        const res = await axiosInstance.get("/exam/getExamList");
         setExams(res.data);
       } catch (error) {
         console.error("Error fetching exams:", error);
@@ -25,7 +25,7 @@ const ExamList = () => {
   const publishExam = async (id) => {
     setPublishingId(id);
     try {
-      await axios.put(`http://localhost:5000/exam/publish/${id}`);
+      await axiosInstance.put(`/exam/publish/${id}`);
       alert("✅ Exam published successfully!");
       setExams((prevExams) =>
         prevExams.map((exam) =>

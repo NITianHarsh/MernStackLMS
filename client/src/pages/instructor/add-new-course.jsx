@@ -8,12 +8,12 @@ import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
 import { Moon, Sun } from "lucide-react";
 import { use, useContext, useEffect, useState } from "react";
-import axios from "axios";
 import {
   courseCurriculumInitialFormData,
   courseLandingInitialFormData,
 } from "@/config";
 import { useNavigate, useParams } from "react-router-dom";
+import axiosInstance from "@/axiosInstance";
 
 function AddNewCourse() {
   const [darkMode, setDarkMode] = useState(false);
@@ -74,15 +74,15 @@ function AddNewCourse() {
   };
 
   async function addNewCourse(formData) {
-    const { data } = await axios.post(
-      `http://localhost:5000/instructor/course/add`,
+    const { data } = await axiosInstance.post(
+      `/instructor/course/add`,
       formData
     );
     return data;
   }
   async function updateCourseById(courseId, formData) {
-    const { data } = await axios.put(
-      `http://localhost:5000/instructor/course/update/${courseId}`,
+    const { data } = await axiosInstance.put(
+      `/instructor/course/update/${courseId}`,
       formData
     );
     return data;
@@ -109,8 +109,8 @@ function AddNewCourse() {
 
   const fetchCurrentCourseDetails = async () => {
     if(!currentEditedCourseId) return;
-    const response = await axios.get(
-      `http://localhost:5000/instructor/course/get/${currentEditedCourseId}`
+    const response = await axiosInstance.get(
+      `/instructor/course/get/${currentEditedCourseId}`
     );
     if (response?.data?.success) {
       //fill all the details in the form so that instructor can edit

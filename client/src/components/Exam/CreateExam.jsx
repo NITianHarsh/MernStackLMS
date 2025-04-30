@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "@/axiosInstance";
 
 const CreateExam = () => {
   const [title, setTitle] = useState("");
@@ -41,7 +41,7 @@ const CreateExam = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/exam/createExam", {
+      const response = await axiosInstance.post("/exam/createExam", {
         title,
         subject,
         duration,
