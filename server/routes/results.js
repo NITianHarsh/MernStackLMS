@@ -52,21 +52,54 @@ router.post("/:examId/submit", async (req, res) => {
 });
 
 // View results for a student
+// router.get("/:examId/results", async (req, res) => {
+//   const { examId } = req.params;
+
+//   try {
+//     const results = await Result.find({ examId });  // No studentId filter now
+//     if (!results || results.length === 0) {
+//       return res.status(404).json({ message: "Results not found" });
+//     }
+
+//     res.status(200).json(results);  // Return all results for the given examId
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Error fetching results" });
+//   }
+// });
+
+// routes/result.js or wherever this is located
 router.get("/:examId/results", async (req, res) => {
   const { examId } = req.params;
+  const { latest } = req.query;
 
   try {
-    const results = await Result.find({ examId });  // No studentId filter now
-    if (!results || results.length === 0) {
-      return res.status(404).json({ message: "Results not found" });
+    if (latest === "true") {
+      const latestResult = await Result.findOne({ examId })
+        .sort({ createdAt: -1 }) // Ensure your schema uses timestamps
+        .exec();
+
+      if (!latestResult) {
+        return res.status(404).json({ message: "No results found" });
+      }
+
+      return res.status(200).json(latestResult);
     }
 
-    res.status(200).json(results);  // Return all results for the given examId
+    const results = await Result.find({ examId });
+
+    if (!results.length) {
+      return res.status(404).json({ message: "No results found" });
+    }
+
+    res.status(200).json(results);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error fetching results" });
+    console.error("Error fetching results:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
+
+
 
 
 // Leaderboard for an exam

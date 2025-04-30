@@ -26,6 +26,8 @@ function InstructorDashboardpage() {
     const response = await fetchInstructorCourseList();
     if (response?.success) setInstructorCoursesList(response?.data);
   }
+
+
   useEffect(() => {
     fetchAllCourses();
   }, []);
@@ -62,10 +64,10 @@ function InstructorDashboardpage() {
       component: <CreateExam />,
     },
     {
-      icon: ClipboardList, // or another icon like ClipboardList or List
+      icon: ClipboardList,
       label: "View Exams",
       value: "exam-list",
-      component: <ExamList />,
+      component: <ExamList setActiveTab={setActiveTab} />,
     },
     {
       icon: LogOut,
@@ -80,7 +82,6 @@ function InstructorDashboardpage() {
     sessionStorage.clear();
   }
 
-  // console.log(instructorCoursesList, "instructorCoursesList");
 
   return (
     <div className="flex h-full min-h-screen bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none text-black dark:text-white">

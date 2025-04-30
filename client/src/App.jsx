@@ -13,6 +13,8 @@ import Leaderboard from "./components/Exam/Leaderboard.jsx";
 import CreateExam from "./components/Exam/CreateExam.jsx";
 import ExamList from "./components/Exam/ExamList.jsx";
 import PublishedExam from "./components/Exam/PublishedExam.jsx";
+import AllResults from "./components/Exam/AllResults.jsx";
+import UpdateExam from "./components/Exam/UpdateExam.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -82,6 +84,16 @@ function App() {
           />
         }
       />
+         <Route
+        path="/instructor/update-exam/:id"
+        element={
+          <UserProtected
+            element={<UpdateExam />}
+            authenticated={auth?.isAuthenticated}
+            user={auth?.user}
+          />
+        }
+      />
 
       {/* Student layout with nested routes */}
       <Route
@@ -103,6 +115,10 @@ function App() {
         <Route path="exam/:examId/start" element={<ExamSubmission />} />
         <Route path="results/:examId" element={<Results />} />
         <Route path="exam/:examId/leaderboard" element={<Leaderboard />} />
+        <Route path="/exam/:examId/all-results" element={<AllResults />} />
+      
+
+
       </Route>
 
       {/* Catch-all route */}

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Loader2, Send } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 const ExamList = () => {
+  const navigate = useNavigate();
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [publishingId, setPublishingId] = useState(null);
@@ -93,7 +94,8 @@ const ExamList = () => {
                 >
                   {publishingId === exam._id ? (
                     <>
-                      <Loader2 className="animate-spin w-4 h-4 mr-2" /> Publishing...
+                      <Loader2 className="animate-spin w-4 h-4 mr-2" />{" "}
+                      Publishing...
                     </>
                   ) : (
                     <>
@@ -101,6 +103,13 @@ const ExamList = () => {
                       {exam.isPublished ? "Published" : "Publish"}
                     </>
                   )}
+                </button>
+
+                <button
+                  onClick={() => navigate(`/instructor/update-exam/${exam._id}`)}
+                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md text-sm"
+                >
+                  Update
                 </button>
 
                 <p className="text-sm">
