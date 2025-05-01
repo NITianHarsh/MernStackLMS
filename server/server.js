@@ -26,11 +26,13 @@ import mediaRoutes from "./routes/instructor-routes/media-routes.js";
 import instructorCourseRoutes from "./routes/instructor-routes/course-routes.js";
 import examRoutes from "./routes/exam.js";
 import resultRoutes from "./routes/results.js";
+import doubtRoutes from "./routes/doubtRoutes.js";
 
 
 app.use("/auth", authRoutes);
 app.use("/media", mediaRoutes);
 app.use("/instructor/course", instructorCourseRoutes);
+app.use("/doubt",doubtRoutes);
 
 
 app.use("/exam", examRoutes);
