@@ -38,6 +38,7 @@ function InstructorDashboardpage() {
     const response = await fetchInstructorCourseList();
     if (response?.success) setInstructorCoursesList(response?.data);
   }
+
   useEffect(() => {
     fetchAllCourses();
   }, []);
@@ -74,10 +75,10 @@ function InstructorDashboardpage() {
       component: <CreateExam />,
     },
     {
-      icon: ClipboardList, // or another icon like ClipboardList or List
+      icon: ClipboardList,
       label: "View Exams",
       value: "exam-list",
-      component: <ExamList />,
+      component: <ExamList setActiveTab={setActiveTab} />,
     },
     {
       icon: LogOut,
@@ -91,8 +92,6 @@ function InstructorDashboardpage() {
     resetCredentials();
     sessionStorage.clear();
   }
-
-  // console.log(instructorCoursesList, "instructorCoursesList");
 
   return (
     <div className="flex h-full min-h-screen bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none text-black dark:text-white">
@@ -120,11 +119,11 @@ function InstructorDashboardpage() {
 
             {/* Logo */}
             <Link to={"/"} className="flex items-center space-x-3">
-          <GraduationCap className="h-8 w-8 text-green-600 dark:text-green-400" />
-          <span className="font-extrabold text-2xl text-green-800 dark:text-green-300">
-            LMS LEARN
-          </span>
-        </Link>
+              <GraduationCap className="h-8 w-8 text-green-600 dark:text-green-400" />
+              <span className="font-extrabold text-2xl text-green-800 dark:text-green-300">
+                LMS LEARN
+              </span>
+            </Link>
           </div>
 
           {/* User Menu */}
@@ -133,7 +132,6 @@ function InstructorDashboardpage() {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
             >
-              
               <img
                 className="w-8 h-8 rounded-full"
                 src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"

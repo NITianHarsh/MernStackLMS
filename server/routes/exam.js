@@ -1,7 +1,6 @@
 // routes/exams.js
 import express from "express";
 import Exam from "../models/Exam.js";
-import Result from "../models/Result.js";
 
 const router = express.Router();
 
@@ -19,10 +18,26 @@ router.post("/createExam", async (req, res) => {
     });
 
     await newExam.save();
-    res.status(201).json({ message: "Exam created successfully", exam: newExam });
+    res
+      .status(201)
+      .json({ message: "Exam created successfully", exam: newExam });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error creating exam" });
+  }
+});
+
+router.get("/get/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const exam = await Exam.findById(id);
+    if (!exam) {
+      return res.status(404).json({ message: "Exam not found" });
+    }
+    res.status(200).json(exam);
+  } catch (error) {
+    console.error("Error fetching exam:", error);
+    res.status(500).json({ message: "Error fetching exam" });
   }
 });
 
@@ -41,7 +56,6 @@ router.put("/publish/:id", async (req, res) => {
   }
 });
 
-
 // to get published exam only
 router.get("/published", async (req, res) => {
   try {
@@ -51,9 +65,6 @@ router.get("/published", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch published exams" });
   }
 });
-
-
-
 
 // Fetch all exams for students (only published exams)
 //add ispublished options later
@@ -74,7 +85,9 @@ router.get("/:examId/questions", async (req, res) => {
   try {
     const exam = await Exam.findById(examId);
     if (!exam || !exam.isPublished) {
-      return res.status(404).json({ message: "Exam not found or not published" });
+      return res
+        .status(404)
+        .json({ message: "Exam not found or not published" });
     }
 
     // Shuffle questions before sending them
@@ -86,23 +99,27 @@ router.get("/:examId/questions", async (req, res) => {
   }
 });
 
-// Publish exam (admin only)
-// router.patch("/:examId/publish", async (req, res) => {
-//   const { examId } = req.params;
+// PUT /exam/update/:id
+router.put("/update/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title, subject, duration, questions } = req.body;
 
-//   try {
-//     const exam = await Exam.findById(examId);
-//     if (!exam) {
-//       return res.status(404).json({ message: "Exam not found" });
-//     }
+  try {
+    const updatedExam = await Exam.findByIdAndUpdate(
+      id,
+      { title, subject, duration, questions },
+      { new: true }
+    );
 
-//     exam.isPublished = true;
-//     await exam.save();
-//     res.status(200).json({ message: "Exam published successfully", exam });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Error publishing exam" });
-//   }
-// });
+    if (!updatedExam) {
+      return res.status(404).json({ message: "Exam not found" });
+    }
+
+    res.status(200).json(updatedExam);
+  } catch (error) {
+    console.error("Error updating exam:", error);
+    res.status(500).json({ message: "Error updating exam" });
+  }
+});
 
 export default router;

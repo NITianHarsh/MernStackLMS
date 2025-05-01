@@ -72,9 +72,7 @@ const Leaderboard = () => {
                   {idx + 1}
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
-                  {result.studentName ||
-                    result.studentId?.name ||
-                    "Anonymous"}
+                  {result.studentName || result.studentId?.name || "Anonymous"}
                 </td>
                 <td className="px-6 py-4 text-sm text-green-700 dark:text-green-400 font-semibold">
                   {result.score}

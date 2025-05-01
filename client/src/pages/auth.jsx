@@ -72,12 +72,12 @@ function AuthPage() {
         </Link>
         <button
           onClick={toggleDarkMode}
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          className="p-2 rounded-full hover:bg-emerald-100 dark:hover:bg-emerald-800 transition"
         >
           {darkMode ? (
-            <Sun className="h-5 w-5" />
+            <Sun className="h-5 w-5 text-emerald-400" />
           ) : (
-            <Moon className="h-5 w-5" />
+            <Moon className="h-5 w-5 text-emerald-600" />
           )}
         </button>
       </header>

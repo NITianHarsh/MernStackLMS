@@ -27,16 +27,12 @@ import instructorCourseRoutes from "./routes/instructor-routes/course-routes.js"
 import examRoutes from "./routes/exam.js";
 import resultRoutes from "./routes/results.js";
 
-
 app.use("/auth", authRoutes);
 app.use("/media", mediaRoutes);
 app.use("/instructor/course", instructorCourseRoutes);
 
-
 app.use("/exam", examRoutes);
 app.use("/result", resultRoutes);
-
-
 
 //error handling middleware
 app.use((err, req, res, next) => {
