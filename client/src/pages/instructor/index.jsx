@@ -96,7 +96,7 @@ function InstructorDashboardpage() {
 
   return (
     <div className="flex h-full min-h-screen bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none text-black dark:text-white">
-      <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+      <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 shadow-sm">
         <div className="flex items-center justify-between px-4 py-3 lg:px-6">
           {/* Sidebar toggle and Logo */}
           <div className="flex items-center space-x-3">

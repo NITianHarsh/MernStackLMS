@@ -6,8 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
-import { Moon, Sun } from "lucide-react";
-import { use, useContext, useEffect, useState } from "react";
+import { ArrowLeftCircle, Moon, Sun } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
 import {
   courseCurriculumInitialFormData,
   courseLandingInitialFormData,
@@ -86,7 +86,7 @@ function AddNewCourse() {
       formData
     );
     return data;
-  };
+  }
   const handleCreateCourse = async () => {
     const courseFinalFormData = {
       instructorId: auth?.user?._id, //bring from auth context
@@ -98,7 +98,9 @@ function AddNewCourse() {
       isPublished: true,
     };
     const response =
-    currentEditedCourseId !== null ? (await updateCourseById(currentEditedCourseId,courseFinalFormData)) : ( await addNewCourse(courseFinalFormData));
+      currentEditedCourseId !== null
+        ? await updateCourseById(currentEditedCourseId, courseFinalFormData)
+        : await addNewCourse(courseFinalFormData);
     if (response?.success) {
       setCourseCurriculumFormData(courseCurriculumInitialFormData);
       setCourseLandingFormData(courseLandingInitialFormData);
@@ -108,7 +110,7 @@ function AddNewCourse() {
   };
 
   const fetchCurrentCourseDetails = async () => {
-    if(!currentEditedCourseId) return;
+    if (!currentEditedCourseId) return;
     const response = await axiosInstance.get(
       `/instructor/course/get/${currentEditedCourseId}`
     );
@@ -119,14 +121,16 @@ function AddNewCourse() {
         (acc, key) => {
           acc[key] = response?.data?.data[key] || courseLandingFormData[key];
           return acc;
-        }, {});
+        },
+        {}
+      );
       setCourseLandingFormData(setCourseFormData);
       setCourseCurriculumFormData(
         response?.data?.data?.curriculum || courseCurriculumInitialFormData
       );
     }
   };
-  useEffect(() => {    
+  useEffect(() => {
     if (currentEditedCourseId !== null) fetchCurrentCourseDetails();
   }, [currentEditedCourseId]);
   useEffect(() => {
@@ -134,9 +138,9 @@ function AddNewCourse() {
   }, [params?.courseId]);
 
   return (
-    <div className="container mx-auto p-4 bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none min-h-screen text-black dark:text-white transition-all duration-300 ease-in-out">
+    <div className="w-full p-8 px-20 bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none min-h-screen text-black dark:text-white transition-all duration-300 ease-in-out">
       <div className="flex justify-between items-center mb-5">
-        <h1 className="text-3xl font-extrabold text-green-800 dark:text-green-300">
+        <h1 className="text-3xl pl-3 font-extrabold text-green-800 dark:text-green-300">
           Create a new course
         </h1>
         <div className="flex gap-3">
@@ -184,7 +188,12 @@ function AddNewCourse() {
                   Settings
                 </TabsTrigger>
               </TabsList>
-
+              <button
+                className="text-4xl font-extrabold absolute top-[27px] left-4 cursor-pointer text-green-800 dark:text-green-300 hover:scale-130 transition-all duration-300 ease-in-out"
+                onClick={() => navigate(-1)}
+              >
+                &#60;
+              </button>
               <TabsContent value="curriculum">
                 <CourseCurriculum />
               </TabsContent>
