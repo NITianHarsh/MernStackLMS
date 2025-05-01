@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import TimerComponent from "./TimerComponent";
 import PreventCheating from "./PreventCheating";
+import axiosInstance from "@/axiosInstance";
 
 const ExamSubmission = () => {
   const { examId } = useParams();
@@ -16,7 +16,7 @@ const ExamSubmission = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/exam/${examId}/questions`);
+        const response = await axiosInstance.get(`/exam/${examId}/questions`);
         setQuestions(response.data);
         setAnswers(response.data.map(() => ({ selectedOptionIndex: -1 })));
         setStartTime(Date.now());
@@ -47,7 +47,11 @@ const ExamSubmission = () => {
   };
 
   const submitExam = async (fromTimer = false) => {
-    if (!fromTimer && !window.confirm("Are you sure you want to submit the exam?")) return;
+    if (
+      !fromTimer &&
+      !window.confirm("Are you sure you want to submit the exam?")
+    )
+      return;
 
     setIsSubmitting(true);
     const totalTimeTaken = Math.floor((Date.now() - startTime) / 1000);
@@ -59,7 +63,7 @@ const ExamSubmission = () => {
     };
 
     try {
-      await axios.post(`http://localhost:5000/result/${examId}/submit`, submission);
+      await axiosInstance.post(`/result/${examId}/submit`, submission);
       await exitFullScreenIfNeeded(); // exit full screen if active
       navigate(`/results/${examId}`);
     } catch (error) {
@@ -72,7 +76,8 @@ const ExamSubmission = () => {
     submitExam(true); // true to skip confirmation
   };
 
-  if (questions.length === 0) return <div className="text-center mt-10">Loading...</div>;
+  if (questions.length === 0)
+    return <div className="text-center mt-10">Loading...</div>;
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
@@ -86,8 +91,13 @@ const ExamSubmission = () => {
 
       <div className="space-y-6">
         {questions.map((question, idx) => (
-          <div key={question._id} className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-            <p className="font-semibold">{idx + 1}. {question.questionText}</p>
+          <div
+            key={question._id}
+            className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow"
+          >
+            <p className="font-semibold">
+              {idx + 1}. {question.questionText}
+            </p>
             <div className="mt-2 space-y-1">
               {question.options.map((option, optionIndex) => (
                 <label key={optionIndex} className="block cursor-pointer">

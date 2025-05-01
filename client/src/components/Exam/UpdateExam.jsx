@@ -1,8 +1,7 @@
 // src/pages/UpdateExam.js
-
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import axiosInstance from "@/axiosInstance";
 
 const UpdateExam = () => {
   const { id } = useParams();
@@ -18,7 +17,7 @@ const UpdateExam = () => {
   useEffect(() => {
     const fetchExam = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/exam/get/${id}`);
+        const res = await axiosInstance.get(`/exam/get/${id}`);
         const data = res.data;
 
         const questionsWithCorrectAnswer = data.questions.map((q) => ({
@@ -100,7 +99,7 @@ const UpdateExam = () => {
     }
 
     try {
-      await axios.put(`http://localhost:5000/exam/update/${id}`, exam);
+      await axiosInstance.put(`/exam/update/${id}`, exam);
       alert("✅ Exam updated successfully!");
       navigate("/instructor/getExamList");
     } catch (error) {

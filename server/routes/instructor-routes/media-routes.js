@@ -5,7 +5,6 @@ import {
   deleteMediaFromCloudinary,
 } from "../../helper/cloudinary.js";
 
-
 const router = express.Router();
 const upload = multer({ dest: "uploads/" }); // Temporary storage for uploaded files
 
@@ -27,8 +26,10 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    if(!id) {
-      return res.status(400).json({ success: false, message: "Asset Id is required" });
+    if (!id) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Asset Id is required" });
     }
     const result = await deleteMediaFromCloudinary(id);
     return res.status(200).json({
@@ -43,7 +44,7 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-router.post("/bulk-upload",upload.array("files",10), async (req, res) => {
+router.post("/bulk-upload", upload.array("files", 10), async (req, res) => {
   try {
     const results = await Promise.all(
       req.files.map((file) => uploadMediaToCloudinary(file.path))

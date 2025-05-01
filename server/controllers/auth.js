@@ -1,13 +1,12 @@
-import User from '../models/User.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import sendWelcomeEmail from '../helper/sendWelcomeEmail.js';
-
+import User from "../models/User.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import sendWelcomeEmail from "../helper/sendWelcomeEmail.js";
 
 const registerUser = async (req, res) => {
   const { userName, userEmail, password, role } = req.body;
 
-  const existingUser = await User.findOne({userEmail});
+  const existingUser = await User.findOne({ userEmail });
 
   if (existingUser) {
     return res.status(400).json({

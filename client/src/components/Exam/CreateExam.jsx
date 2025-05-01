@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "@/axiosInstance";
 
 const CreateExam = () => {
   const [title, setTitle] = useState("");
@@ -41,7 +41,7 @@ const CreateExam = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/exam/createExam", {
+      const response = await axiosInstance.post("/exam/createExam", {
         title,
         subject,
         duration,
@@ -95,9 +95,14 @@ const CreateExam = () => {
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">Questions</h3>
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">
+            Questions
+          </h3>
           {questions.map((q, qIndex) => (
-            <div key={qIndex} className="border border-gray-300 dark:border-gray-700 rounded-md p-4 mb-4">
+            <div
+              key={qIndex}
+              className="border border-gray-300 dark:border-gray-700 rounded-md p-4 mb-4"
+            >
               <input
                 type="text"
                 placeholder={`Question ${qIndex + 1}`}
@@ -113,7 +118,9 @@ const CreateExam = () => {
                       type="text"
                       placeholder={`Option ${oIndex + 1}`}
                       value={opt}
-                      onChange={(e) => handleOptionChange(qIndex, oIndex, e.target.value)}
+                      onChange={(e) =>
+                        handleOptionChange(qIndex, oIndex, e.target.value)
+                      }
                       required
                       className="input-field w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 mb-3"
                     />
@@ -122,7 +129,9 @@ const CreateExam = () => {
                         type="radio"
                         name={`correct-${qIndex}`}
                         checked={q.correctAnswerIndex === oIndex}
-                        onChange={() => handleCorrectAnswerChange(qIndex, oIndex)}
+                        onChange={() =>
+                          handleCorrectAnswerChange(qIndex, oIndex)
+                        }
                         className="accent-green-600"
                       />
                       Correct

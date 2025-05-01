@@ -17,6 +17,8 @@ import AllResults from "./components/Exam/AllResults.jsx";
 import UpdateExam from "./components/Exam/UpdateExam.jsx";
 import { Toaster } from "sonner";
 import HomePage from "./pages/Home.jsx";
+import ForgotPassword from "./pages/forgotPassword.jsx";
+import NotFound from "./pages/not-found.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -24,10 +26,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={<HomePage />}
-        />
+        <Route path="/" element={<HomePage />} />
         {/* Auth route */}
         <Route
           path="/auth"
@@ -126,7 +125,8 @@ function App() {
         </Route>
 
         {/* Catch-all route */}
-        <Route path="*" element={<div>404 Not Found</div>} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
       <Toaster richColors position="top-right" />
     </>

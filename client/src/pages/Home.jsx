@@ -23,7 +23,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-green-50 to-emerald-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-white via-green-100 to-emerald-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
       <header className="px-4 py-4 lg:px-6 h-16 flex items-center justify-between border-b border-emerald-200 dark:border-emerald-700 bg-white dark:bg-gray-800 shadow">
         <Link to="/" className="flex items-center space-x-3">
           <GraduationCap className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
@@ -79,7 +79,7 @@ export default function HomePage() {
           transition={{ delay: 0.2, duration: 0.6 }}
         >
           <img
-            src="\public\lms_bg1.webp"
+            src="\lms_bg1.webp"
             alt="Learning Illustration"
             className="w-full max-w-md mx-auto"
           />
@@ -87,7 +87,7 @@ export default function HomePage() {
       </section>
 
       {/* FEATURES */}
-      <section className="mt-16 max-w-6xl mx-auto text-center px-6">
+      <section className="mt-16 max-w-6xl mx-auto text-center p-6">
         <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-10">
           Why Learn With Us?
         </h2>

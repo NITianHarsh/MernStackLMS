@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 const PreventCheating = () => {
   useEffect(() => {
@@ -19,11 +19,13 @@ const PreventCheating = () => {
     // 3. Disable Shortcuts like F12, Ctrl+U, Ctrl+Shift+I, F11 (Fullscreen)
     const disableShortcuts = (e) => {
       if (
-        e.ctrlKey || e.altKey || e.metaKey ||
-        e.key === 'F12' || // Disable F12 (Dev Tools)
-        e.key === 'F11' || // Disable F11 (Fullscreen)
-        (e.key === 'u' && e.ctrlKey) || // Ctrl+U (View source)
-        (e.key === 'i' && e.ctrlKey && e.shiftKey) // Ctrl+Shift+I (Inspect)
+        e.ctrlKey ||
+        e.altKey ||
+        e.metaKey ||
+        e.key === "F12" || // Disable F12 (Dev Tools)
+        e.key === "F11" || // Disable F11 (Fullscreen)
+        (e.key === "u" && e.ctrlKey) || // Ctrl+U (View source)
+        (e.key === "i" && e.ctrlKey && e.shiftKey) // Ctrl+Shift+I (Inspect)
       ) {
         e.preventDefault();
       }
@@ -31,11 +33,11 @@ const PreventCheating = () => {
 
     // 4. Prevent Back Navigation
     const preventBackNavigation = () => {
-      window.history.pushState(null, '', window.location.href);
+      window.history.pushState(null, "", window.location.href);
     };
 
     const handlePopState = () => {
-      window.history.pushState(null, '', window.location.href);
+      window.history.pushState(null, "", window.location.href);
     };
 
     // 5. Prevent Tab Switching (Alert and submit exam)
@@ -50,21 +52,21 @@ const PreventCheating = () => {
     // Apply all restrictions
     goFullScreen();
     preventBackNavigation();
-    window.addEventListener('popstate', handlePopState);
-    window.addEventListener('contextmenu', disableRightClick);
-    window.addEventListener('dragstart', disableDrag); // Prevent dragging
-    document.body.style.userSelect = 'none'; // Disable text selection
-    window.addEventListener('keydown', disableShortcuts);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener("popstate", handlePopState);
+    window.addEventListener("contextmenu", disableRightClick);
+    window.addEventListener("dragstart", disableDrag); // Prevent dragging
+    document.body.style.userSelect = "none"; // Disable text selection
+    window.addEventListener("keydown", disableShortcuts);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     // Cleanup
     return () => {
-      window.removeEventListener('popstate', handlePopState);
-      window.removeEventListener('contextmenu', disableRightClick);
-      window.removeEventListener('dragstart', disableDrag);
-      document.body.style.userSelect = ''; // Re-enable text selection
-      window.removeEventListener('keydown', disableShortcuts);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("contextmenu", disableRightClick);
+      window.removeEventListener("dragstart", disableDrag);
+      document.body.style.userSelect = ""; // Re-enable text selection
+      window.removeEventListener("keydown", disableShortcuts);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 

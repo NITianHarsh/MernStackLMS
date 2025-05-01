@@ -37,7 +37,7 @@ function CourseSettings() {
             },
           }
         );
-        
+
         if (response.data.success) {
           setCourseLandingFormData({
             ...courseLandingFormData,

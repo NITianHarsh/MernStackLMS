@@ -28,7 +28,7 @@ export default function AuthProvider({ children }) {
         toast.error("User Registration failed!");
         console.log("error data is ", data);
       } else {
-        toast.success("User Registered and Welcome email sent successfully!")
+        toast.success("User Registered and Welcome email sent successfully!");
       }
 
       setSignUpFormData(initialSignUpFormData);
@@ -60,10 +60,12 @@ export default function AuthProvider({ children }) {
         alert("User login failed!");
         console.log("Login failure data:", data);
       }
+      setSignInFormData(initialSignInFormData);
     } catch (error) {
       console.error("Login error:", error);
       setAuth({ isAuthenticated: false, user: null });
       alert("An error occurred during login. Please try again.");
+      setSignInFormData(initialSignInFormData);
     }
   }
 

@@ -60,10 +60,9 @@ function AuthPage() {
       signUpFormData.role !== ""
     );
   }
-  
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none text-gray-900 dark:text-white transition-colors duration-300">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-emerald-100 to-emerald-400 dark:bg-gray-900 dark:bg-none text-gray-900 dark:text-white transition-colors duration-300">
       <header className="px-4 lg:px-6 h-16 flex items-center justify-between border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow">
         <Link to={"/"} className="flex items-center space-x-3">
           <GraduationCap className="h-8 w-8 text-green-600 dark:text-green-400" />
@@ -73,12 +72,12 @@ function AuthPage() {
         </Link>
         <button
           onClick={toggleDarkMode}
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          className="p-2 rounded-full hover:bg-emerald-100 dark:hover:bg-emerald-800 transition"
         >
           {darkMode ? (
-            <Sun className="h-5 w-5" />
+            <Sun className="h-5 w-5 text-emerald-400" />
           ) : (
-            <Moon className="h-5 w-5" />
+            <Moon className="h-5 w-5 text-emerald-600" />
           )}
         </button>
       </header>
@@ -124,6 +123,12 @@ function AuthPage() {
                     isButtonDisabled={!checkIfSignInFormIsValid()}
                     handleSubmit={handleLoginUser}
                   />
+                  <Link
+                    to="/forgot-password"
+                    className="text-center text-blue-700 dark:text-blue-500 hover:underline"
+                  >
+                    Forgot Password?
+                  </Link>
                 </CardContent>
               </Card>
             </TabsContent>

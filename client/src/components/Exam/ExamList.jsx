@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Loader2, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "@/axiosInstance";
+
 const ExamList = () => {
   const navigate = useNavigate();
   const [exams, setExams] = useState([]);
@@ -11,7 +12,7 @@ const ExamList = () => {
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/exam/getExamList");
+        const res = await axiosInstance.get("/exam/getExamList");
         setExams(res.data);
       } catch (error) {
         console.error("Error fetching exams:", error);
@@ -26,7 +27,7 @@ const ExamList = () => {
   const publishExam = async (id) => {
     setPublishingId(id);
     try {
-      await axios.put(`http://localhost:5000/exam/publish/${id}`);
+      await axiosInstance.put(`/exam/publish/${id}`);
       alert("✅ Exam published successfully!");
       setExams((prevExams) =>
         prevExams.map((exam) =>
@@ -106,7 +107,9 @@ const ExamList = () => {
                 </button>
 
                 <button
-                  onClick={() => navigate(`/instructor/update-exam/${exam._id}`)}
+                  onClick={() =>
+                    navigate(`/instructor/update-exam/${exam._id}`)
+                  }
                   className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md text-sm"
                 >
                   Update

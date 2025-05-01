@@ -1,4 +1,4 @@
-import Course from '../../models/course.js';
+import Course from "../../models/course.js";
 
 const addNewCourse = async (req, res) => {
   try {
@@ -57,9 +57,13 @@ const updateCourseByID = async (req, res) => {
   try {
     const id = req.params.id;
     const updatedCourseData = req.body;
-    const updatedCourse = await Course.findByIdAndUpdate(id, updatedCourseData, {
-      new: true,//returns the updated data
-    });
+    const updatedCourse = await Course.findByIdAndUpdate(
+      id,
+      updatedCourseData,
+      {
+        new: true, //returns the updated data
+      }
+    );
     if (updatedCourse) {
       res.status(200).json({
         success: true,
@@ -119,7 +123,7 @@ const deleteCourseByID = async (req, res) => {
     console.error("Error deleting course:", error);
     res.status(500).json({ message: "Server error" });
   }
-}
+};
 
 export {
   addNewCourse,
@@ -127,5 +131,5 @@ export {
   getCourseDetailsByID,
   updateCourseByID,
   updateCoursePublishStatus,
-  deleteCourseByID
+  deleteCourseByID,
 };

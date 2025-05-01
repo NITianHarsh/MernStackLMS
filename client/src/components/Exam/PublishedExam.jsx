@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Loader2, PlayCircle } from "lucide-react";
+import axiosInstance from "@/axiosInstance";
 
 const PublishedExam = () => {
   const [exams, setExams] = useState([]);
@@ -11,7 +11,7 @@ const PublishedExam = () => {
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/exam/published");
+        const res = await axiosInstance.get("/exam/published");
         setExams(res.data);
       } catch (error) {
         console.error("Error fetching exams:", error);
