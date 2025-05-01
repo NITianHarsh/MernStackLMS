@@ -25,10 +25,15 @@ import mongoose from "mongoose";
       studentId: String,
       studentName: String,
       studentEmail: String,
+      rating: {
+        type: Number,
+        min: 1,
+        max: 5,
+        default: null,
+      },
     }],
     curriculum:[LectureSchema],
-    isPublished: Boolean
+    isPublished: Boolean,
   });
 
-// Change module.exports to default export
 export default mongoose.model("Course", CourseSchema);

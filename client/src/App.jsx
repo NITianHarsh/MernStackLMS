@@ -16,6 +16,7 @@ import PublishedExam from "./components/Exam/PublishedExam.jsx";
 import AllResults from "./components/Exam/AllResults.jsx";
 import UpdateExam from "./components/Exam/UpdateExam.jsx";
 import { Toaster } from "sonner";
+import HomePage from "./pages/Home.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -23,6 +24,10 @@ function App() {
   return (
     <>
       <Routes>
+        <Route
+          path="/"
+          element={<HomePage />}
+        />
         {/* Auth route */}
         <Route
           path="/auth"
@@ -99,7 +104,7 @@ function App() {
 
         {/* Student layout with nested routes */}
         <Route
-          path="/"
+          path="/student/*"
           element={
             <UserProtected
               element={<CommonLayout />}
@@ -117,7 +122,7 @@ function App() {
           <Route path="exam/:examId/start" element={<ExamSubmission />} />
           <Route path="results/:examId" element={<Results />} />
           <Route path="exam/:examId/leaderboard" element={<Leaderboard />} />
-          <Route path="/exam/:examId/all-results" element={<AllResults />} />
+          <Route path="exam/:examId/all-results" element={<AllResults />} />
         </Route>
 
         {/* Catch-all route */}
