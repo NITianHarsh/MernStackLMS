@@ -3,6 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { initialSignInFormData, initialSignUpFormData } from "@/config";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export const AuthContext = createContext(null);
 
@@ -14,23 +15,20 @@ export default function AuthProvider({ children }) {
     isAuthenticated: false,
     user: null,
   });
-  const navigate = useNavigate();
-
   async function handleRegisterUser(e) {
     e.preventDefault();
     try {
       const { data } = await axiosInstance.post("/auth/register", {
         ...signUpFormData,
-        // role: "user",
       });
 
       console.log("data is ---> ", data);
 
       if (!data.success) {
-        alert("User registration failed!");
+        toast.error("User Registration failed!");
         console.log("error data is ", data);
       } else {
-        alert("Registration successful!");
+        toast.success("User Registered and Welcome email sent successfully!")
       }
 
       setSignUpFormData(initialSignUpFormData);
