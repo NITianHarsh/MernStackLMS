@@ -6,6 +6,7 @@ import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
 import {
   BarChart,
+  BellDot,
   Book,
   ClipboardList,
   FilePlus,
@@ -19,6 +20,7 @@ import CreateExam from "@/components/Exam/CreateExam";
 import ExamList from "@/components/Exam/ExamList";
 import axiosInstance from "@/axiosInstance";
 import { Link } from "react-router-dom";
+import Notification from "@/components/instructor-view/InstructorNotification";
 
 function InstructorDashboardpage() {
   const [darkMode, setDarkMode] = useState(false);
@@ -79,6 +81,12 @@ function InstructorDashboardpage() {
       label: "View Exams",
       value: "exam-list",
       component: <ExamList setActiveTab={setActiveTab} />,
+    },
+    {
+      icon: BellDot,
+      label: "Doubts",
+      value: "Doubts",
+      component: <InstructorNotification />,
     },
     {
       icon: LogOut,

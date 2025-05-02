@@ -1,8 +1,15 @@
 import express from "express";
 import Doubt from "../models/Doubt.js";
+import {
+  getUnresolvedDoubts,
+  scheduleZoomSession,
+  getDueSessions,
+  getStudentNotifications,
+} from "../controllers/doubtController.js";
 
 const router = express.Router();
 
+//post doubt (by student side)
 router.post("/:studentId", async (req, res) => {
     const { studentId, courseId, message } = req.body;
     const doubt = new Doubt({ student: studentId, course: courseId, message });
@@ -10,9 +17,10 @@ router.post("/:studentId", async (req, res) => {
     res.status(201).json({ success: true });
   });
 
-router.get("/unresolved", async (req, res) => {
-    const doubts = await Doubt.find({ isResolved: false }).populate("student");
-    res.json({ doubts });
-  });
+  //by instructor side
+  router.get("/unresolved", getUnresolvedDoubts);
+  router.post("/schedule", scheduleZoomSession); 
+  router.get("/due-sessions", getDueSessions);  
+  router.get("/notifications/:studentId", getStudentNotifications);
   
 export default router;
