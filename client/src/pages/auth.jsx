@@ -60,7 +60,6 @@ function AuthPage() {
       signUpFormData.role !== ""
     );
   }
-  
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none text-gray-900 dark:text-white transition-colors duration-300">
@@ -124,6 +123,12 @@ function AuthPage() {
                     isButtonDisabled={!checkIfSignInFormIsValid()}
                     handleSubmit={handleLoginUser}
                   />
+                  <Link
+                    to="/forgot-password"
+                    className="text-center text-blue-700 dark:text-blue-500 hover:underline"
+                  >
+                    Forgot Password?
+                  </Link>
                 </CardContent>
               </Card>
             </TabsContent>

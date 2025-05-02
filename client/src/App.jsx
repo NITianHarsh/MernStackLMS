@@ -15,6 +15,9 @@ import ExamList from "./components/Exam/ExamList.jsx";
 import PublishedExam from "./components/Exam/PublishedExam.jsx";
 import AllResults from "./components/Exam/AllResults.jsx";
 import UpdateExam from "./components/Exam/UpdateExam.jsx";
+import ForgotPassword from "./pages/forgotPassword.jsx";
+import StudentViewCoursePage from "./pages/student/home/courses/index.jsx";
+import StudentViewCourseDetailsPage from "./pages/student/home/course-details/index.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -108,6 +111,10 @@ function App() {
       >
         <Route path="" element={<StudentHomePage />} />
         <Route path="home" element={<StudentHomePage />} />
+        <Route path="courses" element={<StudentViewCoursePage />} />
+        <Route path="course/details/:id" element={<StudentViewCourseDetailsPage/>} />
+
+
         <Route path="courses" element={<div>Courses</div>} />
         <Route path="profile" element={<div>Profile</div>} />
         <Route path="settings" element={<div>Settings</div>} />
@@ -123,6 +130,7 @@ function App() {
 
       {/* Catch-all route */}
       <Route path="*" element={<div>404 Not Found</div>} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
     </Routes>
   );
 }
