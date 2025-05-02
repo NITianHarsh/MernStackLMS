@@ -19,6 +19,8 @@ import { Toaster } from "sonner";
 import HomePage from "./pages/Home.jsx";
 import ForgotPassword from "./pages/forgotPassword.jsx";
 import NotFound from "./pages/not-found.jsx";
+import StudentViewCoursePage from "./pages/student/home/courses/index.jsx";
+import StudentViewCourseDetailsPage from "./pages/student/home/course-details/index.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);

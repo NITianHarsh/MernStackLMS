@@ -66,6 +66,7 @@ function StudentViewCommonHeader() {
           {/* Explore Courses */}
           <Button
             variant="ghost"
+            onClick={()=>navigate('/courses')}
             className="text-sm font-medium text-teal-700 hover:text-teal-600 hover:bg-teal-100 px-4 py-2 rounded-md transition"
           >
             Explore Courses
