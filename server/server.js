@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express, { json } from "express";
+import express from "express";
 const app = express();
 
 import cors from "cors";
@@ -10,12 +10,14 @@ import connectDB from "./db/db.js";
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-app.use(json());
+app.use(express.json());
+app.use("/uploads", express.static("uploads"));
+
 
 //dB connection
 connectDB();

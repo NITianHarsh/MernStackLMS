@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Loader2, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "@/axiosInstance";
+import { toast } from "sonner";
 
 const ExamList = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const ExamList = () => {
     setPublishingId(id);
     try {
       await axiosInstance.put(`/exam/publish/${id}`);
-      alert("✅ Exam published successfully!");
+      toast.success("✅ Exam published successfully!");
       setExams((prevExams) =>
         prevExams.map((exam) =>
           exam._id === id ? { ...exam, isPublished: true } : exam
@@ -36,7 +37,7 @@ const ExamList = () => {
       );
     } catch (err) {
       console.error(err);
-      alert("❌ Failed to publish exam.");
+      toast.error("❌ Failed to publish exam.");
     } finally {
       setPublishingId(null);
     }
@@ -52,13 +53,13 @@ const ExamList = () => {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-8 text-center text-green-700 dark:text-green-400">
+    <div className="p-6 bg-emerald-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
+      <h1 className="text-3xl font-bold mb-8 text-center text-emerald-700 dark:text-emerald-300">
         All Exams
       </h1>
 
       {exams.length === 0 ? (
-        <p className="text-center text-gray-500 dark:text-gray-400">
+        <p className="text-center text-gray-600 dark:text-gray-400">
           No exams found.
         </p>
       ) : (
@@ -66,19 +67,19 @@ const ExamList = () => {
           {exams.map((exam) => (
             <div
               key={exam._id}
-              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col justify-between"
+              className="bg-white dark:bg-gray-800 border border-emerald-200 dark:border-emerald-700 rounded-xl shadow-md hover:shadow-xl transition p-6 flex flex-col justify-between"
             >
               <div>
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-1">
+                <h2 className="text-xl font-semibold text-emerald-800 dark:text-emerald-200 mb-1">
                   {exam.title}
                 </h2>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-gray-700 dark:text-gray-300">
                   <strong>Subject:</strong> {exam.subject}
                 </p>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-gray-700 dark:text-gray-300">
                   <strong>Duration:</strong> {exam.duration} mins
                 </p>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-gray-700 dark:text-gray-300">
                   <strong>Questions:</strong> {exam.questions.length}
                 </p>
               </div>
@@ -89,7 +90,7 @@ const ExamList = () => {
                   disabled={exam.isPublished || publishingId === exam._id}
                   className={`px-4 py-2 rounded-md flex items-center justify-center text-sm font-medium transition ${
                     exam.isPublished
-                      ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                      ? "bg-gray-300 text-gray-600 dark:bg-gray-600 dark:text-gray-400 cursor-not-allowed"
                       : "bg-amber-500 hover:bg-amber-600 text-white"
                   }`}
                 >
@@ -110,16 +111,18 @@ const ExamList = () => {
                   onClick={() =>
                     navigate(`/instructor/update-exam/${exam._id}`)
                   }
-                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md text-sm"
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md text-sm"
                 >
                   Update
                 </button>
 
-                <p className="text-sm">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
                   <span className="font-semibold">Status:</span>{" "}
                   <span
                     className={`font-bold ${
-                      exam.isPublished ? "text-green-600" : "text-red-500"
+                      exam.isPublished
+                        ? "text-emerald-600 dark:text-emerald-400"
+                        : "text-red-500"
                     }`}
                   >
                     {exam.isPublished ? "Published" : "Unpublished"}
