@@ -27,12 +27,14 @@ import instructorCourseRoutes from "./routes/instructor-routes/course-routes.js"
 import examRoutes from "./routes/exam.js";
 import resultRoutes from "./routes/results.js";
 import studentViewCourseRoutes from "./routes/student-routes/course-routes.js"
+import studentCoursesRoutes from "./routes/student-routes/student-courses-routes.js";
 
 
 app.use("/auth", authRoutes);
 app.use("/media", mediaRoutes);
 app.use("/instructor/course", instructorCourseRoutes);
 app.use("/student/course", studentViewCourseRoutes);
+app.use("/student/courses-bought", studentCoursesRoutes);
 
 
 
@@ -50,3 +52,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+

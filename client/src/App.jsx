@@ -18,6 +18,8 @@ import UpdateExam from "./components/Exam/UpdateExam.jsx";
 import ForgotPassword from "./pages/forgotPassword.jsx";
 import StudentViewCoursePage from "./pages/student/home/courses/index.jsx";
 import StudentViewCourseDetailsPage from "./pages/student/home/course-details/index.jsx";
+import StudentCoursesPage from "./pages/student/student-courses/index.jsx";
+import StudentViewCourseProgressPage from "./pages/student/home/course-progress/index.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -113,8 +115,6 @@ function App() {
         <Route path="home" element={<StudentHomePage />} />
         <Route path="courses" element={<StudentViewCoursePage />} />
         <Route path="course/details/:id" element={<StudentViewCourseDetailsPage/>} />
-
-
         <Route path="courses" element={<div>Courses</div>} />
         <Route path="profile" element={<div>Profile</div>} />
         <Route path="settings" element={<div>Settings</div>} />
@@ -123,6 +123,8 @@ function App() {
         <Route path="results/:examId" element={<Results />} />
         <Route path="exam/:examId/leaderboard" element={<Leaderboard />} />
         <Route path="/exam/:examId/all-results" element={<AllResults />} />
+        <Route path="student-courses" element={<StudentCoursesPage />} />
+        <Route path="course-progress/:id" element={<StudentViewCourseProgressPage />} /> 
       
 
 

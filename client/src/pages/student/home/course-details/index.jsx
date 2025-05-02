@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import VideoPlayer from "@/components/VideoPlayer";
+import { AuthContext } from "@/context/auth-context";
 import { StudentContext } from "@/context/student-context";
 import { CheckCircle, Globe, Lock, PlayCircle } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
@@ -14,27 +15,33 @@ function StudentViewCourseDetailsPage() {
     const { studentViewCourseDetails, setStudentViewCourseDetails, currentCourseDetailsId, setCurrentCourseDetailsId, loadingState, setLoadingState } = useContext(StudentContext);
     const [displayCurrentVideoFreePreview, setDisplayCurrentVideoFreePreview] = useState(null);
     const [showFreePreviewDialog, setShowFreePreviewDialog] = useState(false);
-
+    const [coursePurchaseId, setCoursePurchaseId] = useState(null);
     const location = useLocation();
     const { id } = useParams();
+      const { auth } = useContext(AuthContext);
+    
      
 
     function handleSetFreePreview(getCurrentVideoInfo) {
         console.log(getCurrentVideoInfo);
         setDisplayCurrentVideoFreePreview(getCurrentVideoInfo?.videoUrl);
       }
-    async function fetchStudentCoursesDetails(courseId) {
-        const { data } = await axiosInstance.get(`/student/course/get/details/${courseId}`);
+    async function fetchStudentCoursesDetails(courseId,studentId) {
+        const { data } = await axiosInstance.get(`/student/course/get/details/${courseId}/${studentId}`);
 
         return data;
     }
+
+
     async function fetchStudentViewCoursesDetails() {
-        const response = await fetchStudentCoursesDetails(currentCourseDetailsId);
+        const response = await fetchStudentCoursesDetails(currentCourseDetailsId,auth?.user?._id);
         if (response?.success) {
             setStudentViewCourseDetails(response?.data);
+            setCoursePurchaseId(response?.coursePurchaseId)
             setLoadingState(false)
         } else {
             setStudentViewCourseDetails(null);
+            setCoursePurchaseId(false);
             setLoadingState(false)
         }
     }
@@ -57,6 +64,12 @@ function StudentViewCourseDetailsPage() {
     }, [location.pathname]);
 
     if (loadingState) return <Skeleton />;
+  
+    if (coursePurchaseId !== null) {
+        return <Navigate to={ `/course-progress/${coursePurchaseId}`} />
+     }
+
+
     const getIndexOfFreePreviewUrl =
         studentViewCourseDetails !== null
             ? studentViewCourseDetails?.curriculum?.findIndex(
@@ -66,7 +79,7 @@ function StudentViewCourseDetailsPage() {
     console.log(getIndexOfFreePreviewUrl, studentViewCourseDetails?.curriculum[getIndexOfFreePreviewUrl], 'bro')
 
     return <div className=" mx-auto p-4">
-        <div className="bg-gray-900 text-white p-8 rounded-t-lg">
+        <div className="bg-gray-200 text-white p-8 rounded-t-lg">
             <h1 className="text-3xl font-bold mb-4">
                 {studentViewCourseDetails?.title}
             </h1>

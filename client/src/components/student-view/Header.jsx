@@ -30,7 +30,7 @@ function StudentViewCommonHeader() {
             Explore Exams
           </Button>
 
-          <div className="flex items-center gap-2 cursor-pointer hover:text-teal-300 transition">
+          <div onClick={()=>navigate('/student-courses')} className="flex items-center gap-2 cursor-pointer hover:text-teal-300 transition">
             <span className="text-sm font-medium">My Courses</span>
             <TvMinimalPlay className="w-6 h-6 text-white" />
           </div>
