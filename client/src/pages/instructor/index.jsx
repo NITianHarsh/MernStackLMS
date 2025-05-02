@@ -20,7 +20,7 @@ import CreateExam from "@/components/Exam/CreateExam";
 import ExamList from "@/components/Exam/ExamList";
 import axiosInstance from "@/axiosInstance";
 import { Link } from "react-router-dom";
-import Notification from "@/components/instructor-view/InstructorNotification";
+import InstructorNotification from "@/components/instructor-view/InstructorNotification";
 
 function InstructorDashboardpage() {
   const [darkMode, setDarkMode] = useState(false);

@@ -3,7 +3,7 @@ import Doubt from "../models/Doubt.js";
 import {
   getUnresolvedDoubts,
   scheduleZoomSession,
-  getDueSessions,
+  getInstructorSessions,
   getStudentNotifications,
 } from "../controllers/doubtController.js";
 
@@ -20,7 +20,7 @@ router.post("/:studentId", async (req, res) => {
   //by instructor side
   router.get("/unresolved", getUnresolvedDoubts);
   router.post("/schedule", scheduleZoomSession); 
-  router.get("/due-sessions", getDueSessions);  
+  router.get("/my-sessions", getInstructorSessions); 
   router.get("/notifications/:studentId", getStudentNotifications);
   
 export default router;

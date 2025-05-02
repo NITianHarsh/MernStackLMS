@@ -5,13 +5,13 @@ const DueSessions = () => {
   const [sessions, setSessions] = useState([]);
 
   useEffect(() => {
-    axios.get("/doubts/due-sessions").then((res) => setSessions(res.data.sessions));
+    axios.get("/doubts/my-sessions").then(res => setSessions(res.data.sessions));
   }, []);
 
   return (
     <div>
       <h2>Scheduled Doubt Sessions</h2>
-      {sessions.map((session) => (
+      {sessions && sessions.map((session) => (
         <div key={session._id}>
           <p>{session.student.userName}</p>
           <p>{new Date(session.dateTime).toLocaleString()}</p>

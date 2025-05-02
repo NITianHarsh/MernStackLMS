@@ -5,6 +5,7 @@ import { courseCategories } from "@/config";
 import { StudentContext } from "@/context/student-context";
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import AskDoubt from "../AskDoubt";
 
 function StudentHomePage() {
   const { studentViewCoursesList, setStudentViewCoursesList } = useContext(StudentContext);
@@ -73,11 +74,12 @@ function StudentHomePage() {
               </button>
               <Button
                 variant="ghost"
-                onClick={() => navigate('/courses')}
+                onClick={() => navigate('/student/courses')}
                 className="text-xl border w-60 h-15 font-medium text-teal-700 hover:text-teal-600 hover:bg-teal-100 px-4 py-2 rounded-md transition"
               >
                 Explore Courses
               </Button>
+              <AskDoubt/>
             </div>
           </div>
 

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import { GraduationCap, TvMinimalPlay, Menu, X } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { GraduationCap, TvMinimalPlay, Menu, X, BellDotIcon, BellDot, LucideBellDot } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { AuthContext } from "@/context/auth-context";
 
@@ -16,15 +16,15 @@ function StudentViewCommonHeader() {
   return (
     <header className="bg-gradient-to-r from-teal-400 to-lime-400 shadow-lg sticky top-0 z-50 border-b rounded-lg">
       <div className="flex items-center justify-between px-6 py-4">
-        <Link
-          to="/home"
-          className="flex items-center gap-2 hover:text-white transition"
+        <div
+          onClick={() => navigate("/student/home")}
+          className="flex items-center gap-2 hover:text-white transition cursor-pointer"
         >
           <GraduationCap className="h-8 w-8 text-white" />
           <span className="text-xl font-bold tracking-tight text-white">
             LMS Learn
           </span>
-        </Link>
+        </div>
 
         <nav className="hidden md:flex items-center gap-6">
           <Button
@@ -39,6 +39,14 @@ function StudentViewCommonHeader() {
             <span className="text-sm font-medium">My Courses</span>
             <TvMinimalPlay className="w-6 h-6 text-white" />
           </div>
+
+          <Button
+            variant="ghost"
+            className="text-sm font-medium text-white hover:text-teal-300 hover:bg-teal-600 transition px-4 py-2 rounded-md"
+            onClick={() => navigate("/student/notifications")}
+          >
+           <LucideBellDot/>
+          </Button>
 
           <Button
             className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 text-sm font-semibold rounded-md transition"
