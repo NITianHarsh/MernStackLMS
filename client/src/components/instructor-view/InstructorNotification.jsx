@@ -150,7 +150,7 @@ const InstructorNotification = () => {
       </div>
 
       {/* Schedule Form */}
-      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md border  border-emerald-200 bg-emerald-50 rounded-2xl p-5 shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-xl font-semibold text-gray-800">
             Create Zoom Meeting
@@ -204,7 +204,7 @@ const InstructorNotification = () => {
             className={`w-full ${
               loading || isPastTime()
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
+                : "bg-green-600 hover:bg-green-700"
             } text-white rounded-lg py-2 font-medium transition`}
           >
             {loading ? "Creating..." : "Generate Zoom Meeting"}

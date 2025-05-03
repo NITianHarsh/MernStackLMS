@@ -132,7 +132,7 @@ function InstructorCourses({ listOfCourses }) {
                     <strong className="text-gray-800 dark:text-gray-200">
                       Price:
                     </strong>{" "}
-                    ${course.pricing}
+                    ₹{course.pricing}
                   </p>
                   <p>
                     <strong className="text-gray-800 dark:text-gray-200">

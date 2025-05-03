@@ -55,8 +55,8 @@ router.post("/create-meeting", async (req, res) => {
     );
 
     const { join_url, start_url } = meetingResponse.data;
-    console.log("Zoom Join URL:", join_url);
-    console.log("Zoom Start URL:", start_url)
+    // console.log("Zoom Join URL:", join_url);
+    // console.log("Zoom Start URL:", start_url)
 
     const url = new URL(join_url);
     const meetingId = url.pathname.split("/").pop(); // gets the last part of /j/MEETING_ID
