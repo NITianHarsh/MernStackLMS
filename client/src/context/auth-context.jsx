@@ -2,7 +2,6 @@ import axiosInstance from "@/axiosInstance";
 import { Skeleton } from "@/components/ui/skeleton";
 import { initialSignInFormData, initialSignUpFormData } from "@/config";
 import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export const AuthContext = createContext(null);

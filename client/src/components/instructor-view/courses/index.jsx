@@ -138,7 +138,7 @@ function InstructorCourses({ listOfCourses }) {
                     <strong className="text-gray-800 dark:text-gray-200">
                       Revenue:
                     </strong>{" "}
-                    ${course.students?.length * course.pricing || 0}
+                    ₹{course.students?.length * course.pricing || 0}
                   </p>
                 </div>
 

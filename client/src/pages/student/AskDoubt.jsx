@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { StudentContext } from "@/context/student-context/index.jsx";
 import { toast } from "sonner";
 
 const AskDoubt = ({studentId,courseId}) => {
@@ -9,7 +8,7 @@ const AskDoubt = ({studentId,courseId}) => {
 
   const handleSubmit = async () => {
     try {
-      await axios.post(`/doubt/${studentId}`, {
+      await axios.post("/doubt/submit", {
         studentId,
         courseId,
         message,

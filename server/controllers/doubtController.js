@@ -1,71 +1,84 @@
 import Doubt from "../models/Doubt.js";
-import Notification from "../models/Notification.js";
-import { createZoomMeeting } from "../helper/zoomMeetings.js";
 import ScheduledSession from "../models/ScheduledSession.js";
 
 export const getUnresolvedDoubts = async (req, res) => {
-  const doubts = await Doubt.find({ isResolved: false }).populate("student");
-  res.json({ doubts });
+  const doubts = await Doubt.find({ isResolved: false })
+    .populate("student")
+    .lean();
+
+  const validDoubts = doubts.filter((d) => d.student); // Only include if student exists
+  res.json({ doubts: validDoubts });
 };
 
-export const scheduleZoomSession = async (req, res) => {
-  const { selectedStudentIds, dateTime, note, doubtIds } = req.body;
-
+export const scheduleSession = async (req, res) => {
   try {
-    const meetingData = {
-      topic: "Doubt Session",
-      type: 2,
-      start_time: dateTime,
-      duration: 60,
-      timezone: "Asia/Kolkata",
-      settings: {
-        join_before_host: true,
-        approval_type: 0,
-      },
-    };
-
-    const meeting = await createZoomMeeting(meetingData);
-
-    await ScheduledSession.create({
-      instructor: req.user._id,
-      students: selectedStudentIds,
+    const {
+      instructorId,
+      studentIds,
+      doubtIds,
+      scheduledAt,
       note,
-      dateTime,
-      meetingLink: meeting.join_url,
+      zoomJoinUrl,
+      zoomStartUrl,
+    } = req.body;
+
+    // Save session
+    const newSession = new ScheduledSession({
+      instructor: instructorId,
+      students: studentIds,
+      doubtIds,
+      note,
+      dateTime: scheduledAt,
+      zoomJoinUrl,
+      zoomStartUrl,
     });
 
-    for (const studentId of selectedStudentIds) {
-      await Notification.create({
-        student: studentId,
-        message: `Doubt session scheduled on ${new Date(
-          dateTime
-        ).toLocaleString()}.\nNote: ${note}`,
-        meetingLink: meeting.join_url,
-        dateTime,
-      });
-    }
+    await newSession.save();
 
-    await Doubt.updateMany({ _id: { $in: doubtIds } }, { isResolved: true });
+    // Mark doubts as resolved
+    await Doubt.updateMany(
+      { _id: { $in: doubtIds } },
+      { $set: { isResolved: true } }
+    );
 
-    res
-      .status(200)
-      .json({ success: true, message: "Zoom session created", meeting });
-  } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ success: false, message: "Failed to schedule session" });
+    res.status(201).json({ success: true, session: newSession });
+  } catch (err) {
+    console.error("Error scheduling session:", err);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
 export const getInstructorSessions = async (req, res) => {
-  const sessions = await Notification.find({
-    dateTime: { $gte: new Date() }, // Only future sessions
-  }).populate("student");
-  res.json({ sessions });
+  try {
+    const { instructorId } = req.params;
+    // Get the current date and time
+    const now = new Date();
+
+    // Fetch sessions that are scheduled for the future
+    const sessions = await ScheduledSession.find({
+      instructor: instructorId,
+      dateTime: { $gt: now },  // Only future sessions
+    })
+      .populate("students")
+      .exec();
+
+    res.status(200).json({ sessions });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch instructor sessions" });
+  }
 };
+
 export const getStudentNotifications = async (req, res) => {
-  const { studentId } = req.params;
-  const notifications = await Notification.find({ student: studentId });
-  res.json({ notifications });
+  try {
+    const { studentId } = req.params;
+    const sessions = await ScheduledSession.find({
+      students: studentId,
+      dateTime: { $gte: new Date() }, // Only future sessions
+    }).sort({ dateTime: 1 });
+    
+    res.status(200).json({ sessions });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch student sessions" });
+  }
 };

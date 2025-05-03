@@ -1,11 +1,28 @@
 import mongoose from "mongoose";
 
-const DoubtSchema = new mongoose.Schema({
-  student: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  course: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
-  message: String,
-  isResolved: { type: Boolean, default: false },
-  createdAt: { type: Date, default: Date.now },
+const doubtSchema = new mongoose.Schema({
+  student: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  course: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Course",
+    required: true,
+  },
+  message: {
+    type: String,
+    required: true,
+  },
+  isResolved: {
+    type: Boolean,
+    default: false,
+  },
+}, { timestamps: true });
+
+doubtSchema.pre("save", function () {
+  console.warn("⚠️ WARNING: Doubt is being saved!", this);
 });
 
-export default mongoose.model("Doubt", DoubtSchema);
+export default mongoose.model("Doubt", doubtSchema);

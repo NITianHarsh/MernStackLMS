@@ -6,37 +6,44 @@ import { toast } from "sonner";
 const StudentNotifications = () => {
   const { auth } = useContext(AuthContext);
   const studentId = auth?.user?._id;
-  const [notifications, setNotifications] = useState([]);
+  const [sessions, setSessions] = useState([]);
 
   useEffect(() => {
     if (!studentId) return;
-  
+
     axios
-      .get(`/api/doubts/notifications/${studentId}`)
-      .then((res) => setNotifications(res.data.notifications || [])) 
+      .get(`http://localhost:5000/doubt/notifications/${studentId}`)
+      .then((res) => setSessions(res.data.sessions || []))
       .catch((err) => {
-        toast.error("Failed to fetch notifications:", err);
-        setNotifications([]); 
+        console.error("Fetch error:", err);
+        toast.error("Failed to fetch notifications");
       });
   }, [studentId]);
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-semibold mb-4">Your Doubt Session Notifications</h2>
-      {!notifications || notifications.length === 0 ? (
-        <p className="text-gray-500">No notifications yet.</p>
+    <div className="p-6 bg-white rounded-xl shadow-xl border border-emerald-100">
+      <h2 className="text-2xl font-bold text-emerald-700 mb-6">
+        📢 Your Doubt Session Notifications
+      </h2>
+      {sessions.length === 0 ? (
+        <p className="text-gray-400">No scheduled sessions yet.</p>
       ) : (
-        notifications.map((note) => (
-          <div key={note._id} className="mb-4 p-4 bg-gray-100 rounded shadow">
-            <p className="font-medium text-sm text-gray-600">
-              {new Date(note.dateTime).toLocaleString()}
+        sessions.map((session) => (
+          <div
+            key={session._id}
+            className="mb-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl shadow transition hover:shadow-lg"
+          >
+            <p className="text-sm font-medium text-emerald-700">
+              🕒 {new Date(session.dateTime).toLocaleString()}
             </p>
-            <p className="text-base my-2">{note.message}</p>
+            <p className="text-gray-800 mt-2">
+              {session.note || "You have a scheduled doubt session."}
+            </p>
             <a
-              href={note.meetingLink}
+              href={session.zoomJoinUrl}
               target="_blank"
               rel="noreferrer"
-              className="text-blue-600 underline hover:text-blue-800"
+              className="inline-block mt-3 text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg text-sm font-medium transition"
             >
               Join Zoom
             </a>
@@ -48,4 +55,3 @@ const StudentNotifications = () => {
 };
 
 export default StudentNotifications;
-

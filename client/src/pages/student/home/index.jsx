@@ -79,7 +79,7 @@ function StudentHomePage() {
               >
                 Explore Courses
               </Button>
-              <AskDoubt/>
+              {/* <AskDoubt/> */}
             </div>
           </div>
 

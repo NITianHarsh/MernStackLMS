@@ -28,14 +28,14 @@ import examRoutes from "./routes/exam.js";
 import resultRoutes from "./routes/results.js";
 import doubtRoutes from "./routes/doubtRoutes.js";
 import studentViewCourseRoutes from "./routes/student-routes/course-routes.js"
-
+import zoom from "./routes/zoom.js";
 
 app.use("/auth", authRoutes);
 app.use("/media", mediaRoutes);
 app.use("/instructor/course", instructorCourseRoutes);
 app.use("/doubt",doubtRoutes);
 app.use("/student/course", studentViewCourseRoutes);
-
+app.use("/zoom",zoom);
 
 
 app.use("/exam", examRoutes);
