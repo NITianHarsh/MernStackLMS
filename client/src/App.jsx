@@ -19,6 +19,10 @@ import { Toaster } from "sonner";
 import HomePage from "./pages/Home.jsx";
 import ForgotPassword from "./pages/forgotPassword.jsx";
 import NotFound from "./pages/not-found.jsx";
+import StudentViewCoursePage from "./pages/student/home/courses/index.jsx";
+import StudentViewCourseDetailsPage from "./pages/student/home/course-details/index.jsx";
+import StudentNotifications from "./components/student-view/StudentNotifications.jsx";
+import DueSessions from "./components/instructor-view/DueSessions.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -100,6 +104,16 @@ function App() {
             />
           }
         />
+        <Route
+          path="/instructor/my-sessions"
+          element={
+            <UserProtected
+              element={<DueSessions />}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        />
 
         {/* Student layout with nested routes */}
         <Route
@@ -122,13 +136,19 @@ function App() {
           <Route path="results/:examId" element={<Results />} />
           <Route path="exam/:examId/leaderboard" element={<Leaderboard />} />
           <Route path="exam/:examId/all-results" element={<AllResults />} />
+          <Route path="notifications" element={<StudentNotifications />} />
         </Route>
 
         {/* Catch-all route */}
         <Route path="*" element={<NotFound />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
-      <Toaster richColors position="top-right" />
+      <Toaster
+        duration={3000}
+        richColors
+        position="top-right"
+        closeButton={true}
+      />
     </>
   );
 }

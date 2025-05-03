@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import TimerComponent from "./TimerComponent";
 import PreventCheating from "./PreventCheating";
 import axiosInstance from "@/axiosInstance";
+import { toast } from "sonner";
 
 const ExamSubmission = () => {
   const { examId } = useParams();
@@ -72,7 +73,7 @@ const ExamSubmission = () => {
   };
 
   const handleTimeUp = () => {
-    alert("Time's up! Submitting exam...");
+    toast.info("Time's up! Submitting exam...");
     submitExam(true); // true to skip confirmation
   };
 

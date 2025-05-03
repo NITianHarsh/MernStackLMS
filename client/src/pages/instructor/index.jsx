@@ -6,6 +6,7 @@ import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
 import {
   BarChart,
+  BellDot,
   Book,
   ClipboardList,
   FilePlus,
@@ -21,6 +22,7 @@ import ExamList from "@/components/Exam/ExamList";
 import axiosInstance from "@/axiosInstance";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import InstructorNotification from "@/components/instructor-view/InstructorNotification";
 
 function InstructorDashboardpage() {
   const [darkMode, setDarkMode] = useState(false);
@@ -124,6 +126,12 @@ function InstructorDashboardpage() {
       component: <ExamList setActiveTab={setActiveTab} />,
     },
     {
+      icon: BellDot,
+      label: "Doubts",
+      value: "Doubts",
+      component: <InstructorNotification />,
+    },
+    {
       icon: LogOut,
       label: "Logout",
       value: "logout",
@@ -173,7 +181,7 @@ function InstructorDashboardpage() {
           <div className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              className="flex items-center text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-emerald-200 dark:focus:ring-emerald-600"
             >
               <img
                 className="w-8 h-8 rounded-full"
@@ -184,7 +192,7 @@ function InstructorDashboardpage() {
 
             {/* Dropdown */}
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white divide-y divide-gray-100 rounded-md shadow-lg dark:bg-gray-700 dark:divide-gray-600 z-50">
+              <div className="absolute right-0 m-2 w-48 bg-white divide-y divide-gray-100 rounded-md shadow-lg dark:bg-gray-700 dark:divide-gray-600 z-50">
                 <div className="px-4 py-3">
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
                     {auth?.user?.userName}

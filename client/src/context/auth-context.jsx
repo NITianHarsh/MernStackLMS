@@ -2,7 +2,6 @@ import axiosInstance from "@/axiosInstance";
 import { Skeleton } from "@/components/ui/skeleton";
 import { initialSignInFormData, initialSignUpFormData } from "@/config";
 import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export const AuthContext = createContext(null);
@@ -34,7 +33,7 @@ export default function AuthProvider({ children }) {
       setSignUpFormData(initialSignUpFormData);
     } catch (error) {
       console.error("Registration error:", error);
-      alert("An error occurred during registration. Please try again.");
+      toast.error("An error occurred during registration. Please try again.");
       setSignUpFormData(initialSignUpFormData);
     }
   }
@@ -63,7 +62,7 @@ export default function AuthProvider({ children }) {
     } catch (error) {
       console.error("Login error:", error);
       setAuth({ isAuthenticated: false, user: null });
-      alert("An error occurred during login. Please try again.");
+      toast.error("An error occurred during login. Please try again.");
       setSignInFormData(initialSignInFormData);
     }
   }
