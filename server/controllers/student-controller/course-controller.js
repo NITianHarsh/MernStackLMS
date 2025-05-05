@@ -59,7 +59,7 @@ const getAllStudentViewCourses = async (req, res) => {
 
 const getStudentViewCourseDetails = async (req, res) => {
     try {
-        const { id,studentId } = req.params;
+        const { id} = req.params;
         const courseDetails = await course.findById(id);
 
         if (!courseDetails) {
@@ -70,19 +70,10 @@ const getStudentViewCourseDetails = async (req, res) => {
             });
 
         }
-
-        //we will check if current student has purchased this course or not
-        const studentCourses = await StudentCourses.findOne({
-            userId: studentId
-        });
-        console.log(studentCourses, "studentcourses");
-        const ifStudentAlreadyBoughtCurrentCourse = studentCourses.courses.findIndex(item => item.courseId === id) > -1
-        
-        
         res.status(200).json({
             success: true,
             data: courseDetails,
-            coursePurchasedId:ifStudentAlreadyBoughtCurrentCourse?id:null,
+            // coursePurchasedId:ifStudentAlreadyBoughtCurrentCourse?id:null,
         });
 
 
@@ -96,5 +87,33 @@ const getStudentViewCourseDetails = async (req, res) => {
     }
 
 }
+const checkCoursePurchaseInfo = async (req, res) => {
+    try {
+        console.log('gaurav randi ')
+        console.log(req.params)
+      const { id, studentId } = req.params;
+      console.log(id,'id')
+      console.log(studentId,'stuuuuuuuuuuuuuu')
+      const studentCourses = await StudentCourses.findOne({
+        userId: studentId,
+      });
+      console.log(studentCourses,'student coursesssssssssssssssssssssssssss')
+  
+      const ifStudentAlreadyBoughtCurrentCourse =
+  studentCourses.courses.findIndex((item) => item.courseId.toString() === id.toString()) > -1;
+console.log(ifStudentAlreadyBoughtCurrentCourse)
+      res.status(200).json({
+        success: true,
+        data: ifStudentAlreadyBoughtCurrentCourse,
+      });
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({
+        success: false,
+        message: "Some error occured!",
+      });
+    }
+  };
+  
 
-export { getAllStudentViewCourses, getStudentViewCourseDetails };
+export { getAllStudentViewCourses, getStudentViewCourseDetails,checkCoursePurchaseInfo };

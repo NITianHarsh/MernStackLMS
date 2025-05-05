@@ -1,17 +1,32 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 
-const StudentCoursesSchema = new Schema({
-  userId: String,
+const studentCoursesSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    unique: true, // One doc per user
+  },
   courses: [
     {
-      courseId: String,
+      courseId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+        required: true,
+      },
       title: String,
-      instructorId: String,
+      instructorId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
       instructorName: String,
-      dateOfPurchase: Date,
-      courseImage: String,
+      dateOfPurchase: {
+        type: Date,
+        default: Date.now,
+      },
     },
   ],
 });
 
-export default model("StudentCourses", StudentCoursesSchema);
+const StudentCourses = mongoose.model("StudentCourses", studentCoursesSchema);
+export default StudentCourses;

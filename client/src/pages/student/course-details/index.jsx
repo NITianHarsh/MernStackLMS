@@ -8,45 +8,61 @@ import { AuthContext } from "@/context/auth-context";
 import { StudentContext } from "@/context/student-context";
 import { CheckCircle, Globe, Lock, PlayCircle } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function StudentViewCourseDetailsPage() {
 
-    const { studentViewCourseDetails, setStudentViewCourseDetails, currentCourseDetailsId, setCurrentCourseDetailsId, loadingState, setLoadingState } = useContext(StudentContext);
+    const { studentViewCourseDetails, setStudentViewCourseDetails, currentCourseDetailsId, setCurrentCourseDetailsId, loadingState, setLoadingState, DiscountedPrice, setDiscoutedPrice } = useContext(StudentContext);
     const [displayCurrentVideoFreePreview, setDisplayCurrentVideoFreePreview] = useState(null);
     const [showFreePreviewDialog, setShowFreePreviewDialog] = useState(false);
-    const [coursePurchaseId, setCoursePurchaseId] = useState(null);
     const location = useLocation();
     const { id } = useParams();
-      const { auth } = useContext(AuthContext);
-    
-     
+    const { auth } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+
 
     function handleSetFreePreview(getCurrentVideoInfo) {
         console.log(getCurrentVideoInfo);
         setDisplayCurrentVideoFreePreview(getCurrentVideoInfo?.videoUrl);
-      }
-    async function fetchStudentCoursesDetails(courseId,studentId) {
-        const { data } = await axiosInstance.get(`/student/course/get/details/${courseId}/${studentId}`);
+    }
+    async function fetchStudentCoursesDetails(courseId) {
+        console.log('hello darling')
+        const { data } = await axiosInstance.get(`/student/course/get/details/${courseId}`);
 
         return data;
     }
 
 
     async function fetchStudentViewCoursesDetails() {
-        const response = await fetchStudentCoursesDetails(currentCourseDetailsId,auth?.user?._id);
+
+        async function checkCoursePurchaseInfo(courseId, studentId) {
+            const { data } = await axiosInstance.get(`/student/course//purchase-info/${courseId}/${studentId}`);
+            console.log(data, 'raaandhjdbsjjbchinaar')
+            return data;
+        }
+        const checkCoursePurchaseInfoResponse = checkCoursePurchaseInfo(currentCourseDetailsId, auth?.user?._id)
+        if (checkCoursePurchaseInfoResponse?.success && checkCoursePurchaseInfoResponse?.data) {
+            navigate(`/course-progress/${currentCourseDetailsId}`)
+            return
+        }
+
+
+
+        const response = await fetchStudentCoursesDetails(currentCourseDetailsId, auth?.user?._id);
+        console.log(response, 'radniingiichinaar');
         if (response?.success) {
+
             setStudentViewCourseDetails(response?.data);
-            setCoursePurchaseId(response?.coursePurchaseId)
             setLoadingState(false)
         } else {
             setStudentViewCourseDetails(null);
-            setCoursePurchaseId(false);
             setLoadingState(false)
         }
     }
 
     useEffect(() => {
+        console.log('hello baby')
         if (currentCourseDetailsId !== null) fetchStudentViewCoursesDetails()
     }, [currentCourseDetailsId]);
 
@@ -64,10 +80,8 @@ function StudentViewCourseDetailsPage() {
     }, [location.pathname]);
 
     if (loadingState) return <Skeleton />;
-  
-    if (coursePurchaseId !== null) {
-        return <Navigate to={ `/course-progress/${coursePurchaseId}`} />
-     }
+
+
 
 
     const getIndexOfFreePreviewUrl =
@@ -78,8 +92,82 @@ function StudentViewCourseDetailsPage() {
 
     console.log(getIndexOfFreePreviewUrl, studentViewCourseDetails?.curriculum[getIndexOfFreePreviewUrl], 'bro')
 
+    const loadRazorpayScript = () => {
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = "https://checkout.razorpay.com/v1/checkout.js";
+            script.onload = () => resolve(true);
+            script.onerror = () => resolve(false);
+            document.body.appendChild(script);
+        });
+    };
+
+
+    const checkoutHandler = async (amount) => {
+        const isScriptLoaded = await loadRazorpayScript();
+        if (!isScriptLoaded) {
+            alert("Failed to load Razorpay.");
+            return;
+        }
+
+        try {
+            // 1. Get Razorpay key
+            const { data: { key } } = await axiosInstance.get("/api/getkey");
+            console.log(key, 'keyyyyyyyyyy')
+            console.log(auth, 'authhhhh')
+            console.log(studentViewCourseDetails, 'asdffffffffffffffffffffff')
+            // 2. Send full metadata to backend /checkout
+            const { data: { order } } = await axiosInstance.post('/api/checkout', {
+                amount,
+                userId: auth?.user?._id,
+                userName: auth?.user?.userName,
+                userEmail: auth?.user?.userEmail,
+                courseId: studentViewCourseDetails?._id,
+                courseTitle: studentViewCourseDetails?.title,
+                // courseImage: studentViewCourseDetails?.courseImage,
+                // coursePricing: studentViewCourseDetails?.pricing,
+                instructorId: studentViewCourseDetails?.instructorId,
+                instructorName: studentViewCourseDetails?.instructorName,
+            });
+            console.log(key, 'keyyyyyyyyyyyyyyy')
+            console.log(order, 'orderrrrrrrrrrr')
+            // 3. Setup Razorpay checkout
+            const options = {
+                key,
+                amount: order.amount,
+                currency: "INR",
+                name: "Deepank Kujur",
+                description: "Course Purchase",
+                order_id: order.id,
+                callback_url: "http://localhost:5000/api/paymentVerification", // Only required for server-side verification
+                prefill: {
+                    name: auth?.user?.name,
+                    email: auth?.user?.email,
+                    contact: "9000090000", // You can replace this with a real contact if available
+                },
+                theme: {
+                    color: "#3399cc",
+                },
+            };
+
+            const razor = new window.Razorpay(options);
+            razor.open();
+            setDiscoutedPrice("");
+        } catch (err) {
+            console.error("Checkout error:", err);
+            alert("Something went wrong during checkout.");
+        }
+    };
+
+
+
+
+    console.log(studentViewCourseDetails, 'ghjhgjijluijklhuijl')
+    console.log(DiscountedPrice, 'discount')
+
+
     return <div className=" mx-auto p-4">
-        <div className="bg-gray-200 text-white p-8 rounded-t-lg">
+        <div className="bg-[#1c1d1f] text-white p-8 rounded-t-lg">
             <h1 className="text-3xl font-bold mb-4">
                 {studentViewCourseDetails?.title}
             </h1>
@@ -120,6 +208,26 @@ function StudentViewCourseDetailsPage() {
                 </Card>
                 <Card className="mb-8">
                     <CardHeader>
+                        <CardTitle>💡 Know More, Pay Less!</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="mb-4">
+                            Your knowledge is worth more than you think — prove it and unlock a discount.
+                        </p>
+                        <div className="flex justify-center">
+                            <Button
+                                onClick={() => navigate(`/student-courses/start-exam/${studentViewCourseDetails?._id}`)}
+                                disabled={!!DiscountedPrice}
+                                className="w-md items-center"
+                            >
+                                Why Pay Full Price?
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card className="mb-8">
+                    <CardHeader>
                         <CardTitle>Course Description</CardTitle>
                     </CardHeader>
                     <CardContent>{studentViewCourseDetails?.description}</CardContent>
@@ -133,8 +241,8 @@ function StudentViewCourseDetailsPage() {
                             (curriculumItem, index) => (
                                 <li
                                     className={`${curriculumItem?.freePreview
-                                            ? "cursor-pointer"
-                                            : "cursor-not-allowed"
+                                        ? "cursor-pointer"
+                                        : "cursor-not-allowed"
                                         } flex items-center mb-4`}
                                     onClick={
                                         curriculumItem?.freePreview
@@ -153,6 +261,7 @@ function StudentViewCourseDetailsPage() {
                         )}
                     </CardContent>
                 </Card>
+
             </main>
             <aside className="w-full md:w-[500px]">
                 <Card className="sticky top-4">
@@ -172,12 +281,15 @@ function StudentViewCourseDetailsPage() {
                         </div>
                         <div className="mb-4">
                             <span className="text-3xl font-bold">
-                                ${studentViewCourseDetails?.pricing}
+                                Rs{DiscountedPrice || studentViewCourseDetails?.pricing}
                             </span>
                         </div>
-                        <Button  className="w-full">
+                        <Button
+                            onClick={() => checkoutHandler(DiscountedPrice || studentViewCourseDetails?.pricing)}
+                            className="w-full">
                             Buy Now
                         </Button>
+
                     </CardContent>
                 </Card>
             </aside>

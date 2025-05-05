@@ -16,10 +16,13 @@ import PublishedExam from "./components/Exam/PublishedExam.jsx";
 import AllResults from "./components/Exam/AllResults.jsx";
 import UpdateExam from "./components/Exam/UpdateExam.jsx";
 import ForgotPassword from "./pages/forgotPassword.jsx";
-import StudentViewCoursePage from "./pages/student/home/courses/index.jsx";
-import StudentViewCourseDetailsPage from "./pages/student/home/course-details/index.jsx";
+import StudentViewCoursePage from "./pages/student/courses/index.jsx";
+import StudentViewCourseDetailsPage from "./pages/student/course-details/index.jsx";
 import StudentCoursesPage from "./pages/student/student-courses/index.jsx";
-import StudentViewCourseProgressPage from "./pages/student/home/course-progress/index.jsx";
+import StudentViewCourseProgressPage from "./pages/student/course-progress/index.jsx";
+import PaymentDone from "./components/Payment/PaymentDone.jsx";
+import StudentExamPage from "./pages/student/exam.jsx";
+import StartExam from "./pages/student/StartExam.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -125,6 +128,11 @@ function App() {
         <Route path="/exam/:examId/all-results" element={<AllResults />} />
         <Route path="student-courses" element={<StudentCoursesPage />} />
         <Route path="course-progress/:id" element={<StudentViewCourseProgressPage />} /> 
+        <Route path="/paymentsuccess" element={<PaymentDone/>} />
+        <Route path="/student-courses/exam" element={<StudentExamPage />} />
+        <Route path="/student-courses/start-exam/:courseId" element={<StartExam/>} />
+
+
       
 
 

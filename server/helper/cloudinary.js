@@ -1,4 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
+import fs from 'fs';
+
 
 // Configuration
 cloudinary.config({
@@ -8,7 +10,6 @@ cloudinary.config({
 });
 
 const uploadMediaToCloudinary = async (filePath) => {
-  const fs = require('fs');
 
   if (!fs.existsSync(filePath)) {
     console.error('File does not exist at path:', filePath);

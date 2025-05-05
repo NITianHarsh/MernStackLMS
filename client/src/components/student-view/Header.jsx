@@ -7,12 +7,12 @@ import { AuthContext } from '@/context/auth-context';
 function StudentViewCommonHeader() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
- const { resetCredentials } = useContext(AuthContext);
+  const { resetCredentials } = useContext(AuthContext);
   function handleLogout() {
-      resetCredentials();
+    resetCredentials();
     sessionStorage.clear();
     console.log("Logout successful");
-    }
+  }
   return (
     <header className="bg-gradient-to-r from-teal-400 to-lime-400 shadow-lg sticky top-0 z-50 border-b rounded-lg">
       <div className="flex items-center justify-between px-6 py-4">
@@ -24,16 +24,20 @@ function StudentViewCommonHeader() {
         <nav className="hidden md:flex items-center gap-6">
           <Button
             variant="ghost"
-            className="text-sm font-medium text-white hover:text-teal-300 hover:bg-teal-600 transition px-4 py-2 rounded-md"
+            className=" bg-black text-sm font-medium text-white hover:text-teal-300 hover:bg-teal-600 transition px-4 py-2 rounded-md"
             onClick={() => navigate("/PublishedExamList")}
           >
-            Explore Exams
+            Mock Tests
           </Button>
 
-          <div onClick={()=>navigate('/student-courses')} className="flex items-center gap-2 cursor-pointer hover:text-teal-300 transition">
-            <span className="text-sm font-medium">My Courses</span>
-            <TvMinimalPlay className="w-6 h-6 text-white" />
-          </div>
+          <Button
+            onClick={() => navigate('/student-courses')}
+          >
+            <div className="flex items-center gap-2 cursor-pointer hover:text-teal-300 transition">
+              <span className="text-sm font-medium">My Courses</span>
+              <TvMinimalPlay className="w-6 h-6 text-white" />
+            </div>
+          </Button>
 
           <Button className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 text-sm font-semibold rounded-md transition" onClick={handleLogout}>
             LogOut
@@ -54,17 +58,23 @@ function StudentViewCommonHeader() {
           {/* Explore Courses */}
           <Button
             variant="ghost"
-            onClick={()=>navigate('/courses')}
+            onClick={() => {
+              location.pathname.includes('/courses')
+                ? null
+                : navigate("/courses");
+            }}
             className="text-sm font-medium text-teal-700 hover:text-teal-600 hover:bg-teal-100 px-4 py-2 rounded-md transition"
           >
             Explore Courses
           </Button>
 
           {/* My Courses */}
-          <button className="flex items-center gap-2 text-sm font-medium text-teal-700 hover:text-teal-600 hover:bg-teal-100 px-4 py-2 rounded-md transition">
+          <Button className="flex items-center gap-2 text-sm font-medium text-teal-700 hover:text-teal-600 hover:bg-teal-100 px-4 py-2 rounded-md transition"
+            onClick={() => navigate('/student-courses')}
+          >
             <TvMinimalPlay className="w-5 h-5 text-teal-700" />
             My Courses
-          </button>
+          </Button>
 
           {/* Sign Out */}
           <Button className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 text-sm font-semibold rounded-md transition" onClick={handleLogout}>

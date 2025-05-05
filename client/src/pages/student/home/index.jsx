@@ -1,14 +1,14 @@
 import axiosInstance from "@/axiosInstance";
 import { Button } from "@/components/ui/button";
 import { courseCategories } from "@/config";
-// import { AuthContext } from "@/context/auth-context";
+import { AuthContext } from "@/context/auth-context";
 import { StudentContext } from "@/context/student-context";
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function StudentHomePage() {
   const { studentViewCoursesList, setStudentViewCoursesList } = useContext(StudentContext);
-  //const { auth } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
   // Fetch courses from API
   async function fetchStudentCoursesList(query) {
@@ -27,32 +27,36 @@ function StudentHomePage() {
 
 
 
-  // function handleNavigateToCoursesPage(getCurrentId) {
-  //   console.log(getCurrentId);
-  //   sessionStorage.removeItem("filters");
-  //   const currentFilter = {
-  //     category: [getCurrentId],
-  //   };
+  function handleNavigateToCoursesPage(getCurrentId) {
+    console.log(getCurrentId);
+    sessionStorage.removeItem("filters");
+    const currentFilter = {
+      category: [getCurrentId],
+    };
 
-  //   sessionStorage.setItem("filters", JSON.stringify(currentFilter));
+    sessionStorage.setItem("filters", JSON.stringify(currentFilter));
 
-  //   navigate("/courses");
-  // }
+    navigate("/courses");
+  }
+  async function checkCoursePurchaseInfo(courseId, studentId) {
 
-  // async function handleCourseNavigate(getCurrentCourseId) {
-  //   const response = await checkCoursePurchaseInfoService(
-  //     getCurrentCourseId,
-  //     auth?.user?._id
-  //   );
+    const { data } = await axiosInstance.get(`/student/course/purchase-info/${courseId}/${studentId}`);
+    return data;
+  }
+  async function handleCourseNavigate(getCurrentCourseId) {
+    console.log(getCurrentCourseId)
 
-  //   if (response?.success) {
-  //     if (response?.data) {
-  //       navigate(`/course-progress/${getCurrentCourseId}`);
-  //     } else {
-  //       navigate(`/course/details/${getCurrentCourseId}`);
-  //     }
-  //   }
-  // }
+    const response = await checkCoursePurchaseInfo(getCurrentCourseId, auth?.user?._id);
+   
+    if (response?.success) {
+      if (response?.data) {
+        navigate(`/course-progress/${getCurrentCourseId}`);
+      } else {
+        navigate(`/course/details/${getCurrentCourseId}`);
+      }
+    }
+
+  }
   return (
     <div className="min-h-screen bg-white">
       <section className="bg-white text-black py-16 px-6 lg:px-20">
@@ -68,13 +72,13 @@ function StudentHomePage() {
               Start mastering new skills today. Learn from experts, gain real-world experience, and level up your career.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-6 md:justify-start justify-center">
-              <button className="bg-yellow-400 text-gray-900 font-bold text-xl px-8 py-4 rounded-lg shadow-lg hover:bg-yellow-500 transition">
+              {/* <button className="bg-yellow-400 text-gray-900 font-bold text-xl px-8 py-4 rounded-lg shadow-lg hover:bg-yellow-500 transition">
                 Start Learning Now
-              </button>
+              </button> */}
               <Button
                 variant="ghost"
                 onClick={() => navigate('/courses')}
-                className="text-xl border w-60 h-15 font-medium text-teal-700 hover:text-teal-600 hover:bg-teal-100 px-4 py-2 rounded-md transition"
+                className="text-xl border bg-yellow-400 w-60 h-15 font-bold text-gray-900  px-4 py-2 rounded-lg shadow-lg hover:bg-yellow-500 transition"
               >
                 Explore Courses
               </Button>
@@ -99,7 +103,7 @@ function StudentHomePage() {
               className="justify-start"
               variant="outline"
               key={categoryItem.id}
-            // onClick={() => handleNavigateToCoursesPage(categoryItem.id)}
+            onClick={() => handleNavigateToCoursesPage(categoryItem.id)}
             >
               {categoryItem.label}
             </Button>
@@ -112,7 +116,7 @@ function StudentHomePage() {
           {studentViewCoursesList && studentViewCoursesList.length > 0 ? (
             studentViewCoursesList.map((courseItem) => (
               <div
-                // onClick={() => handleCourseNavigate(courseItem?._id)}
+                onClick={() => handleCourseNavigate(courseItem?._id)}
                 className="border rounded-lg overflow-hidden shadow cursor-pointer"
               >
                 <img
