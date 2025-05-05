@@ -20,11 +20,13 @@ import StudentViewCoursePage from "./pages/student/home/courses/index.jsx";
 import StudentViewCourseDetailsPage from "./pages/student/home/course-details/index.jsx";
 import StudentCoursesPage from "./pages/student/student-courses/index.jsx";
 import StudentViewCourseProgressPage from "./pages/student/home/course-progress/index.jsx";
+import PomodoroFloatingWidget from "./components/Pomodoro/Pomodoro.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
 
   return (
+    <>
     <Routes>
       {/* Auth route */}
       <Route
@@ -133,7 +135,9 @@ function App() {
       {/* Catch-all route */}
       <Route path="*" element={<div>404 Not Found</div>} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-    </Routes>
+      </Routes>
+      <PomodoroFloatingWidget/>
+      </>
   );
 }
 
