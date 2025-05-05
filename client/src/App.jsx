@@ -23,11 +23,13 @@ import StudentViewCourseProgressPage from "./pages/student/course-progress/index
 import PaymentDone from "./components/Payment/PaymentDone.jsx";
 import StudentExamPage from "./pages/student/exam.jsx";
 import StartExam from "./pages/student/StartExam.jsx";
+import PomodoroFloatingWidget from "./components/Pomodoro/Pomodoro.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
 
   return (
+    <>
     <Routes>
       {/* Auth route */}
       <Route
@@ -141,7 +143,9 @@ function App() {
       {/* Catch-all route */}
       <Route path="*" element={<div>404 Not Found</div>} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-    </Routes>
+      </Routes>
+      <PomodoroFloatingWidget/>
+      </>
   );
 }
 
