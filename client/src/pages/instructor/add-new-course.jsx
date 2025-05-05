@@ -6,9 +6,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
-import { Moon, Sun } from "lucide-react";
+import { ArrowLeftCircle, Moon, Sun } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { courseCurriculumInitialFormData, courseLandingInitialFormData } from "@/config";
+import {
+  courseCurriculumInitialFormData,
+  courseLandingInitialFormData,
+} from "@/config";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "@/axiosInstance";
 import { Input } from "@/components/ui/input";
@@ -78,7 +81,6 @@ function AddNewCourse() {
     const { data } = await axiosInstance.put(`/instructor/course/update/${courseId}`, formData);
     return data;
   }
-
   const handleCreateCourse = async () => {
     const courseFinalFormData = {
       instructorId: auth?.user?._id,
@@ -131,7 +133,9 @@ function AddNewCourse() {
 
   const fetchCurrentCourseDetails = async () => {
     if (!currentEditedCourseId) return;
-    const response = await axiosInstance.get(`/instructor/course/get/${currentEditedCourseId}`);
+    const response = await axiosInstance.get(
+      `/instructor/course/get/${currentEditedCourseId}`
+    );
     if (response?.data?.success) {
       const setCourseFormData = Object.keys(courseLandingFormData).reduce((acc, key) => {
         acc[key] = response?.data?.data[key] || courseLandingFormData[key];
@@ -181,9 +185,11 @@ function AddNewCourse() {
   };
 
   return (
-    <div className="container mx-auto p-4 bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none min-h-screen text-black dark:text-white transition-all duration-300 ease-in-out">
+    <div className="w-full p-8 px-20 bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none min-h-screen text-black dark:text-white transition-all duration-300 ease-in-out">
       <div className="flex justify-between items-center mb-5">
-        <h1 className="text-3xl font-extrabold text-green-800 dark:text-green-300">Create a new course</h1>
+        <h1 className="text-3xl pl-3 font-extrabold text-green-800 dark:text-green-300">
+          Create a new course
+        </h1>
         <div className="flex gap-3">
           <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
             {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -208,7 +214,12 @@ function AddNewCourse() {
                 <TabsTrigger value="settings">Settings</TabsTrigger>
                 <TabsTrigger value="exam">Exam</TabsTrigger>
               </TabsList>
-              <TabsContent value="curriculum"><CourseCurriculum /></TabsContent>
+              <button
+                className="text-4xl font-extrabold absolute top-[27px] left-4 cursor-pointer text-green-800 dark:text-green-300 hover:scale-130 transition-all duration-300 ease-in-out"
+                onClick={() => navigate(-1)}
+              >
+                &#60;
+              </button>              <TabsContent value="curriculum"><CourseCurriculum /></TabsContent>
               <TabsContent value="course-landing-page"><CourseLanding /></TabsContent>
               <TabsContent value="settings"><CourseSettings /></TabsContent>
               <TabsContent value="exam">

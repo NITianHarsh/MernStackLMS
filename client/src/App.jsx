@@ -15,9 +15,14 @@ import ExamList from "./components/Exam/ExamList.jsx";
 import PublishedExam from "./components/Exam/PublishedExam.jsx";
 import AllResults from "./components/Exam/AllResults.jsx";
 import UpdateExam from "./components/Exam/UpdateExam.jsx";
+import { Toaster } from "sonner";
+import HomePage from "./pages/Home.jsx";
 import ForgotPassword from "./pages/forgotPassword.jsx";
-import StudentViewCoursePage from "./pages/student/courses/index.jsx";
-import StudentViewCourseDetailsPage from "./pages/student/course-details/index.jsx";
+import NotFound from "./pages/not-found.jsx";
+import StudentViewCoursePage from "./pages/student/home/courses/index.jsx";
+import StudentViewCourseDetailsPage from "./pages/student/home/course-details/index.jsx";
+import StudentNotifications from "./components/student-view/StudentNotifications.jsx";
+import DueSessions from "./components/instructor-view/DueSessions.jsx";
 import StudentCoursesPage from "./pages/student/student-courses/index.jsx";
 import StudentViewCourseProgressPage from "./pages/student/course-progress/index.jsx";
 import PaymentDone from "./components/Payment/PaymentDone.jsx";
@@ -30,122 +35,129 @@ function App() {
 
   return (
     <>
-    <Routes>
-      {/* Auth route */}
-      <Route
-        path="/auth"
-        element={
-          <UserProtected
-            element={<AuthPage />}
-            authenticated={auth?.isAuthenticated}
-            user={auth?.user}
-          />
-        }
-      />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        {/* Auth route */}
+        <Route
+          path="/auth"
+          element={
+            <UserProtected
+              element={<AuthPage />}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        />
 
-      {/* Instructor routes */}
-      <Route
-        path="/instructor"
-        element={
-          <UserProtected
-            element={<InstructorDashboard />}
-            authenticated={auth?.isAuthenticated}
-            user={auth?.user}
-          />
-        }
-      />
-      <Route
-        path="/instructor/create-new-course"
-        element={
-          <UserProtected
-            element={<AddNewCourse />}
-            authenticated={auth?.isAuthenticated}
-            user={auth?.user}
-          />
-        }
-      />
-      <Route
-        path="/instructor/edit-course/:courseId"
-        element={
-          <UserProtected
-            element={<AddNewCourse />}
-            authenticated={auth?.isAuthenticated}
-            user={auth?.user}
-          />
-        }
-      />
-      <Route
-        path="/instructor/createExam"
-        element={
-          <UserProtected
-            element={<CreateExam />}
-            authenticated={auth?.isAuthenticated}
-            user={auth?.user}
-          />
-        }
-      />
-      <Route
-        path="/instructor/getExamList"
-        element={
-          <UserProtected
-            element={<ExamList />}
-            authenticated={auth?.isAuthenticated}
-            user={auth?.user}
-          />
-        }
-      />
-         <Route
-        path="/instructor/update-exam/:id"
-        element={
-          <UserProtected
-            element={<UpdateExam />}
-            authenticated={auth?.isAuthenticated}
-            user={auth?.user}
-          />
-        }
-      />
+        {/* Instructor routes */}
+        <Route
+          path="/instructor"
+          element={
+            <UserProtected
+              element={<InstructorDashboard />}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        />
+        <Route
+          path="/instructor/create-new-course"
+          element={
+            <UserProtected
+              element={<AddNewCourse />}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        />
+        <Route
+          path="/instructor/edit-course/:courseId"
+          element={
+            <UserProtected
+              element={<AddNewCourse />}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        />
+        <Route
+          path="/instructor/createExam"
+          element={
+            <UserProtected
+              element={<CreateExam />}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        />
+        <Route
+          path="/instructor/getExamList"
+          element={
+            <UserProtected
+              element={<ExamList />}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        />
+        <Route
+          path="/instructor/update-exam/:id"
+          element={
+            <UserProtected
+              element={<UpdateExam />}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        />
+        <Route
+          path="/instructor/my-sessions"
+          element={
+            <UserProtected
+              element={<DueSessions />}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        />
 
-      {/* Student layout with nested routes */}
-      <Route
-        path="/"
-        element={
-          <UserProtected
-            element={<CommonLayout />}
-            authenticated={auth?.isAuthenticated}
-            user={auth?.user}
-          />
-        }
-      >
-        <Route path="" element={<StudentHomePage />} />
-        <Route path="home" element={<StudentHomePage />} />
-        <Route path="courses" element={<StudentViewCoursePage />} />
-        <Route path="course/details/:id" element={<StudentViewCourseDetailsPage/>} />
-        <Route path="courses" element={<div>Courses</div>} />
-        <Route path="profile" element={<div>Profile</div>} />
-        <Route path="settings" element={<div>Settings</div>} />
-        <Route path="PublishedExamList" element={<PublishedExam />} />
-        <Route path="exam/:examId/start" element={<ExamSubmission />} />
-        <Route path="results/:examId" element={<Results />} />
-        <Route path="exam/:examId/leaderboard" element={<Leaderboard />} />
-        <Route path="/exam/:examId/all-results" element={<AllResults />} />
-        <Route path="student-courses" element={<StudentCoursesPage />} />
-        <Route path="course-progress/:id" element={<StudentViewCourseProgressPage />} /> 
-        <Route path="/paymentsuccess" element={<PaymentDone/>} />
-        <Route path="/student-courses/exam" element={<StudentExamPage />} />
-        <Route path="/student-courses/start-exam/:courseId" element={<StartExam/>} />
+        {/* Student layout with nested routes */}
+        <Route
+          path="/student/*"
+          element={
+            <UserProtected
+              element={<CommonLayout />}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        >
+          <Route path="" element={<StudentHomePage />} />
+          <Route path="home" element={<StudentHomePage />} />
+          <Route path="courses" element={<div>Courses</div>} />
+          <Route path="profile" element={<div>Profile</div>} />
+          <Route path="settings" element={<div>Settings</div>} />
+          <Route path="PublishedExamList" element={<PublishedExam />} />
+          <Route path="exam/:examId/start" element={<ExamSubmission />} />
+          <Route path="results/:examId" element={<Results />} />
+          <Route path="exam/:examId/leaderboard" element={<Leaderboard />} />
+          <Route path="exam/:examId/all-results" element={<AllResults />} />
+          <Route path="notifications" element={<StudentNotifications />} />
+        </Route>
 
-
-      
-
-
-      </Route>
-
-      {/* Catch-all route */}
-      <Route path="*" element={<div>404 Not Found</div>} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      </Routes>
+        {/* Catch-all route */}
+        <Route path="*" element={<NotFound />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        </Routes>
       <PomodoroFloatingWidget/>
       </>
+      <Toaster
+        duration={3000}
+        richColors
+        position="top-right"
+        closeButton={true}
+      />
+    </>
   );
 }
 

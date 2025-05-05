@@ -1,8 +1,8 @@
 // src/pages/UpdateExam.js
-
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import axiosInstance from "@/axiosInstance";
+import { toast } from "sonner";
 
 const UpdateExam = () => {
   const { id } = useParams();
@@ -18,7 +18,7 @@ const UpdateExam = () => {
   useEffect(() => {
     const fetchExam = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/exam/get/${id}`);
+        const res = await axiosInstance.get(`/exam/get/${id}`);
         const data = res.data;
 
         const questionsWithCorrectAnswer = data.questions.map((q) => ({
@@ -93,37 +93,44 @@ const UpdateExam = () => {
         q.options.length !== 4 ||
         q.options.some((opt) => opt.trim() === "")
       ) {
-        alert("❌ Please fill all question fields and options correctly.");
+        toast.error(
+          "❌ Please fill all question fields and options correctly."
+        );
         setIsSubmitting(false);
         return;
       }
     }
 
     try {
-      await axios.put(`http://localhost:5000/exam/update/${id}`, exam);
-      alert("✅ Exam updated successfully!");
-      navigate("/instructor/getExamList");
+      await axiosInstance.put(`/exam/update/${id}`, exam);
+      toast.success("✅ Exam updated successfully!");
+      navigate(-1);
     } catch (error) {
       console.error("Error updating exam:", error);
-      alert("❌ Failed to update exam.");
+      toast.error("❌ Failed to update exam.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 bg-gray-100 min-h-screen">
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+    <div className="w-full px-6 sm:px-12 md:px-20 py-8 bg-emerald-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
+      <h2 className="text-3xl font-bold text-center text-emerald-800 dark:text-emerald-300 mb-6">
         Update Exam
       </h2>
-
+      <button
+        className="text-4xl font-extrabold absolute top-[27px] left-4 cursor-pointer text-green-800 dark:text-green-300 hover:scale-130 transition-all duration-300 ease-in-out"
+        onClick={() => navigate(-1)}
+      >
+        &#60;
+      </button>
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded-lg p-6 space-y-6"
+        className="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 space-y-6 transition-all duration-300"
       >
         {/* Title */}
         <div>
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
             Title
           </label>
           <input
@@ -131,14 +138,14 @@ const UpdateExam = () => {
             name="title"
             value={exam.title}
             onChange={handleInputChange}
-            className="w-full border border-gray-300 px-3 py-2 rounded-lg"
+            className="w-full border border-emerald-300 dark:border-emerald-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 rounded-lg"
             required
           />
         </div>
 
         {/* Subject */}
         <div>
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
             Subject
           </label>
           <input
@@ -146,14 +153,14 @@ const UpdateExam = () => {
             name="subject"
             value={exam.subject}
             onChange={handleInputChange}
-            className="w-full border border-gray-300 px-3 py-2 rounded-lg"
+            className="w-full border border-emerald-300 dark:border-emerald-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 rounded-lg"
             required
           />
         </div>
 
         {/* Duration */}
         <div>
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
             Duration (in minutes)
           </label>
           <input
@@ -161,22 +168,22 @@ const UpdateExam = () => {
             name="duration"
             value={exam.duration}
             onChange={handleInputChange}
-            className="w-full border border-gray-300 px-3 py-2 rounded-lg"
+            className="w-full border border-emerald-300 dark:border-emerald-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 rounded-lg"
             required
           />
         </div>
 
         {/* Questions */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-700 mb-4">
+          <h3 className="text-xl font-semibold text-emerald-800 dark:text-emerald-300 mb-4">
             Questions
           </h3>
           {exam.questions.map((question, index) => (
             <div
               key={index}
-              className="border border-gray-300 p-4 rounded-md mb-6 bg-gray-50"
+              className="border border-emerald-200 dark:border-emerald-700 p-4 rounded-md mb-6 bg-emerald-100 dark:bg-gray-700 transition"
             >
-              <label className="block font-medium mb-2">
+              <label className="block font-medium text-emerald-800 dark:text-emerald-200 mb-2">
                 Question {index + 1}
               </label>
               <input
@@ -185,7 +192,7 @@ const UpdateExam = () => {
                 onChange={(e) =>
                   handleQuestionChange(index, "questionText", e.target.value)
                 }
-                className="w-full mb-3 border border-gray-300 px-3 py-2 rounded-md"
+                className="w-full mb-3 border border-emerald-300 dark:border-emerald-600 bg-white dark:bg-gray-600 text-gray-900 dark:text-white px-3 py-2 rounded-md"
                 required
               />
 
@@ -198,10 +205,10 @@ const UpdateExam = () => {
                       onChange={(e) =>
                         handleOptionChange(index, optIndex, e.target.value)
                       }
-                      className="w-full border border-gray-300 px-3 py-1 rounded-md"
+                      className="w-full border border-emerald-300 dark:border-emerald-600 bg-white dark:bg-gray-600 text-gray-900 dark:text-white px-3 py-1 rounded-md"
                       required
                     />
-                    <label className="flex items-center space-x-1 text-sm">
+                    <label className="flex items-center space-x-1 text-sm text-gray-700 dark:text-gray-200">
                       <input
                         type="radio"
                         name={`correctAnswer-${index}`}
@@ -209,7 +216,7 @@ const UpdateExam = () => {
                         onChange={() =>
                           handleCorrectAnswerChange(index, optIndex)
                         }
-                        className="form-radio"
+                        className="form-radio text-emerald-600 dark:text-emerald-400"
                       />
                       <span>Correct</span>
                     </label>
@@ -217,11 +224,10 @@ const UpdateExam = () => {
                 ))}
               </div>
 
-              {/* Delete Question Button */}
               <button
                 type="button"
                 onClick={() => handleDeleteQuestion(index)}
-                className="text-red-600 mt-3"
+                className="text-red-600 dark:text-red-400 mt-3 hover:underline"
               >
                 Delete Question
               </button>
@@ -234,7 +240,7 @@ const UpdateExam = () => {
           <button
             type="button"
             onClick={handleAddQuestion}
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-300"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-300"
           >
             Add Question
           </button>
@@ -245,8 +251,10 @@ const UpdateExam = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-300 ${
-              isSubmitting ? "bg-gray-300 text-gray-600 cursor-not-allowed" : ""
+            className={`bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-300 ${
+              isSubmitting
+                ? "bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 cursor-not-allowed"
+                : ""
             }`}
           >
             {isSubmitting ? "Updating..." : "Update Exam"}

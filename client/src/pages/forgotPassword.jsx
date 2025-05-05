@@ -50,7 +50,10 @@ const ForgotPassword = () => {
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block mb-1 font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="email"
+            className="block mb-1 font-medium text-gray-700 dark:text-gray-300"
+          >
             Email Address
           </label>
           <input
@@ -65,7 +68,10 @@ const ForgotPassword = () => {
         </div>
 
         <div>
-          <label htmlFor="password" className="block mb-1 font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="password"
+            className="block mb-1 font-medium text-gray-700 dark:text-gray-300"
+          >
             New Password
           </label>
           <input
@@ -80,7 +86,10 @@ const ForgotPassword = () => {
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="block mb-1 font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="confirmPassword"
+            className="block mb-1 font-medium text-gray-700 dark:text-gray-300"
+          >
             Confirm New Password
           </label>
           <input
@@ -98,7 +107,9 @@ const ForgotPassword = () => {
           type="submit"
           disabled={!email || !password || !confirmPassword || loading}
           className={`w-full p-2 text-white rounded-md ${
-            loading ? "bg-gray-400 dark:bg-gray-600" : "bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500"
+            loading
+              ? "bg-gray-400 dark:bg-gray-600"
+              : "bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500"
           }`}
         >
           {loading ? "Processing..." : "Reset Password"}

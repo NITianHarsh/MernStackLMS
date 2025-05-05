@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import TimerComponent from "./TimerComponent";
 import PreventCheating from "./PreventCheating";
 import axiosInstance from "@/axiosInstance";
+import { toast } from "sonner";
 
 const ExamSubmission = () => {
   const { examId } = useParams();
@@ -48,7 +49,11 @@ const ExamSubmission = () => {
   };
 
   const submitExam = async (fromTimer = false) => {
-    if (!fromTimer && !window.confirm("Are you sure you want to submit the exam?")) return;
+    if (
+      !fromTimer &&
+      !window.confirm("Are you sure you want to submit the exam?")
+    )
+      return;
 
     setIsSubmitting(true);
     const totalTimeTaken = Math.floor((Date.now() - startTime) / 1000);
@@ -69,11 +74,12 @@ const ExamSubmission = () => {
   };
 
   const handleTimeUp = () => {
-    alert("Time's up! Submitting exam...");
+    toast.info("Time's up! Submitting exam...");
     submitExam(true); // true to skip confirmation
   };
 
-  if (questions.length === 0) return <div className="text-center mt-10">Loading...</div>;
+  if (questions.length === 0)
+    return <div className="text-center mt-10">Loading...</div>;
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -91,12 +97,14 @@ const ExamSubmission = () => {
 
       <div className="space-y-6">
         {questions.map((question, idx) => (
-          <div key={question._id} className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow duration-200">
-            <p className="font-semibold text-lg text-gray-900 dark:text-white mb-4">
-              <span className="text-gray-500 dark:text-gray-400 mr-2">{idx + 1}.</span>
-              {question.questionText}
+          <div
+            key={question._id}
+            className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow"
+          >
+            <p className="font-semibold">
+              {idx + 1}. {question.questionText}
             </p>
-            <div className="space-y-3">
+            <div className="mt-2 space-y-1">
               {question.options.map((option, optionIndex) => (
                 <label
                   key={optionIndex}

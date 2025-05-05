@@ -2,7 +2,7 @@ import axiosInstance from "@/axiosInstance";
 import { Skeleton } from "@/components/ui/skeleton";
 import { initialSignInFormData, initialSignUpFormData } from "@/config";
 import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export const AuthContext = createContext(null);
 
@@ -14,29 +14,26 @@ export default function AuthProvider({ children }) {
     isAuthenticated: false,
     user: null,
   });
-  const navigate = useNavigate();
-
   async function handleRegisterUser(e) {
     e.preventDefault();
     try {
       const { data } = await axiosInstance.post("/auth/register", {
         ...signUpFormData,
-        // role: "user",
       });
 
       console.log("data is ---> ", data);
 
       if (!data.success) {
-        alert("User registration failed!");
+        toast.error("User Registration failed!");
         console.log("error data is ", data);
       } else {
-        alert("Registration successful!");
+        toast.success("User Registered and Welcome email sent successfully!");
       }
 
       setSignUpFormData(initialSignUpFormData);
     } catch (error) {
       console.error("Registration error:", error);
-      alert("An error occurred during registration. Please try again.");
+      toast.error("An error occurred during registration. Please try again.");
       setSignUpFormData(initialSignUpFormData);
     }
   }
@@ -45,7 +42,6 @@ export default function AuthProvider({ children }) {
     e.preventDefault();
     try {
       const { data } = await axiosInstance.post("/auth/login", signInFormData);
-      console.log("Login data is ---> ", data);
 
       if (data?.success) {
         setAuth({ isAuthenticated: true, user: data.data.user });
@@ -56,16 +52,18 @@ export default function AuthProvider({ children }) {
         );
 
         // Optional: Show toast or alert
-        alert("User logged in successfully!");
+        toast.success("User logged in successfully!");
       } else {
         setAuth({ isAuthenticated: false, user: null });
-        alert("User login failed!");
+        toast.error("User login failed!");
         console.log("Login failure data:", data);
       }
+      setSignInFormData(initialSignInFormData);
     } catch (error) {
       console.error("Login error:", error);
       setAuth({ isAuthenticated: false, user: null });
-      alert("An error occurred during login. Please try again.");
+      toast.error("An error occurred during login. Please try again.");
+      setSignInFormData(initialSignInFormData);
     }
   }
 
@@ -112,6 +110,7 @@ export default function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         auth,
+        setAuth,
         signInFormData,
         signUpFormData,
         setSignInFormData,

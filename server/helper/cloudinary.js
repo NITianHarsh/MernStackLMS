@@ -12,8 +12,8 @@ cloudinary.config({
 const uploadMediaToCloudinary = async (filePath) => {
 
   if (!fs.existsSync(filePath)) {
-    console.error('File does not exist at path:', filePath);
-    throw new Error('Local file not found');
+    console.error("File does not exist at path:", filePath);
+    throw new Error("Local file not found");
   }
 
   try {
@@ -22,11 +22,13 @@ const uploadMediaToCloudinary = async (filePath) => {
     });
     return result;
   } catch (error) {
-    console.error('Cloudinary upload error:', error.response || error.message || error);
+    console.error(
+      "Cloudinary upload error:",
+      error.response || error.message || error
+    );
     throw new Error("Error uploading to Cloudinary");
   }
 };
-
 
 const deleteMediaFromCloudinary = async (publicId) => {
   try {

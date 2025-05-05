@@ -1,7 +1,6 @@
 // routes/exams.js
 import express from "express";
 import Exam from "../models/Exam.js";
-import Result from "../models/Result.js";
 
 const router = express.Router();
 
@@ -19,7 +18,9 @@ router.post("/createExam", async (req, res) => {
     });
 
     await newExam.save();
-    res.status(201).json({ message: "Exam created successfully", exam: newExam });
+    res
+      .status(201)
+      .json({ message: "Exam created successfully", exam: newExam });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error creating exam" });
@@ -40,8 +41,6 @@ router.get("/get/:id", async (req, res) => {
   }
 });
 
-
-
 //publish a exam
 // PUT /exam/publish/:id
 router.put("/publish/:id", async (req, res) => {
@@ -57,7 +56,6 @@ router.put("/publish/:id", async (req, res) => {
   }
 });
 
-
 // to get published exam only
 router.get("/published", async (req, res) => {
   try {
@@ -67,9 +65,6 @@ router.get("/published", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch published exams" });
   }
 });
-
-
-
 
 // Fetch all exams for students (only published exams)
 //add ispublished options later
@@ -90,7 +85,9 @@ router.get("/:examId/questions", async (req, res) => {
   try {
     const exam = await Exam.findById(examId);
     if (!exam || !exam.isPublished) {
-      return res.status(404).json({ message: "Exam not found or not published" });
+      return res
+        .status(404)
+        .json({ message: "Exam not found or not published" });
     }
 
     // Shuffle questions before sending them
@@ -108,7 +105,11 @@ router.put("/update/:id", async (req, res) => {
   const { title, subject, duration, questions } = req.body;
 
   try {
-    const updatedExam = await Exam.findByIdAndUpdate(id, { title, subject, duration, questions }, { new: true });
+    const updatedExam = await Exam.findByIdAndUpdate(
+      id,
+      { title, subject, duration, questions },
+      { new: true }
+    );
 
     if (!updatedExam) {
       return res.status(404).json({ message: "Exam not found" });
@@ -120,6 +121,5 @@ router.put("/update/:id", async (req, res) => {
     res.status(500).json({ message: "Error updating exam" });
   }
 });
-
 
 export default router;

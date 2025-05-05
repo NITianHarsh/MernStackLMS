@@ -9,12 +9,14 @@ const router = express.Router();
 // Submit answers for an exam (students)
 router.post("/:examId/submit", async (req, res) => {
   const { examId } = req.params;
-  const { answers, timeTaken ,studentName} = req.body;
+  const { answers, timeTaken, studentName } = req.body;
 
   try {
     const exam = await Exam.findById(examId);
     if (!exam || !exam.isPublished) {
-      return res.status(404).json({ message: "Exam not found or not published" });
+      return res
+        .status(404)
+        .json({ message: "Exam not found or not published" });
     }
 
     // Calculate the score
@@ -23,7 +25,8 @@ router.post("/:examId/submit", async (req, res) => {
 
     const resultAnswers = answers.map((answer, index) => {
       const question = exam.questions[index];
-      const isCorrect = answer.selectedOptionIndex === question.correctAnswerIndex;
+      const isCorrect =
+        answer.selectedOptionIndex === question.correctAnswerIndex;
       if (isCorrect) score++;
       return {
         questionId: question._id, // ✅ required field
@@ -99,9 +102,6 @@ router.get("/:examId/results", async (req, res) => {
   }
 });
 
-
-
-
 // Leaderboard for an exam
 router.get("/:examId/leaderboard", async (req, res) => {
   const { examId } = req.params;
@@ -109,13 +109,12 @@ router.get("/:examId/leaderboard", async (req, res) => {
   try {
     const results = await Result.find({ examId })
       .sort({ score: -1, timeTaken: 1 }) // Sort by score descending, time taken ascending
-      .limit(10) // Get top 10 scores
-      const leaderboard = results.map(result => ({
-        studentName: result.studentName, // make sure this field exists in Result
-        score: result.score,
-        timeTaken: result.timeTaken,
-      }));
-  
+      .limit(10); // Get top 10 scores
+    const leaderboard = results.map((result) => ({
+      studentName: result.studentName, // make sure this field exists in Result
+      score: result.score,
+      timeTaken: result.timeTaken,
+    }));
 
     res.status(200).json(leaderboard);
   } catch (error) {

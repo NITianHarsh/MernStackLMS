@@ -9,21 +9,20 @@ function CourseLanding() {
     useContext(InstructorContext);
   return (
     <Card className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-md">
-  <CardHeader>
-    <CardTitle className="text-green-800 text-2xl dark:text-green-300">
-      Course Landing Page
-    </CardTitle>
-  </CardHeader>
+      <CardHeader>
+        <CardTitle className="text-green-800 text-2xl dark:text-green-300">
+          Course Landing Page
+        </CardTitle>
+      </CardHeader>
 
-  <CardContent>
-    <FormControls
-      formControls={courseLandingPageFormControls}
-      formData={courseLandingFormData}
-      setFormData={setCourseLandingFormData}
-    />
-  </CardContent>
-</Card>
-
+      <CardContent>
+        <FormControls
+          formControls={courseLandingPageFormControls}
+          formData={courseLandingFormData}
+          setFormData={setCourseLandingFormData}
+        />
+      </CardContent>
+    </Card>
   );
 }
 
