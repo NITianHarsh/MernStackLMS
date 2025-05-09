@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { GraduationCap, TvMinimalPlay, Menu, X, BellDotIcon, BellDot, LucideBellDot } from "lucide-react";
+import { GraduationCap, TvMinimalPlay, Menu, X, LucideBellDot } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { AuthContext } from "@/context/auth-context";
