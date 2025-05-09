@@ -18,7 +18,7 @@ function StudentViewCommonHeader() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-   const { resetCredentials } = useContext(AuthContext);
+  const { resetCredentials } = useContext(AuthContext);
   function handleLogout() {
     resetCredentials();
     sessionStorage.clear();
@@ -61,18 +61,20 @@ function StudentViewCommonHeader() {
 
           <Button
             onClick={() => navigate('/student/student-courses')}
+            className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded transition"
           >
-            <div className="flex items-center gap-2 cursor-pointer bg-black hover:text-teal-300 transition">
+            <div className="flex items-center gap-2 cursor-pointer hover:text-teal-300 transition">
               <span className="text-sm font-medium">My Courses</span>
               <TvMinimalPlay className="w-6 h-6 text-white" />
             </div>
           </Button>
+
           <Button
             variant="ghost"
             className="text-sm font-medium text-white hover:text-teal-300 hover:bg-teal-600 transition px-4 py-2 rounded-md"
             onClick={() => navigate("/student/notifications")}
           >
-           <LucideBellDot/>
+            <LucideBellDot />
           </Button>
 
           <Button
