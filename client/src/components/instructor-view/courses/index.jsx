@@ -1,16 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   courseCurriculumInitialFormData,
   courseLandingInitialFormData,
 } from "@/config";
-import { InstructorContext } from "@/context/instructor-context";
-import { Delete, Edit } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Switch } from "@/components/ui/switch";
 import { toast } from "react-toastify";
+import { Delete, Edit } from "lucide-react";
 import axiosInstance from "@/axiosInstance";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { useContext, useEffect, useState } from "react";
+import { InstructorContext } from "@/context/instructor-context";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 function InstructorCourses({ listOfCourses }) {
   const navigate = useNavigate();

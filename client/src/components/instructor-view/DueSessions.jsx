@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { AuthContext } from "@/context/auth-context";
+import axiosInstance from "@/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "@/context/auth-context";
+import React, { useContext, useEffect, useState } from "react";
+
 const DueSessions = () => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,8 +15,8 @@ const DueSessions = () => {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5000/doubt/my-sessions/${instructorId}`
+        const res = await axiosInstance.get(
+          `/doubt/my-sessions/${instructorId}`
         );
         setSessions(res.data.sessions);
       } catch (err) {

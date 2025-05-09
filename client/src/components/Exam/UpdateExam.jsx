@@ -1,8 +1,8 @@
 // src/pages/UpdateExam.js
+import { toast } from "react-toastify";
+import axiosInstance from "@/axiosInstance";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axiosInstance from "@/axiosInstance";
-import { toast } from "react-toastify";
 
 const UpdateExam = () => {
   const { id } = useParams();
@@ -94,7 +94,7 @@ const UpdateExam = () => {
         q.options.some((opt) => opt.trim() === "")
       ) {
         toast.error(
-          "❌ Please fill all question fields and options correctly."
+          "Please fill all question fields and options correctly."
         );
         setIsSubmitting(false);
         return;
@@ -103,11 +103,11 @@ const UpdateExam = () => {
 
     try {
       await axiosInstance.put(`/exam/update/${id}`, exam);
-      toast.success("✅ Exam updated successfully!");
+      toast.success("Exam updated successfully!");
       navigate(-1);
     } catch (error) {
       console.error("Error updating exam:", error);
-      toast.error("❌ Failed to update exam.");
+      toast.error("Failed to update exam.");
     } finally {
       setIsSubmitting(false);
     }

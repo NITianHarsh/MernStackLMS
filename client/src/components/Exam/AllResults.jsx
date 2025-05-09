@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "@/axiosInstance";
+import React, { useState, useEffect } from "react";
 
 const AllResults = () => {
   const { examId } = useParams();
@@ -9,7 +9,9 @@ const AllResults = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/result/${examId}/results`);
+        const response = await axiosInstance.get(
+          `/result/${examId}/results`
+        );
         setResults(response.data);
       } catch (error) {
         console.error("Error fetching results", error);
@@ -41,18 +43,25 @@ const AllResults = () => {
             Result {index + 1}
           </h3>
           <p className="text-gray-700 dark:text-gray-300 mb-4">
-            Score: <span className="font-medium">{result.score}</span> / {result.totalQuestions}
+            Score: <span className="font-medium">{result.score}</span> /{" "}
+            {result.totalQuestions}
           </p>
           <div className="space-y-4">
             {result.answers.map((answer, idx) => (
               <div
                 key={idx}
                 className={`p-4 rounded-md ${
-                  answer.isCorrect ? "bg-green-100 dark:bg-green-800" : "bg-red-100 dark:bg-red-800"
+                  answer.isCorrect
+                    ? "bg-green-100 dark:bg-green-800"
+                    : "bg-red-100 dark:bg-red-800"
                 }`}
               >
-                <p className="font-medium text-gray-900 dark:text-white">Q: {answer.questionTitle}</p>
-                <p className="text-sm text-gray-800 dark:text-gray-300">Your Answer: {answer.selectedOption}</p>
+                <p className="font-medium text-gray-900 dark:text-white">
+                  Q: {answer.questionTitle}
+                </p>
+                <p className="text-sm text-gray-800 dark:text-gray-300">
+                  Your Answer: {answer.selectedOption}
+                </p>
                 <p className="text-sm font-semibold text-green-700 dark:text-green-300">
                   {answer.isCorrect ? "✔ Correct" : "✖ Incorrect"}
                 </p>
@@ -61,7 +70,6 @@ const AllResults = () => {
           </div>
         </div>
       ))}
-
     </div>
   );
 };

@@ -11,7 +11,7 @@ const registerUser = async (req, res) => {
   if (existingUser) {
     return res.status(400).json({
       success: false,
-      message: "UserName or UserEmail already exists",
+      message: "UserEmail already exists",
     });
   }
 
@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
     userEmail,
     role,
     password: hashPassword,
-    userImage
+    userImage: undefined,
   });
 
   await newUser.save();

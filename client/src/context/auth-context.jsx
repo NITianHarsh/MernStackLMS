@@ -1,28 +1,25 @@
+import { toast } from "react-toastify";
 import axiosInstance from "@/axiosInstance";
 import { Skeleton } from "@/components/ui/skeleton";
-import { initialSignInFormData, initialSignUpFormData } from "@/config";
 import { createContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { initialSignInFormData, initialSignUpFormData } from "@/config";
 
 export const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {
+  const [loading, setLoading] = useState(true);
   const [signInFormData, setSignInFormData] = useState(initialSignInFormData);
   const [signUpFormData, setSignUpFormData] = useState(initialSignUpFormData);
-  const [loading, setLoading] = useState(true);
   const [auth, setAuth] = useState({
     isAuthenticated: false,
     user: null,
   });
   async function handleRegisterUser(e) {
     e.preventDefault();
-    try {
+    try {    
       const { data } = await axiosInstance.post("/auth/register", {
         ...signUpFormData,
       });
-
-      console.log("data is ---> ", data);
-
       if (!data.success) {
         toast.error("User Registration failed!");
         console.log("error data is ", data);
@@ -42,7 +39,6 @@ export default function AuthProvider({ children }) {
     e.preventDefault();
     try {
       const { data } = await axiosInstance.post("/auth/login", signInFormData);
-console.log(data,"ransssssssssssssss")
       if (data?.success) {
         setAuth({ isAuthenticated: true, user: data.data.user });
 
@@ -111,12 +107,15 @@ console.log(data,"ransssssssssssssss")
       value={{
         auth,
         setAuth,
+
         signInFormData,
-        signUpFormData,
         setSignInFormData,
+
+        signUpFormData,
         setSignUpFormData,
-        handleRegisterUser,
+
         handleLoginUser,
+        handleRegisterUser,
         resetCredentials,
       }}
     >
