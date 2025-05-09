@@ -43,7 +43,7 @@ function StudentViewCourseDetailsPage() {
         }
         const checkCoursePurchaseInfoResponse = checkCoursePurchaseInfo(currentCourseDetailsId, auth?.user?._id)
         if (checkCoursePurchaseInfoResponse?.success && checkCoursePurchaseInfoResponse?.data) {
-            navigate(`student/course-progress/${currentCourseDetailsId}`)
+            navigate(`/student/course-progress/${currentCourseDetailsId}`)
             return
         }
 
