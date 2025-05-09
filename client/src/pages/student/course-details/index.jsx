@@ -37,13 +37,13 @@ function StudentViewCourseDetailsPage() {
     async function fetchStudentViewCoursesDetails() {
 
         async function checkCoursePurchaseInfo(courseId, studentId) {
-            const { data } = await axiosInstance.get(`/student/course//purchase-info/${courseId}/${studentId}`);
+            const { data } = await axiosInstance.get(`/student/course/purchase-info/${courseId}/${studentId}`);
             console.log(data, 'raaandhjdbsjjbchinaar')
             return data;
         }
         const checkCoursePurchaseInfoResponse = checkCoursePurchaseInfo(currentCourseDetailsId, auth?.user?._id)
         if (checkCoursePurchaseInfoResponse?.success && checkCoursePurchaseInfoResponse?.data) {
-            navigate(`/course-progress/${currentCourseDetailsId}`)
+            navigate(`/student/course-progress/${currentCourseDetailsId}`)
             return
         }
 

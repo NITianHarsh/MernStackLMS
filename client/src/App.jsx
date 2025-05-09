@@ -161,12 +161,6 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
       <PomodoroFloatingWidget />
-      {/* <Toaster
-        duration={3000}
-        richColors
-        position="top-right"
-        closeButton={true}
-      /> */}
     </>
   );
 }
