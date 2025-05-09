@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "@/context/auth-context";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 // Utility to extract meeting ID and password from Zoom Join URL
 const extractZoomDetails = (url) => {

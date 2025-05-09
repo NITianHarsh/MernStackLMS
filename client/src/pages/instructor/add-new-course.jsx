@@ -14,6 +14,8 @@ import {
 } from "@/config";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "@/axiosInstance";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 function AddNewCourse() {
   const [darkMode, setDarkMode] = useState(false);
@@ -24,6 +26,7 @@ function AddNewCourse() {
       setDarkMode(true);
     }
   }, []);
+
   function toggleDarkMode() {
     const isDark = document.documentElement.classList.toggle("dark");
     setDarkMode(isDark);
@@ -43,71 +46,90 @@ function AddNewCourse() {
   const navigate = useNavigate();
   const params = useParams();
 
-  const isEmpty = (value) => {
-    if (Array.isArray(value)) {
-      return value.length === 0;
-    }
-    return value === null || value === undefined || value === "";
-  };
+  const [examData, setExamData] = useState({ title: "", duration: "", passingScore: "", questions: [] });
+  const [newQuestion, setNewQuestion] = useState({ questionText: "", options: ["", "", "", ""], correctAnswerIndex: 0 });
+
+  const isEmpty = (value) => Array.isArray(value) ? value.length === 0 : value === null || value === undefined || value === "";
+
   const validateFormData = () => {
-    //make submit button clickable only when all the data is filled
     for (const key in courseLandingFormData) {
-      if (isEmpty(courseLandingFormData[key])) {
-        return false;
-      }
+      if (isEmpty(courseLandingFormData[key])) return false;
     }
-    //check at least 1 video is free preview enabled
     let hasFreePreview = false;
     for (const item of courseCurriculumFormData) {
-      if (
-        isEmpty(item.title) ||
-        isEmpty(item.videoUrl) ||
-        isEmpty(item.public_id)
-      ) {
-        return false;
-      }
-      if (item.freePreview) {
-        hasFreePreview = true;
-      }
+      if (isEmpty(item.title) || isEmpty(item.videoUrl) || isEmpty(item.public_id)) return false;
+      if (item.freePreview) hasFreePreview = true;
     }
+
+    if (
+      isEmpty(examData.title) ||
+      isEmpty(examData.duration) ||
+      isEmpty(examData.passingScore) ||
+      !Array.isArray(examData.questions) ||
+      examData.questions.length === 0
+    ) return false;
+
     return hasFreePreview;
   };
 
   async function addNewCourse(formData) {
-    const { data } = await axiosInstance.post(
-      `/instructor/course/add`,
-      formData
-    );
+    const { data } = await axiosInstance.post(`/instructor/course/add`, formData);
     return data;
   }
+
   async function updateCourseById(courseId, formData) {
-    const { data } = await axiosInstance.put(
-      `/instructor/course/update/${courseId}`,
-      formData
-    );
+    const { data } = await axiosInstance.put(`/instructor/course/update/${courseId}`, formData);
     return data;
   }
   const handleCreateCourse = async () => {
     const courseFinalFormData = {
-      instructorId: auth?.user?._id, //bring from auth context
+      instructorId: auth?.user?._id,
       instructorName: auth?.user?.userName,
       date: new Date(),
       ...courseLandingFormData,
-      students: [], //while new course students in that course is no one
+      pricing: parseFloat(courseLandingFormData.pricing),
+      students: [],
       curriculum: courseCurriculumFormData,
       isPublished: true,
+      exam: {
+        title: examData.title.trim(),
+        duration: parseInt(examData.duration),
+        passingScore: parseInt(examData.passingScore),
+        questions: examData.questions,
+      },
     };
-    const response =
-      currentEditedCourseId !== null
-        ? await updateCourseById(currentEditedCourseId, courseFinalFormData)
-        : await addNewCourse(courseFinalFormData);
-    if (response?.success) {
-      setCourseCurriculumFormData(courseCurriculumInitialFormData);
-      setCourseLandingFormData(courseLandingInitialFormData);
-      navigate(-1); //go back to previous page
-      setCurrentEditedCourseId(null); // Reset the form data to initial state to create a new course
+  
+    try {
+      let response;
+  
+      if (currentEditedCourseId !== null) {
+        // ✅ Fetch the course and validate ownership
+        const { data } = await axiosInstance.get(`/instructor/course/get/${currentEditedCourseId}`);
+        const course = data?.data;
+  
+        if (course?.instructorId !== auth?.user?._id) {
+          alert("You are not authorized to edit this course.");
+          return;
+        }
+  
+        response = await updateCourseById(currentEditedCourseId, courseFinalFormData);
+      } else {
+        response = await addNewCourse(courseFinalFormData);
+      }
+  
+      if (response?.success) {
+        setCourseCurriculumFormData(courseCurriculumInitialFormData);
+        setCourseLandingFormData(courseLandingInitialFormData);
+        setExamData({ title: "", duration: "", passingScore: "", questions: [] });
+        navigate(-1);
+        setCurrentEditedCourseId(null);
+      }
+    } catch (error) {
+      console.error("Error creating/updating course:", error);
+      alert("Something went wrong while submitting the course.");
     }
   };
+  
 
   const fetchCurrentCourseDetails = async () => {
     if (!currentEditedCourseId) return;
@@ -115,27 +137,52 @@ function AddNewCourse() {
       `/instructor/course/get/${currentEditedCourseId}`
     );
     if (response?.data?.success) {
-      //fill all the details in the form so that instructor can edit
-      //mapping the data to the form
-      const setCourseFormData = Object.keys(courseLandingFormData).reduce(
-        (acc, key) => {
-          acc[key] = response?.data?.data[key] || courseLandingFormData[key];
-          return acc;
-        },
-        {}
-      );
+      const setCourseFormData = Object.keys(courseLandingFormData).reduce((acc, key) => {
+        acc[key] = response?.data?.data[key] || courseLandingFormData[key];
+        return acc;
+      }, {});
       setCourseLandingFormData(setCourseFormData);
-      setCourseCurriculumFormData(
-        response?.data?.data?.curriculum || courseCurriculumInitialFormData
-      );
+      setCourseCurriculumFormData(response?.data?.data?.curriculum || courseCurriculumInitialFormData);
+      setExamData(response?.data?.data?.exam || { title: "", duration: "", passingScore: "", questions: [] });
     }
   };
-  useEffect(() => {
-    if (currentEditedCourseId !== null) fetchCurrentCourseDetails();
-  }, [currentEditedCourseId]);
-  useEffect(() => {
-    if (params?.courseId) setCurrentEditedCourseId(params?.courseId);
-  }, [params?.courseId]);
+
+  useEffect(() => { if (currentEditedCourseId !== null) fetchCurrentCourseDetails(); }, [currentEditedCourseId]);
+  useEffect(() => { if (params?.courseId) setCurrentEditedCourseId(params?.courseId); }, [params?.courseId]);
+
+  const handleQuestionChange = (index, value) => {
+    const updatedOptions = [...newQuestion.options];
+    updatedOptions[index] = value;
+    setNewQuestion((prev) => ({ ...prev, options: updatedOptions }));
+  };
+
+  const addQuestion = () => {
+    const { questionText, options, correctAnswerIndex } = newQuestion;
+
+    if (
+      questionText.trim() === "" ||
+      options.length !== 4 ||
+      options.some((opt) => opt.trim() === "") ||
+      correctAnswerIndex < 0 ||
+      correctAnswerIndex > 3
+    ) {
+      alert("Please fill all question fields correctly");
+      return;
+    }
+
+    const cleanedQuestion = {
+      questionText: questionText.trim(),
+      options: options.map((opt) => opt.trim()),
+      correctAnswerIndex: parseInt(correctAnswerIndex),
+    };
+
+    setExamData((prev) => ({
+      ...prev,
+      questions: [...prev.questions, cleanedQuestion],
+    }));
+
+    setNewQuestion({ questionText: "", options: ["", "", "", ""], correctAnswerIndex: 0 });
+  };
 
   return (
     <div className="w-full p-8 px-20 bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none min-h-screen text-black dark:text-white transition-all duration-300 ease-in-out">
@@ -144,15 +191,8 @@ function AddNewCourse() {
           Create a new course
         </h1>
         <div className="flex gap-3">
-          <button
-            onClick={toggleDarkMode}
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-          >
-            {darkMode ? (
-              <Sun className="h-5 w-5" />
-            ) : (
-              <Moon className="h-5 w-5" />
-            )}
+          <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+            {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
           <Button
             disabled={!validateFormData()}
@@ -169,39 +209,41 @@ function AddNewCourse() {
           <div className="p-4">
             <Tabs defaultValue="curriculum" className="space-y-4">
               <TabsList className="bg-green-200 dark:bg-gray-700">
-                <TabsTrigger
-                  value="curriculum"
-                  className="data-[state=active]:bg-green-600 data-[state=active]:text-white dark:data-[state=active]:bg-green-500 dark:data-[state=active]:text-white"
-                >
-                  Curriculum
-                </TabsTrigger>
-                <TabsTrigger
-                  value="course-landing-page"
-                  className="data-[state=active]:bg-green-600 data-[state=active]:text-white dark:data-[state=active]:bg-green-500 dark:data-[state=active]:text-white"
-                >
-                  Course Landing Page
-                </TabsTrigger>
-                <TabsTrigger
-                  value="settings"
-                  className="data-[state=active]:bg-green-600 data-[state=active]:text-white dark:data-[state=active]:bg-green-500 dark:data-[state=active]:text-white"
-                >
-                  Settings
-                </TabsTrigger>
+                <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
+                <TabsTrigger value="course-landing-page">Course Landing Page</TabsTrigger>
+                <TabsTrigger value="settings">Thumbnail</TabsTrigger>
+                <TabsTrigger value="exam">Entrance Test</TabsTrigger>
               </TabsList>
               <button
                 className="text-4xl font-extrabold absolute top-[27px] left-4 cursor-pointer text-green-800 dark:text-green-300 hover:scale-130 transition-all duration-300 ease-in-out"
                 onClick={() => navigate(-1)}
               >
                 &#60;
-              </button>
-              <TabsContent value="curriculum">
-                <CourseCurriculum />
-              </TabsContent>
-              <TabsContent value="course-landing-page">
-                <CourseLanding />
-              </TabsContent>
-              <TabsContent value="settings">
-                <CourseSettings />
+              </button>              <TabsContent value="curriculum"><CourseCurriculum /></TabsContent>
+              <TabsContent value="course-landing-page"><CourseLanding /></TabsContent>
+              <TabsContent value="settings"><CourseSettings /></TabsContent>
+              <TabsContent value="exam">
+                <div className="space-y-4">
+                  <Input placeholder="Exam Title" value={examData.title} onChange={(e) => setExamData((prev) => ({ ...prev, title: e.target.value }))} />
+                  <Input type="number" placeholder="Duration (min)" value={examData.duration} onChange={(e) => setExamData((prev) => ({ ...prev, duration: parseInt(e.target.value) }))} />
+                  <Input type="number" placeholder="Passing Score" value={examData.passingScore} onChange={(e) => setExamData((prev) => ({ ...prev, passingScore: parseInt(e.target.value) }))} />
+
+                  <Textarea placeholder="Question Text" value={newQuestion.questionText} onChange={(e) => setNewQuestion((prev) => ({ ...prev, questionText: e.target.value }))} />
+                  {newQuestion.options.map((opt, i) => (
+                    <Input key={i} placeholder={`Option ${i + 1}`} value={opt} onChange={(e) => handleQuestionChange(i, e.target.value)} />
+                  ))}
+                  <div>
+                    <label>Correct Answer Index</label>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={3}
+                      value={newQuestion.correctAnswerIndex}
+                      onChange={(e) => setNewQuestion((prev) => ({ ...prev, correctAnswerIndex: parseInt(e.target.value) }))}
+                    />
+                  </div>
+                  <Button onClick={addQuestion}>Add Question</Button>
+                </div>
               </TabsContent>
             </Tabs>
           </div>

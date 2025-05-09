@@ -1,5 +1,19 @@
 import mongoose from "mongoose";
 
+const questionSchema = new mongoose.Schema({
+  questionText: { type: String, required: true },
+  options: [{ type: String, required: true }],
+  correctAnswerIndex: { type: Number, required: true },
+});
+
+const examSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  duration: { type: Number, required: true }, // in minutes
+  passingScore: { type: Number, required: true },
+  questions: [questionSchema],
+  isPublished: { type: Boolean, default: false },
+});
+
 const LectureSchema = new mongoose.Schema({
   title: String,
   videoUrl: String,
@@ -21,21 +35,14 @@ const CourseSchema = new mongoose.Schema({
   welcomeMessage: String,
   pricing: Number,
   objectives: String,
-  students: [
-    {
-      studentId: String,
-      studentName: String,
-      studentEmail: String,
-      rating: {
-        type: Number,
-        min: 1,
-        max: 5,
-        default: null,
-      },
-    },
-  ],
+  students: [{
+    studentId: String,
+    studentName: String,
+    studentEmail: String,
+  }],
   curriculum: [LectureSchema],
-  isPublished: Boolean,
+  exam: examSchema, // Add exam field
+  isPublished: Boolean
 });
 
 export default mongoose.model("Course", CourseSchema);

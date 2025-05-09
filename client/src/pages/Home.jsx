@@ -79,7 +79,7 @@ export default function HomePage() {
           transition={{ delay: 0.2, duration: 0.6 }}
         >
           <img
-            src="\lms_bg1.webp"
+            src="\lms_bg1-removebg-preview.png"
             alt="Learning Illustration"
             className="w-full max-w-md mx-auto"
           />

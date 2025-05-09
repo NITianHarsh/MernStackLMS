@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const PreventCheating = () => {
   useEffect(() => {
@@ -43,7 +44,7 @@ const PreventCheating = () => {
     // 5. Prevent Tab Switching (Alert and submit exam)
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        alert("Tab switching is not allowed during the exam!");
+        toast.error("Tab switching is not allowed during the exam!");
         // Trigger automatic exam submission (can be added here)
         // handleSubmit();
       }

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "@/context/auth-context";
 import { Button } from "../ui/button";
+import { toast } from "react-toastify";
 
 const InstructorNotification = () => {
   const [form, setForm] = useState({
@@ -75,7 +76,7 @@ const InstructorNotification = () => {
 
   const handleCreateSession = async (meetingData) => {
     if (!selectedDoubtIds.length) {
-      alert("Please select at least one doubt.");
+      toast.error("Please select at least one doubt.");
       return;
     }
 
@@ -106,12 +107,12 @@ const InstructorNotification = () => {
     };
     try {
       await axios.post("http://localhost:5000/doubt/schedule", payload);
-      alert("Session scheduled & notifications sent to students");
+      toast.success("Session scheduled & notifications sent to students");
       setSelectedDoubtIds([]);
       setForm({ date: "", time: "", note: "" });
     } catch (err) {
       console.error("Error scheduling session:", err);
-      alert("Failed to schedule session");
+      toast.error("Failed to schedule session");
     }
   };
 
@@ -124,35 +125,37 @@ const InstructorNotification = () => {
   return (
     <div className="flex flex-col lg:flex-row gap-10 items-start">
       {/* Doubt Selection */}
-      <div className="w-full lg:w-1/2 max-h-[500px] overflow-y-auto border border-emerald-200 bg-emerald-50 rounded-2xl p-5 shadow-lg">
-        <h2 className="text-lg font-semibold text-emerald-700 mb-4">
+      <div className="w-full lg:w-1/2 max-h-[500px] overflow-y-auto border border-emerald-300 bg-emerald-50 dark:bg-gray-900 dark:border-gray-700 rounded-2xl p-5 shadow-lg">
+        <h2 className="text-lg font-semibold text-emerald-700 dark:text-emerald-400 mb-4">
           📌 Select Doubts to Group
         </h2>
         {doubts.map((doubt) => (
           <label
             key={doubt._id}
-            className="flex items-start gap-3 py-2 px-3 rounded-xl bg-white hover:bg-emerald-100 cursor-pointer border border-emerald-100 transition"
+            className="flex items-start gap-3 py-2 px-3 rounded-xl bg-white dark:bg-gray-800 hover:bg-emerald-100 dark:hover:bg-gray-700 cursor-pointer border border-emerald-100 dark:border-gray-600 transition"
           >
             <input
               type="checkbox"
               checked={selectedDoubtIds.includes(doubt._id)}
               onChange={() => handleCheck(doubt._id)}
-              className="accent-rose-500 mt-1"
+              className="accent-emerald-600 mt-1"
             />
             <div>
-              <div className="font-medium text-gray-800">
+              <div className="font-medium text-gray-800 dark:text-white">
                 {doubt.student?.userName}
               </div>
-              <div className="text-sm text-gray-600">{doubt.message}</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                {doubt.message}
+              </div>
             </div>
           </label>
         ))}
       </div>
 
       {/* Schedule Form */}
-      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md border  border-emerald-200 bg-emerald-50 rounded-2xl p-5 shadow-lg">
+      <div className="bg-emerald-50 dark:bg-gray-900 shadow-xl rounded-2xl p-8 w-full max-w-md border border-emerald-300 dark:border-gray-700">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-xl font-semibold text-gray-800">
+          <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
             Create Zoom Meeting
           </h1>
           <Button
@@ -170,7 +173,7 @@ const InstructorNotification = () => {
             min={todayDate}
             onChange={handleDateChange}
             required
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
 
           <input
@@ -180,9 +183,11 @@ const InstructorNotification = () => {
             required
             disabled={!form.date}
             className={`w-full border ${
-              isPastTime() ? "border-red-400" : "border-gray-300"
-            } rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 ${
-              isPastTime() ? "focus:ring-red-400" : "focus:ring-blue-500"
+              isPastTime()
+                ? "border-red-400"
+                : "border-gray-300 dark:border-gray-600"
+            } bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 ${
+              isPastTime() ? "focus:ring-red-400" : "focus:ring-emerald-500"
             }`}
           />
           {isPastTime() && (
@@ -195,7 +200,7 @@ const InstructorNotification = () => {
             value={form.note}
             onChange={(e) => setForm({ ...form, note: e.target.value })}
             required
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
 
           <button
@@ -203,8 +208,8 @@ const InstructorNotification = () => {
             disabled={loading || isPastTime()}
             className={`w-full ${
               loading || isPastTime()
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-600 hover:bg-green-700"
+                ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
+                : "bg-emerald-600 hover:bg-emerald-700"
             } text-white rounded-lg py-2 font-medium transition`}
           >
             {loading ? "Creating..." : "Generate Zoom Meeting"}

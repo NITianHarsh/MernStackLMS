@@ -15,14 +15,21 @@ import ExamList from "./components/Exam/ExamList.jsx";
 import PublishedExam from "./components/Exam/PublishedExam.jsx";
 import AllResults from "./components/Exam/AllResults.jsx";
 import UpdateExam from "./components/Exam/UpdateExam.jsx";
-import { Toaster } from "sonner";
 import HomePage from "./pages/Home.jsx";
 import ForgotPassword from "./pages/forgotPassword.jsx";
 import NotFound from "./pages/not-found.jsx";
-import StudentViewCoursePage from "./pages/student/home/courses/index.jsx";
-import StudentViewCourseDetailsPage from "./pages/student/home/course-details/index.jsx";
+import StudentViewCoursePage from "./pages/student/courses/index.jsx";
+import StudentViewCourseDetailsPage from "./pages/student/course-details/index.jsx";
 import StudentNotifications from "./components/student-view/StudentNotifications.jsx";
 import DueSessions from "./components/instructor-view/DueSessions.jsx";
+import StudentCoursesPage from "./pages/student/student-courses/index.jsx";
+import StudentViewCourseProgressPage from "./pages/student/course-progress/index.jsx";
+import PaymentDone from "./components/Payment/PaymentDone.jsx";
+import StudentExamPage from "./pages/student/exam.jsx";
+import StartExam from "./pages/student/StartExam.jsx";
+import PomodoroFloatingWidget from "./components/Pomodoro/Pomodoro.jsx";
+import StudentViewCoursesPage from "./pages/student/courses/index.jsx";
+import AskDoubt from "./pages/student/AskDoubt.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -128,7 +135,11 @@ function App() {
         >
           <Route path="" element={<StudentHomePage />} />
           <Route path="home" element={<StudentHomePage />} />
-          <Route path="courses" element={<div>Courses</div>} />
+          <Route path="courses" element={<StudentViewCoursesPage />} />
+          <Route
+            path="course/details/:id"
+            element={<StudentViewCourseDetailsPage />}
+          />
           <Route path="profile" element={<div>Profile</div>} />
           <Route path="settings" element={<div>Settings</div>} />
           <Route path="PublishedExamList" element={<PublishedExam />} />
@@ -136,14 +147,20 @@ function App() {
           <Route path="results/:examId" element={<Results />} />
           <Route path="exam/:examId/leaderboard" element={<Leaderboard />} />
           <Route path="exam/:examId/all-results" element={<AllResults />} />
-          <Route path="notifications" element={<StudentNotifications/>} />
+          <Route path="notifications" element={<StudentNotifications />} />
+          <Route path="student-courses" element={<StudentCoursesPage />} />
+          <Route path="course-progress/:id" element={<StudentViewCourseProgressPage />} />
+          <Route path="paymentsuccess" element={<PaymentDone />} />
+          <Route path="student-courses/exam" element={<StudentExamPage />} />
+          <Route path="student-courses/start-exam/:courseId" element={<StartExam />} />
+          <Route path="doubt"  element={<AskDoubt/>}/>
         </Route>
 
         {/* Catch-all route */}
         <Route path="*" element={<NotFound />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
-      <Toaster richColors position="top-right" />
+      <PomodoroFloatingWidget />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import course from "../../models/course.js";
+import StudentCourses from "../../models/StudentCourses.js";
 
 
 const getAllStudentViewCourses = async (req, res) => {
@@ -58,7 +59,7 @@ const getAllStudentViewCourses = async (req, res) => {
 
 const getStudentViewCourseDetails = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id} = req.params;
         const courseDetails = await course.findById(id);
 
         if (!courseDetails) {
@@ -72,6 +73,7 @@ const getStudentViewCourseDetails = async (req, res) => {
         res.status(200).json({
             success: true,
             data: courseDetails,
+            // coursePurchasedId:ifStudentAlreadyBoughtCurrentCourse?id:null,
         });
 
 
@@ -85,5 +87,33 @@ const getStudentViewCourseDetails = async (req, res) => {
     }
 
 }
+const checkCoursePurchaseInfo = async (req, res) => {
+    try {
+        const { id, studentId } = req.params;
 
-export { getAllStudentViewCourses, getStudentViewCourseDetails };
+        const studentCourses = await StudentCourses.findOne({ userId: studentId });
+
+        let ifStudentAlreadyBoughtCurrentCourse = false;
+
+        if (studentCourses && studentCourses.courses.length) {
+            ifStudentAlreadyBoughtCurrentCourse =
+                studentCourses.courses.findIndex(
+                    (item) => item.courseId.toString() === id.toString()
+                ) > -1;
+        }
+
+        res.status(200).json({
+            success: true,
+            data: ifStudentAlreadyBoughtCurrentCourse,
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message: "Some error occurred!",
+        });
+    }
+};
+  
+
+export { getAllStudentViewCourses, getStudentViewCourseDetails,checkCoursePurchaseInfo };

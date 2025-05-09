@@ -2,7 +2,7 @@ import axiosInstance from "@/axiosInstance";
 import { Skeleton } from "@/components/ui/skeleton";
 import { initialSignInFormData, initialSignUpFormData } from "@/config";
 import { createContext, useEffect, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext(null);
 
@@ -33,7 +33,7 @@ export default function AuthProvider({ children }) {
       setSignUpFormData(initialSignUpFormData);
     } catch (error) {
       console.error("Registration error:", error);
-      alert("An error occurred during registration. Please try again.");
+      toast.error("An error occurred during registration. Please try again.");
       setSignUpFormData(initialSignUpFormData);
     }
   }
@@ -42,8 +42,7 @@ export default function AuthProvider({ children }) {
     e.preventDefault();
     try {
       const { data } = await axiosInstance.post("/auth/login", signInFormData);
-      console.log("Login data is ---> ", data);
-
+console.log(data,"ransssssssssssssss")
       if (data?.success) {
         setAuth({ isAuthenticated: true, user: data.data.user });
 
@@ -53,17 +52,17 @@ export default function AuthProvider({ children }) {
         );
 
         // Optional: Show toast or alert
-        alert("User logged in successfully!");
+        toast.success("User logged in successfully!");
       } else {
         setAuth({ isAuthenticated: false, user: null });
-        alert("User login failed!");
+        toast.error("User login failed!");
         console.log("Login failure data:", data);
       }
       setSignInFormData(initialSignInFormData);
     } catch (error) {
       console.error("Login error:", error);
       setAuth({ isAuthenticated: false, user: null });
-      alert("An error occurred during login. Please try again.");
+      toast.error("An error occurred during login. Please try again.");
       setSignInFormData(initialSignInFormData);
     }
   }
@@ -111,6 +110,7 @@ export default function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         auth,
+        setAuth,
         signInFormData,
         signUpFormData,
         setSignInFormData,
