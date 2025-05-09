@@ -110,7 +110,7 @@ const StartExam = () => {
                         </div>
 
                         <button
-                            onClick={() => navigate(`/course/details/${courseId}`)}
+                            onClick={() => navigate(`/student/course/details/${courseId}`)}
                             className="mt-4 bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-md transition-all duration-300 transform hover:scale-105"
                         >
                             Avail the Offer
@@ -129,7 +129,7 @@ const StartExam = () => {
                         <p className="text-gray-500 dark:text-gray-400 mb-6">No discount applied. Try again later.</p>
 
                         <button
-                            onClick={() => navigate(`/course/details/${courseId}`)}
+                            onClick={() => navigate(`/student/course/details/${courseId}`)}
                             className="mt-4 bg-gradient-to-r from-gray-600 to-blue-600 hover:from-gray-700 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-md transition-all duration-300"
                         >
                             Go to Courses

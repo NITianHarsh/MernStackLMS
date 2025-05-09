@@ -61,8 +61,9 @@ function StudentViewCoursesPage() {
 
   useEffect(() => {
     const buildQueryStringForFilters = createSearchParamsHelper(filters);
-    setSearchParams(new URLSearchParams(buildQueryStringForFilters));
+    setSearchParams(new URLSearchParams(buildQueryStringForFilters), { replace: true });
   }, [filters]);
+  
 
   useEffect(() => {
     setSort("price-lowtohigh");
@@ -129,9 +130,9 @@ function StudentViewCoursesPage() {
     console.log(response, 'jhsjhd')
     if (response?.success) {
       if (response?.data) {
-        navigate(`/course-progress/${getCurrentCourseId}`);
+        navigate(`/student/course-progress/${getCurrentCourseId}`);
       } else {
-        navigate(`/course/details/${getCurrentCourseId}`);
+        navigate(`/student/course/details/${getCurrentCourseId}`);
       }
     }
 

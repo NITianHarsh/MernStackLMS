@@ -24,7 +24,7 @@ const PublishedExam = () => {
   }, []);
 
   const handleStartExam = (examId) => {
-    navigate(`/exam/${examId}/start`);
+    navigate(`/student/exam/${examId}/start`);
   };
 
   if (loading) {

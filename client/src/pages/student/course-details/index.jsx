@@ -71,7 +71,7 @@ function StudentViewCourseDetailsPage() {
     }, [id]);
 
     useEffect(() => {
-        if (!location.pathname.includes('/course/details')) (
+        if (!location.pathname.includes('/student/course/details')) (
             setStudentViewCourseDetails(null),
             setCurrentCourseDetailsId(null)
 
@@ -155,7 +155,7 @@ function StudentViewCourseDetailsPage() {
             setDiscoutedPrice("");
         } catch (err) {
             console.error("Checkout error:", err);
-            alert("Something went wrong during checkout.");
+            toast.success("Razorpay is opening")
         }
     };
 
@@ -206,25 +206,8 @@ function StudentViewCourseDetailsPage() {
                         </ul>
                     </CardContent>
                 </Card>
-                <Card className="mb-8">
-                    <CardHeader>
-                        <CardTitle>💡 Know More, Pay Less!</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="mb-4">
-                            Your knowledge is worth more than you think — prove it and unlock a discount.
-                        </p>
-                        <div className="flex justify-center">
-                            <Button
-                                onClick={() => navigate(`/student-courses/start-exam/${studentViewCourseDetails?._id}`)}
-                                disabled={!!DiscountedPrice}
-                                className="w-md items-center"
-                            >
-                                Why Pay Full Price?
-                            </Button>
-                        </div>
-                    </CardContent>
-                </Card>
+
+
 
                 <Card className="mb-8">
                     <CardHeader>
@@ -270,14 +253,15 @@ function StudentViewCourseDetailsPage() {
                             <VideoPlayer
                                 url={
                                     getIndexOfFreePreviewUrl !== -1
-                                        ? studentViewCourseDetails?.curriculum[
-                                            getIndexOfFreePreviewUrl
-                                        ].videoUrl
+                                        ? studentViewCourseDetails?.curriculum[getIndexOfFreePreviewUrl].videoUrl
                                         : ""
                                 }
                                 width="450px"
                                 height="200px"
+                                onProgressUpdate={() => { }} // Empty fallback function to prevent crash
+                                progressData={{}}           // Safe default
                             />
+
                         </div>
                         <div className="mb-4">
                             <span className="text-3xl font-bold">
@@ -307,10 +291,19 @@ function StudentViewCourseDetailsPage() {
                 </DialogHeader>
                 <div className="aspect-video rounded-lg flex items-center justify-center">
                     <VideoPlayer
-                        url={displayCurrentVideoFreePreview}
+                        url={
+                            getIndexOfFreePreviewUrl !== -1
+                                ? studentViewCourseDetails?.curriculum[getIndexOfFreePreviewUrl].videoUrl
+                                : ""
+                        }
                         width="450px"
                         height="200px"
+                        onEnded={() => {
+                            // Prevent redirect or unwanted behavior
+                            console.log("Video ended");
+                        }}
                     />
+
                 </div>
                 <div className="flex flex-col gap-2">
                     {studentViewCourseDetails?.curriculum
@@ -333,6 +326,37 @@ function StudentViewCourseDetailsPage() {
                 </DialogFooter>
             </DialogContent>
         </Dialog>
+        <Card className="mt-8 mb-8 bg-[#f8f9fa] dark:bg-[#1a1a1a] shadow-lg rounded-xl transition-all duration-300">
+            <CardHeader className="pb-2">
+                <CardTitle className="text-2xl font-semibold text-black dark:text-white flex items-center gap-2">
+                    💡 Know More, Pay Less!
+                </CardTitle>
+            </CardHeader>
+
+            <CardContent>
+                <p className="mb-3 text-gray-800 dark:text-gray-200 text-base leading-relaxed">
+                    Show off your skills and earn a discount by completing a short challenge exam.
+                    It’s your knowledge that counts — not just your wallet.
+                </p>
+
+                <p className="mb-6 text-sm text-gray-600 dark:text-gray-400 italic">
+                    Pass the exam to receive a special discount on this course.
+                </p>
+
+                <div className="flex justify-center">
+                    <Button
+                        onClick={() =>
+                            navigate(`/student/student-courses/start-exam/${studentViewCourseDetails?._id}`)
+                        }
+                        disabled={!!DiscountedPrice}
+                        className="px-6 py-2 bg-black text-white hover:bg-gray-900 rounded-lg shadow-md transition duration-300 disabled:opacity-50"
+                    >
+                        🎯 Take the Discount Challenge
+                    </Button>
+                </div>
+            </CardContent>
+        </Card>
+
     </div>
 }
 export default StudentViewCourseDetailsPage;

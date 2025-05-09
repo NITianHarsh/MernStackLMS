@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axiosInstance from "@/axiosInstance";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 const CreateExam = () => {
   const [title, setTitle] = useState("");

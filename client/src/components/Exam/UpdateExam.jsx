@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "@/axiosInstance";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 const UpdateExam = () => {
   const { id } = useParams();

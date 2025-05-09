@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import TimerComponent from "./TimerComponent";
 import PreventCheating from "./PreventCheating";
 import axiosInstance from "@/axiosInstance";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 const ExamSubmission = () => {
   const { examId } = useParams();
@@ -67,7 +67,7 @@ const ExamSubmission = () => {
     try {
       await axiosInstance.post(`/result/${examId}/submit`, submission);
       await exitFullScreenIfNeeded(); // exit full screen if active
-      navigate(`/results/${examId}`);
+      navigate(`/student/results/${examId}`);
     } catch (error) {
       console.error("Error submitting exam", error);
     }
@@ -94,7 +94,7 @@ const ExamSubmission = () => {
           <TimerComponent timeLimit={timeLimit} onTimeUp={handleTimeUp} />
         </div>
       </div>
-
+      
       <div className="space-y-6">
         {questions.map((question, idx) => (
           <div

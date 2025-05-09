@@ -1,5 +1,4 @@
 import Course from "../../models/course.js";
-import Course from "../../models/course.js";
 
 // Add a new course
 const addNewCourse = async (req, res) => {
@@ -83,7 +82,6 @@ const updateCourseByID = async (req, res) => {
         message: "Instructor ID cannot be updated"
       });
     }
-  console.log('i am hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
     // Find and update the course
     const updatedCourse = await Course.findByIdAndUpdate(id, updatedCourseData, {
       new: true, // Returns the updated document
@@ -197,6 +195,6 @@ export {
   getCourseDetailsByID,
   updateCourseByID,
   updateCoursePublishStatus,
-  deleteCourseByID,,
+  deleteCourseByID,
   updateExamForCourse
 };

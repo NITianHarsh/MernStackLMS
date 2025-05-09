@@ -52,20 +52,27 @@ function StudentViewCommonHeader() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
           <Button
-            variant="ghost"
-            className="text-sm font-medium text-white hover:text-teal-300 hover:bg-teal-600 px-4 py-2 rounded-md transition"
-            onClick={() => navigate("/PublishedExamList")}
+            // variant="ghost"
+            className="text-sm font-medium text-white hover:text-teal-300 bg-black px-4 py-2 rounded-md transition"
+            onClick={() => navigate("/student/PublishedExamList")}
           >
             Mock Tests
           </Button>
 
           <Button
-            onClick={() => navigate('/student-courses')}
+            onClick={() => navigate('/student/student-courses')}
           >
-            <div className="flex items-center gap-2 cursor-pointer hover:text-teal-300 transition">
+            <div className="flex items-center gap-2 cursor-pointer bg-black hover:text-teal-300 transition">
               <span className="text-sm font-medium">My Courses</span>
               <TvMinimalPlay className="w-6 h-6 text-white" />
             </div>
+          </Button>
+          <Button
+            variant="ghost"
+            className="text-sm font-medium text-white hover:text-teal-300 hover:bg-teal-600 transition px-4 py-2 rounded-md"
+            onClick={() => navigate("/student/notifications")}
+          >
+           <LucideBellDot/>
           </Button>
 
           <Button
@@ -98,9 +105,9 @@ function StudentViewCommonHeader() {
           <Button
             variant="ghost"
             onClick={() => {
-              location.pathname.includes('/courses')
+              location.pathname.includes('/student/courses')
                 ? null
-                : navigate("/courses");
+                : navigate("/student/courses");
             }}
             className="text-sm font-medium text-teal-700 hover:text-teal-600 hover:bg-teal-100 px-4 py-2 rounded-md transition"
           >
@@ -109,7 +116,7 @@ function StudentViewCommonHeader() {
 
           {/* My Courses */}
           <Button className="flex items-center gap-2 text-sm font-medium text-teal-700 hover:text-teal-600 hover:bg-teal-100 px-4 py-2 rounded-md transition"
-            onClick={() => navigate('/student-courses')}
+            onClick={() => navigate('/student/student-courses')}
           >
             <TvMinimalPlay className="w-5 h-5 text-teal-700" />
             My Courses

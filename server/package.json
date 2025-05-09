@@ -24,6 +24,7 @@
     "multer": "^1.4.5-lts.2",
     "nodemailer": "^6.10.1",
     "paypal-rest-sdk": "^1.8.1",
+    "razorpay": "^2.9.6",
     "sonner": "^2.0.3"
   },
   "devDependencies": {

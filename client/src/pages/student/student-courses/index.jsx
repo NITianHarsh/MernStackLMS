@@ -54,7 +54,7 @@ function StudentCoursesPage() {
             <CardFooter>
               <Button
                 onClick={() =>
-                  navigate(`/course-progress/${course?.courseId}`)
+                  navigate(`/student/course-progress/${course?.courseId}`)
                 }
                 className="flex-1"
               >

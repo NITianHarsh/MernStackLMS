@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Loader2, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "@/axiosInstance";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 const ExamList = () => {
   const navigate = useNavigate();

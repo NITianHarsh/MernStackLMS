@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "@/context/auth-context";
 import { Button } from "../ui/button";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 const InstructorNotification = () => {
   const [form, setForm] = useState({

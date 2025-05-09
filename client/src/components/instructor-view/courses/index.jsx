@@ -9,7 +9,7 @@ import { Delete, Edit } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Switch } from "@/components/ui/switch";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import axiosInstance from "@/axiosInstance";
 
 function InstructorCourses({ listOfCourses }) {

@@ -21,7 +21,7 @@ const PaymentDone = () => {
           <p className="font-mono break-all text-blue-600">{referenceNum || "N/A"}</p>
         </div>
         <button
-          onClick={() => window.location.href = "/student-courses"}
+          onClick={() => window.location.href = "/student/student-courses"}
           className="mt-6 px-6 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition"
         >
           Go to Dashboard

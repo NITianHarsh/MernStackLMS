@@ -2,7 +2,7 @@ import axiosInstance from "@/axiosInstance";
 import { Skeleton } from "@/components/ui/skeleton";
 import { initialSignInFormData, initialSignUpFormData } from "@/config";
 import { createContext, useEffect, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext(null);
 
@@ -42,7 +42,7 @@ export default function AuthProvider({ children }) {
     e.preventDefault();
     try {
       const { data } = await axiosInstance.post("/auth/login", signInFormData);
-
+console.log(data,"ransssssssssssssss")
       if (data?.success) {
         setAuth({ isAuthenticated: true, user: data.data.user });
 
