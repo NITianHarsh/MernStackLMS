@@ -45,7 +45,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div>
+    <div className="h-screen">
       <Navbar />
       <div className="max-w-md mx-auto mt-10 p-6 border rounded-xl shadow-md bg-white dark:bg-gray-900 dark:border-gray-700">
       <h2 className="text-2xl font-bold text-center mb-4 text-green-700 dark:text-gray-200">

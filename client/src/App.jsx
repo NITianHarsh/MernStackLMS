@@ -161,23 +161,11 @@ function App() {
 
         <Route
           path="/aboutus"
-          element={
-            <UserProtected
-              element={<AboutUs/>}
-              authenticated={auth?.isAuthenticated}
-              user={auth?.user}
-            />
-          }
+          element={<AboutUs/>}
         />
         <Route
           path="/termsandconditions"
-          element={
-            <UserProtected
-              element={<TermsAndConditions/>}
-              authenticated={auth?.isAuthenticated}
-              user={auth?.user}
-            />
-          }
+          element={<TermsAndConditions/>}
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
