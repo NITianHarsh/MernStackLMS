@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { AuthContext } from "@/context/auth-context";
 import { toast } from "react-toastify";
+import axiosInstance from "@/axiosInstance";
 
 // Utility to extract meeting ID and password from Zoom Join URL
 const extractZoomDetails = (url) => {
@@ -21,8 +21,8 @@ const StudentNotifications = () => {
   useEffect(() => {
     if (!studentId) return;
 
-    axios
-      .get(`http://localhost:5000/doubt/notifications/${studentId}`)
+    axiosInstance
+      .get(`/doubt/notifications/${studentId}`)
       .then((res) => setSessions(res.data.sessions || []))
       .catch((err) => {
         console.error("Fetch error:", err);
@@ -31,12 +31,14 @@ const StudentNotifications = () => {
   }, [studentId]);
 
   return (
-    <div className="p-6 bg-white rounded-xl shadow-xl border border-emerald-100">
-      <h2 className="text-2xl font-bold text-emerald-700 mb-6">
+    <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-emerald-100 dark:border-gray-700">
+      <h2 className="text-2xl font-bold text-emerald-700 dark:text-emerald-400 mb-6">
         📢 Your Doubt Session Notifications
       </h2>
       {sessions.length === 0 ? (
-        <p className="text-gray-400">No scheduled sessions yet.</p>
+        <p className="text-gray-400 dark:text-gray-500">
+          No scheduled sessions yet.
+        </p>
       ) : (
         sessions.map((session) => {
           const { meetingId, password } = extractZoomDetails(
@@ -46,21 +48,21 @@ const StudentNotifications = () => {
           return (
             <div
               key={session._id}
-              className="mb-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl shadow transition hover:shadow-lg"
+              className="mb-4 p-4 bg-emerald-50 dark:bg-gray-900 border border-emerald-200 dark:border-gray-700 rounded-xl shadow-md transition hover:shadow-lg hover:-translate-y-1"
             >
-              <p className="text-sm font-medium text-emerald-700">
+              <p className="text-sm font-medium text-emerald-700 dark:text-emerald-400">
                 🕒 {new Date(session.dateTime).toLocaleString()}
               </p>
-              <p className="text-gray-800 mt-2">
+              <p className="text-gray-800 dark:text-gray-300 mt-2">
                 {session.note || "You have a scheduled doubt session."}
               </p>
 
-              <div className="mt-3 text-sm text-gray-600">
+              <div className="mt-3 text-sm text-gray-600 dark:text-gray-400">
                 📌 If Zoom app is installed, click <strong>"Join Zoom"</strong>.
                 Otherwise, join manually using:
               </div>
 
-              <div className="mt-1 text-sm text-gray-700">
+              <div className="mt-1 text-sm text-gray-700 dark:text-gray-500">
                 <p>
                   <strong>Meeting ID:</strong> {meetingId}
                 </p>

@@ -5,6 +5,8 @@ import {
   Menu,
   X,
   LucideBellDot,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -50,17 +52,28 @@ function StudentViewCommonHeader() {
         <div className="flex items-center gap-4">
           {/* Notification Icon - always visible */}
           <Button
+          onClick={toggleDarkMode}
+          variant="ghost"
+          className="text-white hover:text-teal-300 hover:bg-teal-600 transition px-2 py-2 rounded-md"
+        >
+          {darkMode ? (
+            <Sun className="h-5 w-5" />
+          ) : (
+            <Moon className="h-5 w-5" />
+          )}
+        </Button>
+          <Button
             variant="ghost"
             className="text-white hover:text-teal-300 hover:bg-teal-600 transition px-2 py-2 rounded-md"
             onClick={() => navigate("/student/notifications")}
           >
-            <LucideBellDot className="w-6 h-6" />
+            <LucideBellDot className="w-10 h-10" />
           </Button>
 
           {/* Desktop Buttons */}
           <nav className="hidden md:flex items-center gap-4">
             <Button
-              className="text-sm font-medium text-white hover:text-teal-300 bg-black px-4 py-2 rounded-md transition"
+              className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded transition"
               onClick={() => navigate("/student/PublishedExamList")}
             >
               Mock Tests
@@ -77,7 +90,7 @@ function StudentViewCommonHeader() {
             </Button>
 
             <Button
-              className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 text-sm font-semibold rounded-md transition"
+              className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded transition"
               onClick={handleLogout}
             >
               LogOut
@@ -120,13 +133,14 @@ function StudentViewCommonHeader() {
             My Courses
           </Button>
 
-        <Button
-          className="bg-teal-600 dark:bg-teal-700 hover:bg-teal-700 dark:hover:bg-teal-800 text-white px-4 py-2 w-full text-sm font-semibold rounded-lg transition-all duration-300"
-          onClick={handleLogout}
-        >
-          LogOut
-        </Button>
-      </div>
+          <Button
+            className="bg-teal-600 dark:bg-teal-700 hover:bg-teal-700 dark:hover:bg-teal-800 text-white px-4 py-2 w-full text-sm font-semibold rounded-lg transition-all duration-300"
+            onClick={handleLogout}
+          >
+            LogOut
+          </Button>
+        </div>
+      )}
     </header>
   );
 }
