@@ -1,4 +1,3 @@
-
 import {
   Card,
   CardContent,
@@ -7,15 +6,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import Navbar from "@/components/navbar";
 import CommonForm from "@/components/common-forms";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "@/context/auth-context";
-import { GraduationCap, Moon, Sun } from "lucide-react";
 import { signInFormControls, signUpFormControls } from "@/config";
-import React, { useContext, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function AuthPage() {
-  const [darkMode, setDarkMode] = useState(false);
   const [activeTab, setActiveTab] = useState("signin");
   const {
     signInFormData,
@@ -25,20 +23,6 @@ function AuthPage() {
     handleRegisterUser,
     handleLoginUser,
   } = useContext(AuthContext);
-
-  useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-      setDarkMode(true);
-    }
-  }, []);
-
-  function toggleDarkMode() {
-    const isDark = document.documentElement.classList.toggle("dark");
-    setDarkMode(isDark);
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-  }
 
   function handleChange(value) {
     setActiveTab(value);
@@ -64,25 +48,7 @@ function AuthPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-emerald-100 to-emerald-400 dark:bg-gray-900 dark:bg-none text-gray-900 dark:text-white transition-colors duration-300">
-      <header className="px-4 lg:px-6 h-16 flex items-center justify-between border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow">
-        <Link to={"/"} className="flex items-center space-x-3">
-          <GraduationCap className="h-8 w-8 text-green-600 dark:text-green-400" />
-          <span className="font-extrabold text-2xl text-green-800 dark:text-green-300">
-            LMS LEARN
-          </span>
-        </Link>
-        <button
-          onClick={toggleDarkMode}
-          className="p-2 rounded-full hover:bg-emerald-100 dark:hover:bg-emerald-800 transition"
-        >
-          {darkMode ? (
-            <Sun className="h-5 w-5 text-emerald-400" />
-          ) : (
-            <Moon className="h-5 w-5 text-emerald-600" />
-          )}
-        </button>
-      </header>
-
+      <Navbar />
       <main className="flex flex-1 justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 transition-colors">
           <Tabs

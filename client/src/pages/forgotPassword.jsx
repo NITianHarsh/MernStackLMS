@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "@/axiosInstance";
+import Navbar from "@/components/navbar";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -44,22 +45,24 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded-xl shadow-md bg-white dark:bg-gray-900 dark:border-gray-700">
-      <h2 className="text-2xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+    <div>
+      <Navbar />
+      <div className="max-w-md mx-auto mt-10 p-6 border rounded-xl shadow-md bg-white dark:bg-gray-900 dark:border-gray-700">
+      <h2 className="text-2xl font-bold text-center mb-4 text-green-700 dark:text-gray-200">
         Reset Password
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
             htmlFor="email"
-            className="block mb-1 font-medium text-gray-700 dark:text-gray-300"
+            className="block mb-1 font-medium text-green-700 dark:text-gray-200"
           >
             Email Address
           </label>
           <input
             id="email"
             type="email"
-            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -70,14 +73,14 @@ const ForgotPassword = () => {
         <div>
           <label
             htmlFor="password"
-            className="block mb-1 font-medium text-gray-700 dark:text-gray-300"
+            className="block mb-1 font-medium text-green-700 dark:text-gray-200"
           >
             New Password
           </label>
           <input
             id="password"
             type="password"
-            className="w-full p-2 border rounded-md bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
             placeholder="Enter new password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -88,14 +91,14 @@ const ForgotPassword = () => {
         <div>
           <label
             htmlFor="confirmPassword"
-            className="block mb-1 font-medium text-gray-700 dark:text-gray-300"
+            className="block mb-1 font-medium text-green-700 dark:text-gray-200"
           >
             Confirm New Password
           </label>
           <input
             id="confirmPassword"
             type="password"
-            className="w-full p-2 border rounded-md bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
             placeholder="Confirm new password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -109,7 +112,7 @@ const ForgotPassword = () => {
           className={`w-full p-2 text-white rounded-md ${
             loading
               ? "bg-gray-400 dark:bg-gray-600"
-              : "bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500"
+              : "bg-green-600 hover:bg-green-700 dark:hover:bg-green-500"
           }`}
         >
           {loading ? "Processing..." : "Reset Password"}
@@ -117,10 +120,11 @@ const ForgotPassword = () => {
       </form>
 
       {message && (
-        <p className="mt-4 text-center text-sm text-gray-700 dark:text-gray-300">
+        <p className="mt-4 text-center text-sm text-red-700 dark:text-red-400">
           {message}
         </p>
       )}
+    </div>
     </div>
   );
 };

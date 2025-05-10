@@ -30,9 +30,8 @@ function InstructorDashboardpage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
-
   const { resetCredentials, auth, setAuth } = useContext(AuthContext);
-  
+
   const { instructorCoursesList, setInstructorCoursesList } =
     useContext(InstructorContext);
   async function fetchInstructorCourseList() {
@@ -77,7 +76,7 @@ function InstructorDashboardpage() {
           "/media/upload",
           imageFormData
         );
-        
+
         if (response.data.success) {
           const updateRes = await axiosInstance.patch("/auth/update-image", {
             imageUrl: response.data.data.url,
@@ -88,9 +87,9 @@ function InstructorDashboardpage() {
               user: {
                 ...prev.user,
                 userImage: response.data.data.url,
-              }
+              },
             }));
-            
+
             toast.success("Image uploaded successfully!");
           }
         }
@@ -105,7 +104,7 @@ function InstructorDashboardpage() {
       icon: BarChart,
       label: "Dashboard",
       value: "dashboard",
-      component: <Dashboard />,
+      component: <Dashboard listOfCourses={instructorCoursesList}/>,
     },
     {
       icon: Book,
@@ -169,7 +168,7 @@ function InstructorDashboardpage() {
             </button>
 
             {/* Logo */}
-            <Link to={"/"} className="flex items-center space-x-3">
+            <Link to={"/instructor"} className="flex items-center space-x-3">
               <GraduationCap className="h-8 w-8 text-green-600 dark:text-green-400" />
               <span className="font-extrabold text-2xl text-green-800 dark:text-green-300">
                 LMS LEARN
@@ -181,7 +180,7 @@ function InstructorDashboardpage() {
           <div className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-emerald-200 dark:focus:ring-emerald-600"
+              className="flex items-center text-sm bg-gray-800 cursor-pointer rounded-full focus:ring-4 focus:ring-emerald-200 dark:focus:ring-emerald-600"
             >
               <img
                 className="w-8 h-8 rounded-full"
@@ -276,7 +275,7 @@ function InstructorDashboardpage() {
           sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
-        <div className="p-4 pt-16">
+        <div className="p-4 pt-18">
           <h2 className="text-2xl font-bold mb-4 text-green-800 dark:text-green-300">
             Instructor View
           </h2>
@@ -315,11 +314,8 @@ function InstructorDashboardpage() {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 p-8 pt-16 overflow-y-auto bg-white dark:bg-gray-900">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold mb-4 text-green-800 dark:text-green-300">
-            Dashboard
-          </h1>
+      <main className="flex-1 p-4 pt-18 overflow-y-auto bg-white dark:bg-gray-900">
+        <div>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             {menuItems.map((menuItem) => (
               <TabsContent key={menuItem.value} value={menuItem.value}>

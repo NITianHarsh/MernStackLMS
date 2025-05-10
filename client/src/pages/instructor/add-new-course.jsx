@@ -46,10 +46,22 @@ function AddNewCourse() {
   const navigate = useNavigate();
   const params = useParams();
 
-  const [examData, setExamData] = useState({ title: "", duration: "", passingScore: "", questions: [] });
-  const [newQuestion, setNewQuestion] = useState({ questionText: "", options: ["", "", "", ""], correctAnswerIndex: 0 });
+  const [examData, setExamData] = useState({
+    title: "",
+    duration: "",
+    passingScore: "",
+    questions: [],
+  });
+  const [newQuestion, setNewQuestion] = useState({
+    questionText: "",
+    options: ["", "", "", ""],
+    correctAnswerIndex: 0,
+  });
 
-  const isEmpty = (value) => Array.isArray(value) ? value.length === 0 : value === null || value === undefined || value === "";
+  const isEmpty = (value) =>
+    Array.isArray(value)
+      ? value.length === 0
+      : value === null || value === undefined || value === "";
 
   const validateFormData = () => {
     for (const key in courseLandingFormData) {
@@ -57,7 +69,12 @@ function AddNewCourse() {
     }
     let hasFreePreview = false;
     for (const item of courseCurriculumFormData) {
-      if (isEmpty(item.title) || isEmpty(item.videoUrl) || isEmpty(item.public_id)) return false;
+      if (
+        isEmpty(item.title) ||
+        isEmpty(item.videoUrl) ||
+        isEmpty(item.public_id)
+      )
+        return false;
       if (item.freePreview) hasFreePreview = true;
     }
 
@@ -67,18 +84,25 @@ function AddNewCourse() {
       isEmpty(examData.passingScore) ||
       !Array.isArray(examData.questions) ||
       examData.questions.length === 0
-    ) return false;
+    )
+      return false;
 
     return hasFreePreview;
   };
 
   async function addNewCourse(formData) {
-    const { data } = await axiosInstance.post(`/instructor/course/add`, formData);
+    const { data } = await axiosInstance.post(
+      `/instructor/course/add`,
+      formData
+    );
     return data;
   }
 
   async function updateCourseById(courseId, formData) {
-    const { data } = await axiosInstance.put(`/instructor/course/update/${courseId}`, formData);
+    const { data } = await axiosInstance.put(
+      `/instructor/course/update/${courseId}`,
+      formData
+    );
     return data;
   }
   const handleCreateCourse = async () => {
@@ -98,29 +122,39 @@ function AddNewCourse() {
         questions: examData.questions,
       },
     };
-  
+
     try {
       let response;
-  
+
       if (currentEditedCourseId !== null) {
         // ✅ Fetch the course and validate ownership
-        const { data } = await axiosInstance.get(`/instructor/course/get/${currentEditedCourseId}`);
+        const { data } = await axiosInstance.get(
+          `/instructor/course/get/${currentEditedCourseId}`
+        );
         const course = data?.data;
-  
+
         if (course?.instructorId !== auth?.user?._id) {
           alert("You are not authorized to edit this course.");
           return;
         }
-  
-        response = await updateCourseById(currentEditedCourseId, courseFinalFormData);
+
+        response = await updateCourseById(
+          currentEditedCourseId,
+          courseFinalFormData
+        );
       } else {
         response = await addNewCourse(courseFinalFormData);
       }
-  
+
       if (response?.success) {
         setCourseCurriculumFormData(courseCurriculumInitialFormData);
         setCourseLandingFormData(courseLandingInitialFormData);
-        setExamData({ title: "", duration: "", passingScore: "", questions: [] });
+        setExamData({
+          title: "",
+          duration: "",
+          passingScore: "",
+          questions: [],
+        });
         navigate(-1);
         setCurrentEditedCourseId(null);
       }
@@ -129,7 +163,6 @@ function AddNewCourse() {
       alert("Something went wrong while submitting the course.");
     }
   };
-  
 
   const fetchCurrentCourseDetails = async () => {
     if (!currentEditedCourseId) return;
@@ -137,18 +170,34 @@ function AddNewCourse() {
       `/instructor/course/get/${currentEditedCourseId}`
     );
     if (response?.data?.success) {
-      const setCourseFormData = Object.keys(courseLandingFormData).reduce((acc, key) => {
-        acc[key] = response?.data?.data[key] || courseLandingFormData[key];
-        return acc;
-      }, {});
+      const setCourseFormData = Object.keys(courseLandingFormData).reduce(
+        (acc, key) => {
+          acc[key] = response?.data?.data[key] || courseLandingFormData[key];
+          return acc;
+        },
+        {}
+      );
       setCourseLandingFormData(setCourseFormData);
-      setCourseCurriculumFormData(response?.data?.data?.curriculum || courseCurriculumInitialFormData);
-      setExamData(response?.data?.data?.exam || { title: "", duration: "", passingScore: "", questions: [] });
+      setCourseCurriculumFormData(
+        response?.data?.data?.curriculum || courseCurriculumInitialFormData
+      );
+      setExamData(
+        response?.data?.data?.exam || {
+          title: "",
+          duration: "",
+          passingScore: "",
+          questions: [],
+        }
+      );
     }
   };
 
-  useEffect(() => { if (currentEditedCourseId !== null) fetchCurrentCourseDetails(); }, [currentEditedCourseId]);
-  useEffect(() => { if (params?.courseId) setCurrentEditedCourseId(params?.courseId); }, [params?.courseId]);
+  useEffect(() => {
+    if (currentEditedCourseId !== null) fetchCurrentCourseDetails();
+  }, [currentEditedCourseId]);
+  useEffect(() => {
+    if (params?.courseId) setCurrentEditedCourseId(params?.courseId);
+  }, [params?.courseId]);
 
   const handleQuestionChange = (index, value) => {
     const updatedOptions = [...newQuestion.options];
@@ -181,7 +230,11 @@ function AddNewCourse() {
       questions: [...prev.questions, cleanedQuestion],
     }));
 
-    setNewQuestion({ questionText: "", options: ["", "", "", ""], correctAnswerIndex: 0 });
+    setNewQuestion({
+      questionText: "",
+      options: ["", "", "", ""],
+      correctAnswerIndex: 0,
+    });
   };
 
   return (
@@ -191,8 +244,15 @@ function AddNewCourse() {
           Create a new course
         </h1>
         <div className="flex gap-3">
-          <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-            {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          <button
+            onClick={toggleDarkMode}
+            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          >
+            {darkMode ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
           </button>
           <Button
             disabled={!validateFormData()}
@@ -210,27 +270,79 @@ function AddNewCourse() {
             <Tabs defaultValue="curriculum" className="space-y-4">
               <TabsList className="bg-green-200 dark:bg-gray-700">
                 <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
-                <TabsTrigger value="course-landing-page">Course Landing Page</TabsTrigger>
-                <TabsTrigger value="settings">Thumbnail</TabsTrigger>
-                <TabsTrigger value="exam">Entrance Test</TabsTrigger>
+                <TabsTrigger value="course-landing-page">
+                  Course Landing Page
+                </TabsTrigger>
+                <TabsTrigger value="settings">Settings</TabsTrigger>
+                <TabsTrigger value="exam">Exam</TabsTrigger>
               </TabsList>
               <button
                 className="text-4xl font-extrabold absolute top-[27px] left-4 cursor-pointer text-green-800 dark:text-green-300 hover:scale-130 transition-all duration-300 ease-in-out"
                 onClick={() => navigate(-1)}
               >
                 &#60;
-              </button>              <TabsContent value="curriculum"><CourseCurriculum /></TabsContent>
-              <TabsContent value="course-landing-page"><CourseLanding /></TabsContent>
-              <TabsContent value="settings"><CourseSettings /></TabsContent>
+              </button>{" "}
+              <TabsContent value="curriculum">
+                <CourseCurriculum />
+              </TabsContent>
+              <TabsContent value="course-landing-page">
+                <CourseLanding />
+              </TabsContent>
+              <TabsContent value="settings">
+                <CourseSettings />
+              </TabsContent>
               <TabsContent value="exam">
                 <div className="space-y-4">
-                  <Input placeholder="Exam Title" value={examData.title} onChange={(e) => setExamData((prev) => ({ ...prev, title: e.target.value }))} />
-                  <Input type="number" placeholder="Duration (min)" value={examData.duration} onChange={(e) => setExamData((prev) => ({ ...prev, duration: parseInt(e.target.value) }))} />
-                  <Input type="number" placeholder="Passing Score" value={examData.passingScore} onChange={(e) => setExamData((prev) => ({ ...prev, passingScore: parseInt(e.target.value) }))} />
+                  <Input
+                    placeholder="Exam Title"
+                    value={examData.title}
+                    onChange={(e) =>
+                      setExamData((prev) => ({
+                        ...prev,
+                        title: e.target.value,
+                      }))
+                    }
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Duration (min)"
+                    value={examData.duration}
+                    onChange={(e) =>
+                      setExamData((prev) => ({
+                        ...prev,
+                        duration: parseInt(e.target.value),
+                      }))
+                    }
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Passing Score"
+                    value={examData.passingScore}
+                    onChange={(e) =>
+                      setExamData((prev) => ({
+                        ...prev,
+                        passingScore: parseInt(e.target.value),
+                      }))
+                    }
+                  />
 
-                  <Textarea placeholder="Question Text" value={newQuestion.questionText} onChange={(e) => setNewQuestion((prev) => ({ ...prev, questionText: e.target.value }))} />
+                  <Textarea
+                    placeholder="Question Text"
+                    value={newQuestion.questionText}
+                    onChange={(e) =>
+                      setNewQuestion((prev) => ({
+                        ...prev,
+                        questionText: e.target.value,
+                      }))
+                    }
+                  />
                   {newQuestion.options.map((opt, i) => (
-                    <Input key={i} placeholder={`Option ${i + 1}`} value={opt} onChange={(e) => handleQuestionChange(i, e.target.value)} />
+                    <Input
+                      key={i}
+                      placeholder={`Option ${i + 1}`}
+                      value={opt}
+                      onChange={(e) => handleQuestionChange(i, e.target.value)}
+                    />
                   ))}
                   <div>
                     <label>Correct Answer Index</label>
@@ -239,7 +351,12 @@ function AddNewCourse() {
                       min={0}
                       max={3}
                       value={newQuestion.correctAnswerIndex}
-                      onChange={(e) => setNewQuestion((prev) => ({ ...prev, correctAnswerIndex: parseInt(e.target.value) }))}
+                      onChange={(e) =>
+                        setNewQuestion((prev) => ({
+                          ...prev,
+                          correctAnswerIndex: parseInt(e.target.value),
+                        }))
+                      }
                     />
                   </div>
                   <Button onClick={addQuestion}>Add Question</Button>

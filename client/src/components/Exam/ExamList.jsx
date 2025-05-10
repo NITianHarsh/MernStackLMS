@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import axiosInstance from "@/axiosInstance";
 import { Loader2, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "@/axiosInstance";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
 
 const ExamList = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const ExamList = () => {
     setPublishingId(id);
     try {
       await axiosInstance.put(`/exam/publish/${id}`);
-      toast.success("✅ Exam published successfully!");
+      toast.success("Exam published successfully!");
       setExams((prevExams) =>
         prevExams.map((exam) =>
           exam._id === id ? { ...exam, isPublished: true } : exam
@@ -37,7 +37,7 @@ const ExamList = () => {
       );
     } catch (err) {
       console.error(err);
-      toast.error("❌ Failed to publish exam.");
+      toast.error("Failed to publish exam.");
     } finally {
       setPublishingId(null);
     }

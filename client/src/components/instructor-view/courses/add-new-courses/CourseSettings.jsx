@@ -1,10 +1,10 @@
+import { useContext } from "react";
+import axiosInstance from "@/axiosInstance";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useContext } from "react";
-import { InstructorContext } from "@/context/instructor-context";
 import MediaProgressbar from "@/components/mediaProgress";
-import axiosInstance from "@/axiosInstance";
+import { InstructorContext } from "@/context/instructor-context";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 function CourseSettings() {
   const {

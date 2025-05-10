@@ -1,47 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { GraduationCap, BookOpen, Star, Moon, Sun } from "lucide-react";
+import { BookOpen, GraduationCap, Star } from "lucide-react";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Navbar from "@/components/navbar";
 
 export default function HomePage() {
-  const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-      setDarkMode(true);
-    }
-  }, []);
-
-  function toggleDarkMode() {
-    const isDark = document.documentElement.classList.toggle("dark");
-    setDarkMode(isDark);
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-green-100 to-emerald-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
-      <header className="px-4 py-4 lg:px-6 h-16 flex items-center justify-between border-b border-emerald-200 dark:border-emerald-700 bg-white dark:bg-gray-800 shadow">
-        <Link to="/" className="flex items-center space-x-3">
-          <GraduationCap className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
-          <span className="font-extrabold text-2xl text-emerald-800 dark:text-emerald-300">
-            LMS LEARN
-          </span>
-        </Link>
-        <button
-          onClick={toggleDarkMode}
-          className="p-2 rounded-full hover:bg-emerald-100 dark:hover:bg-emerald-800 transition"
-        >
-          {darkMode ? (
-            <Sun className="h-5 w-5 text-emerald-600" />
-          ) : (
-            <Moon className="h-5 w-5 text-emerald-400" />
-          )}
-        </button>
-      </header>
+      <Navbar />
 
       {/* HERO SECTION */}
       <section className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-6 py-16">

@@ -1,12 +1,12 @@
-import dotenv from "dotenv";
-import Razorpay from "razorpay";
-dotenv.config();
-import express from "express";
-const app = express();
-
 import cors from "cors";
-const PORT = process.env.PORT || 5000;
+import dotenv from "dotenv";
+import express from "express";
+import Razorpay from "razorpay";
 import connectDB from "./db/db.js";
+
+dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
@@ -15,48 +15,41 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-
+app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
-
 
 //dB connection
 connectDB();
 
 //routes configuration
-import authRoutes from "./routes/auth.js";
-import mediaRoutes from "./routes/instructor-routes/media-routes.js";
-import instructorCourseRoutes from "./routes/instructor-routes/course-routes.js";
+import zoom from "./routes/zoom.js";
 import examRoutes from "./routes/exam.js";
+import authRoutes from "./routes/auth.js";
 import resultRoutes from "./routes/results.js";
 import doubtRoutes from "./routes/doubtRoutes.js";
-import studentViewCourseRoutes from "./routes/student-routes/course-routes.js"
+import paymentRoute from "./routes/student-routes/paymentRoutes.js";
+import mediaRoutes from "./routes/instructor-routes/media-routes.js";
+import studentViewCourseRoutes from "./routes/student-routes/course-routes.js";
+import instructorCourseRoutes from "./routes/instructor-routes/course-routes.js";
 import studentCoursesRoutes from "./routes/student-routes/student-courses-routes.js";
 import studentCourseProgressRoutes from "./routes/student-routes/course-progress-routes.js";
 
-import paymentRoute from "./routes/student-routes/paymentRoutes.js";
-import zoom from "./routes/zoom.js";
-
+app.use("/zoom", zoom);
+app.use("/exam", examRoutes);
 app.use("/auth", authRoutes);
+app.use("/api", paymentRoute);
+app.use("/doubt", doubtRoutes);
 app.use("/media", mediaRoutes);
+app.use("/result", resultRoutes);
 app.use("/instructor/course", instructorCourseRoutes);
-app.use("/doubt",doubtRoutes);
 app.use("/student/course", studentViewCourseRoutes);
 app.use("/student/courses-bought", studentCoursesRoutes);
 app.use("/student/course-progress", studentCourseProgressRoutes);
 
-app.use("/zoom",zoom);
-
-
-app.use("/exam", examRoutes);
-app.use("/result", resultRoutes);
-
-app.use("/api",paymentRoute);
-
-app.get("/api/getkey",(req,res)=>res.status(200).json({key:process.env.RAZORPAY_API_KEY}))
-
+app.get("/api/getkey", (req, res) =>
+  res.status(200).json({ key: process.env.RAZORPAY_API_KEY })
+);
 
 //error handling middleware
 app.use((err, req, res, next) => {
@@ -70,9 +63,6 @@ export const instance = new Razorpay({
   key_secret: process.env.RAZORPAY_API_SECRET,
 });
 
-
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-

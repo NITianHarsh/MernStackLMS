@@ -1,15 +1,15 @@
+import { Upload } from "lucide-react";
 import axiosInstance from "@/axiosInstance";
-import MediaProgressbar from "@/components/mediaProgress";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import React, { useContext, useRef } from "react";
 import VideoPlayer from "@/components/VideoPlayer";
+import MediaProgressbar from "@/components/mediaProgress";
 import { courseCurriculumInitialFormData } from "@/config";
 import { InstructorContext } from "@/context/instructor-context";
-import { Upload } from "lucide-react";
-import React, { useContext, useRef } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 function CourseCurriculum() {
   const {

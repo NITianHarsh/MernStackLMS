@@ -48,7 +48,7 @@ const CreateExam = () => {
         duration,
         questions,
       });
-      toast.success("✅ Exam created successfully!");
+      toast.success("Exam created successfully!");
       console.log(response.data);
       setTitle("");
       setSubject("");
@@ -58,7 +58,7 @@ const CreateExam = () => {
       ]);
     } catch (err) {
       console.error("Error creating exam:", err);
-      toast.error("❌ Something went wrong while creating the exam.");
+      toast.error("Something went wrong while creating the exam.");
     }
   };
 
