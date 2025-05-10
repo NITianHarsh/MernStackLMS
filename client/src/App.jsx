@@ -30,6 +30,9 @@ import StartExam from "./pages/student/StartExam.jsx";
 import PomodoroFloatingWidget from "./components/Pomodoro/Pomodoro.jsx";
 import StudentViewCoursesPage from "./pages/student/courses/index.jsx";
 import AskDoubt from "./pages/student/AskDoubt.jsx";
+import Footer from "./pages/Footer.jsx";
+import AboutUs from "./pages/AboutUs.jsx";
+import TermsAndConditions from "./pages/TermsAndConditions.jsx";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -162,17 +165,32 @@ function App() {
           <Route path="doubt" element={<AskDoubt />} />
         </Route>
 
-        {/* Catch-all route */}
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/aboutus"
+          element={
+            <UserProtected
+              element={<AboutUs/>}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        />
+        <Route
+          path="/termsandconditions"
+          element={
+            <UserProtected
+              element={<TermsAndConditions/>}
+              authenticated={auth?.isAuthenticated}
+              user={auth?.user}
+            />
+          }
+        />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <PomodoroFloatingWidget />
-      {/* <Toaster
-        duration={3000}
-        richColors
-        position="top-right"
-        closeButton={true}
-      /> */}
+      <Footer/>
     </>
   );
 }

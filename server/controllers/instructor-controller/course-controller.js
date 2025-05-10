@@ -75,13 +75,13 @@ const updateCourseByID = async (req, res) => {
     const id = req.params.id;
     const updatedCourseData = req.body;
   console.log(req.body,'reqq.body')
-    // Ensure that we don't update critical course fields (like instructorId) unintentionally
-    if (updatedCourseData.instructorId) {
-      return res.status(400).json({
-        success: false,
-        message: "Instructor ID cannot be updated"
-      });
-    }
+    // // Ensure that we don't update critical course fields (like instructorId) unintentionally
+    // if (updatedCourseData.instructorId) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Instructor ID cannot be updated"
+    //   });
+    // }
     // Find and update the course
     const updatedCourse = await Course.findByIdAndUpdate(id, updatedCourseData, {
       new: true, // Returns the updated document

@@ -21,8 +21,4 @@ const doubtSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-doubtSchema.pre("save", function () {
-  console.warn("⚠️ WARNING: Doubt is being saved!", this);
-});
-
 export default mongoose.model("Doubt", doubtSchema);

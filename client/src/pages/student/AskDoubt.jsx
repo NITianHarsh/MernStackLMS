@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import axiosInstance from "@/axiosInstance";
 
 const AskDoubt = ({ studentId, courseId }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,7 +9,7 @@ const AskDoubt = ({ studentId, courseId }) => {
 
   const handleSubmit = async () => {
     try {
-      await axios.post("/doubt/submit", {
+      await axiosInstance.post("/doubt/submit", {
         studentId,
         courseId,
         message,

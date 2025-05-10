@@ -144,7 +144,7 @@ export const paymentVerification = async (req, res) => {
     });
 
     // Redirect to frontend success page
-    res.redirect(`http://localhost:5173/paymentsuccess?reference=${razorpay_payment_id}`);
+    res.redirect(`http://localhost:5173/student/paymentsuccess?reference=${razorpay_payment_id}`);
   } catch (error) {
     console.error("Verification failed:", error);
     res.status(500).json({

@@ -54,7 +54,7 @@ function CourseSettings() {
     <Card className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-md">
       <CardHeader>
         <CardTitle className="text-green-800 text-2xl dark:text-green-300">
-          Course Settings
+          Upload Course Image
         </CardTitle>
       </CardHeader>
       <div>

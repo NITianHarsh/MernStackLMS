@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
     userEmail,
     role,
     password: hashPassword,
-    userImage: undefined,
+    userImage:undefined,
   });
 
   await newUser.save();
