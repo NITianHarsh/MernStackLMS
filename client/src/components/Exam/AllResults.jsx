@@ -9,9 +9,7 @@ const AllResults = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/result/${examId}/results`
-        );
+        const response = await axiosInstance.get(`/result/${examId}/results`);
         setResults(response.data);
       } catch (error) {
         console.error("Error fetching results", error);

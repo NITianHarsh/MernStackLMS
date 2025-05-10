@@ -42,7 +42,9 @@ function StudentViewCourseProgressPage() {
 
   async function fetchCurrentCourseProgress() {
     async function getCurrentCourseProgressService(userId, courseId) {
-      const { data } = await axiosInstance.get(`/student/course-progress/get/${userId}/${courseId}`);
+      const { data } = await axiosInstance.get(
+        `/student/course-progress/get/${userId}/${courseId}`
+      );
       return data;
     }
 
@@ -77,7 +79,7 @@ function StudentViewCourseProgressPage() {
 
           setCurrentLecture(
             response?.data?.courseDetails?.curriculum[
-            lastIndexOfViewedAsTrue + 1
+              lastIndexOfViewedAsTrue + 1
             ]
           );
         }
@@ -98,9 +100,8 @@ function StudentViewCourseProgressPage() {
     return data;
   }
 
-
   async function updateCourseProgress() {
-    console.log('fsdgsah;ddddddddddddddddddddddddddd')
+    console.log("fsdgsah;ddddddddddddddddddddddddddd");
     if (currentLecture) {
       const response = await markLectureAsViewedService(
         auth?.user?._id,
@@ -144,7 +145,6 @@ function StudentViewCourseProgressPage() {
 
   useEffect(() => {
     if (currentLecture?.progressValue === 1) updateCourseProgress();
-
   }, [currentLecture]);
 
   useEffect(() => {
@@ -168,7 +168,6 @@ function StudentViewCourseProgressPage() {
             Back to My Courses Page
           </Button>
 
-
           <h1 className="text-lg font-bold hidden md:block">
             {studentCurrentCourseProgress?.courseDetails?.title}
           </h1>
@@ -189,14 +188,14 @@ function StudentViewCourseProgressPage() {
             )}
           </Button>
         </div>
-
-
-
-
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className={`flex-1 ${isSideBarOpen ? "mr-[0px]" : ""} transition-all duration-300`}>
+        <div
+          className={`flex-1 ${
+            isSideBarOpen ? "mr-[0px]" : ""
+          } transition-all duration-300`}
+        >
           <VideoPlayer
             width="100%"
             height="500px"
@@ -204,7 +203,6 @@ function StudentViewCourseProgressPage() {
             onProgressUpdate={setCurrentLecture}
             progressData={currentLecture}
             controls
-
           />
           <div className="p-6 bg-[#1c1d1f]">
             <h2 className="text-2xl font-bold mb-2">{currentLecture?.title}</h2>
@@ -213,64 +211,64 @@ function StudentViewCourseProgressPage() {
 
         {isSideBarOpen && (
           <div className="w-full md:w-[400px] bg-[#1c1d1f] border-l border-gray-800 transition-all duration-300 flex-shrink-0 shadow-lg">
-          <Tabs defaultValue="content" className="h-full flex flex-col">
-            
-            {/* Tabs Navigation */}
-            <TabsList className="grid w-full grid-cols-2 h-14 p-0 bg-[#121212] border-b border-gray-800">
-              <TabsTrigger
-                value="content"
-                className="rounded-none h-full text-white hover:bg-[#2a2b2d] data-[state=active]:bg-[#2a2b2d] data-[state=active]:text-white transition-colors"
-              >
-                Course Content
-              </TabsTrigger>
-              <TabsTrigger
-                value="overview"
-                className="rounded-none h-full text-white hover:bg-[#2a2b2d] data-[state=active]:bg-[#2a2b2d] data-[state=active]:text-white transition-colors"
-              >
-                Overview
-              </TabsTrigger>
-            </TabsList>
-        
-            {/* Course Content Tab */}
-            <TabsContent value="content" className="flex-1 overflow-hidden">
-              <ScrollArea className="h-full">
-                <div className="p-4 space-y-4">
-                  {studentCurrentCourseProgress?.courseDetails?.curriculum.map((item) => (
-                    <div
-                      key={item._id}
-                      className="flex items-center space-x-2 text-sm text-white font-medium cursor-pointer hover:bg-[#2a2b2d] p-2 rounded-md transition"
-                    >
-                      {studentCurrentCourseProgress?.progress?.find(
-                        (progressItem) => progressItem.lectureId === item._id
-                      )?.viewed ? (
-                        <Check className="h-4 w-4 text-green-500" />
-                      ) : (
-                        <Play className="h-4 w-4 text-yellow-400" />
-                      )}
-                      <span>{item?.title}</span>
-                    </div>
-                  ))}
-                </div>
-              </ScrollArea>
-            </TabsContent>
-        
-            {/* Overview Tab */}
-            <TabsContent value="overview" className="flex-1 overflow-hidden">
-              <ScrollArea className="h-full">
-                <div className="p-4 text-white">
-                  <h2 className="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
-                    About this course
-                  </h2>
-                  <p className="text-gray-300 leading-relaxed">
-                    {studentCurrentCourseProgress?.courseDetails?.description}
-                  </p>
-                </div>
-              </ScrollArea>
-            </TabsContent>
-        
-          </Tabs>
-        </div>
-        
+            <Tabs defaultValue="content" className="h-full flex flex-col">
+              {/* Tabs Navigation */}
+              <TabsList className="grid w-full grid-cols-2 h-14 p-0 bg-[#121212] border-b border-gray-800">
+                <TabsTrigger
+                  value="content"
+                  className="rounded-none h-full text-white hover:bg-[#2a2b2d] data-[state=active]:bg-[#2a2b2d] data-[state=active]:text-white transition-colors"
+                >
+                  Course Content
+                </TabsTrigger>
+                <TabsTrigger
+                  value="overview"
+                  className="rounded-none h-full text-white hover:bg-[#2a2b2d] data-[state=active]:bg-[#2a2b2d] data-[state=active]:text-white transition-colors"
+                >
+                  Overview
+                </TabsTrigger>
+              </TabsList>
+
+              {/* Course Content Tab */}
+              <TabsContent value="content" className="flex-1 overflow-hidden">
+                <ScrollArea className="h-full">
+                  <div className="p-4 space-y-4">
+                    {studentCurrentCourseProgress?.courseDetails?.curriculum.map(
+                      (item) => (
+                        <div
+                          key={item._id}
+                          className="flex items-center space-x-2 text-sm text-white font-medium cursor-pointer hover:bg-[#2a2b2d] p-2 rounded-md transition"
+                        >
+                          {studentCurrentCourseProgress?.progress?.find(
+                            (progressItem) =>
+                              progressItem.lectureId === item._id
+                          )?.viewed ? (
+                            <Check className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <Play className="h-4 w-4 text-yellow-400" />
+                          )}
+                          <span>{item?.title}</span>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+
+              {/* Overview Tab */}
+              <TabsContent value="overview" className="flex-1 overflow-hidden">
+                <ScrollArea className="h-full">
+                  <div className="p-4 text-white">
+                    <h2 className="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
+                      About this course
+                    </h2>
+                    <p className="text-gray-300 leading-relaxed">
+                      {studentCurrentCourseProgress?.courseDetails?.description}
+                    </p>
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+            </Tabs>
+          </div>
         )}
       </div>
 
@@ -286,7 +284,10 @@ function StudentViewCourseProgressPage() {
       </Dialog>
 
       <Dialog open={showCourseCompleteDialog}>
-        <DialogContent showOverlay={false} className="sm:max-w-md rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg">
+        <DialogContent
+          showOverlay={false}
+          className="sm:max-w-md rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-lg"
+        >
           <DialogHeader className="text-center space-y-4">
             {/* Monochromatic Celebration Icon */}
             <div className="mx-auto flex items-center justify-center w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full">
@@ -369,9 +370,7 @@ function StudentViewCourseProgressPage() {
         </DialogContent>
       </Dialog>
     </div>
-
   );
 }
-
 
 export default StudentViewCourseProgressPage;

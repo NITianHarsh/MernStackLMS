@@ -16,7 +16,7 @@ export default function AuthProvider({ children }) {
   });
   async function handleRegisterUser(e) {
     e.preventDefault();
-    try {    
+    try {
       const { data } = await axiosInstance.post("/auth/register", {
         ...signUpFormData,
       });

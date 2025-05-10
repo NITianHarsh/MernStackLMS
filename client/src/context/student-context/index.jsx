@@ -11,7 +11,7 @@ export default function StudentProvider({ children }) {
     useState(null);
   const [studentCurrentCourseProgress, setstudentCurrentCourseProgress] =
     useState({});
-    
+
   return (
     <StudentContext.Provider
       value={{

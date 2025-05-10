@@ -39,7 +39,9 @@ const StudentNotifications = () => {
         <p className="text-gray-400">No scheduled sessions yet.</p>
       ) : (
         sessions.map((session) => {
-          const { meetingId, password } = extractZoomDetails(session.zoomJoinUrl);
+          const { meetingId, password } = extractZoomDetails(
+            session.zoomJoinUrl
+          );
 
           return (
             <div
@@ -54,12 +56,17 @@ const StudentNotifications = () => {
               </p>
 
               <div className="mt-3 text-sm text-gray-600">
-                📌 If Zoom app is installed, click <strong>"Join Zoom"</strong>. Otherwise, join manually using:
+                📌 If Zoom app is installed, click <strong>"Join Zoom"</strong>.
+                Otherwise, join manually using:
               </div>
 
               <div className="mt-1 text-sm text-gray-700">
-                <p><strong>Meeting ID:</strong> {meetingId}</p>
-                <p><strong>Password:</strong> {password}</p>
+                <p>
+                  <strong>Meeting ID:</strong> {meetingId}
+                </p>
+                <p>
+                  <strong>Password:</strong> {password}
+                </p>
               </div>
 
               <a

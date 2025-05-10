@@ -93,9 +93,7 @@ const UpdateExam = () => {
         q.options.length !== 4 ||
         q.options.some((opt) => opt.trim() === "")
       ) {
-        toast.error(
-          "Please fill all question fields and options correctly."
-        );
+        toast.error("Please fill all question fields and options correctly.");
         setIsSubmitting(false);
         return;
       }

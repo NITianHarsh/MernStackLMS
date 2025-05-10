@@ -149,11 +149,17 @@ function App() {
           <Route path="exam/:examId/all-results" element={<AllResults />} />
           <Route path="notifications" element={<StudentNotifications />} />
           <Route path="student-courses" element={<StudentCoursesPage />} />
-          <Route path="course-progress/:id" element={<StudentViewCourseProgressPage />} />
+          <Route
+            path="course-progress/:id"
+            element={<StudentViewCourseProgressPage />}
+          />
           <Route path="paymentsuccess" element={<PaymentDone />} />
           <Route path="student-courses/exam" element={<StudentExamPage />} />
-          <Route path="student-courses/start-exam/:courseId" element={<StartExam />} />
-          <Route path="doubt"  element={<AskDoubt/>}/>
+          <Route
+            path="student-courses/start-exam/:courseId"
+            element={<StartExam />}
+          />
+          <Route path="doubt" element={<AskDoubt />} />
         </Route>
 
         {/* Catch-all route */}

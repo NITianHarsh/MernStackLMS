@@ -104,7 +104,7 @@ function InstructorDashboardpage() {
       icon: BarChart,
       label: "Dashboard",
       value: "dashboard",
-      component: <Dashboard listOfCourses={instructorCoursesList}/>,
+      component: <Dashboard listOfCourses={instructorCoursesList} />,
     },
     {
       icon: Book,
@@ -184,7 +184,10 @@ function InstructorDashboardpage() {
             >
               <img
                 className="w-8 h-8 rounded-full"
-                src={auth?.user?.userImage || "https://flowbite.com/docs/images/people/profile-picture-5.jpg"}
+                src={
+                  auth?.user?.userImage ||
+                  "https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                }
                 alt="User"
               />
             </button>
@@ -220,7 +223,10 @@ function InstructorDashboardpage() {
                           <div className="flex flex-col items-center gap-4">
                             <label className="cursor-pointer relative">
                               <img
-                                src={auth?.user?.userImage || "https://flowbite.com/docs/images/people/profile-picture-5.jpg"}
+                                src={
+                                  auth?.user?.userImage ||
+                                  "https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                }
                                 alt="User"
                                 className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
                               />

@@ -3,9 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
-
 const StudentExamPage = () => {
-    const navigate=useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white p-6">
       <div className="max-w-4xl mx-auto">
@@ -19,7 +18,10 @@ const StudentExamPage = () => {
             </p>
 
             <div className="flex justify-center">
-              <Button onClick={() => navigate("/student/student-courses/start-exam")} className="px-6 py-3 text-lg rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition-all">
+              <Button
+                onClick={() => navigate("/student/student-courses/start-exam")}
+                className="px-6 py-3 text-lg rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition-all"
+              >
                 Start Exam
               </Button>
             </div>
