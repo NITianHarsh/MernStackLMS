@@ -295,10 +295,10 @@ function AddNewCourse() {
 
       <Card className="bg-white dark:bg-gray-800 shadow-md">
         <CardContent className="px-2 sm:px-4 py-4 text-black dark:text-white">
-          <Tabs defaultValue="curriculum" className="space-y-4 relative">
+          <Tabs defaultValue="curriculum" className="relative">
             <TabsList
               className="
-                w-full
+                w-full h-16 sm:h-8
                 grid grid-cols-2 grid-rows-2 gap-2
                 sm:grid-cols-2 sm:grid-rows-2
                 md:grid-cols-4 md:grid-rows-1
@@ -307,25 +307,25 @@ function AddNewCourse() {
             >
               <TabsTrigger
                 value="curriculum"
-                className="w-full text-sm sm:text-base px-4 py-2 sm:py-3 text-center"
+                className="w-full text-md sm:text-base px-4 py-2 sm:py-3 text-center"
               >
                 Curriculum
               </TabsTrigger>
               <TabsTrigger
                 value="course-landing-page"
-                className="w-full text-sm sm:text-base px-4 py-2 sm:py-3 text-center"
+                className="w-full text-md sm:text-base px-4 py-2 sm:py-3 text-center"
               >
                 Landing Page
               </TabsTrigger>
               <TabsTrigger
                 value="settings"
-                className="w-full text-sm sm:text-base px-4 py-2 sm:py-3 text-center"
+                className="w-full text-md sm:text-base px-4 py-2 sm:py-3 text-center"
               >
                 Thumbnail
               </TabsTrigger>
               <TabsTrigger
                 value="exam"
-                className="w-full text-sm sm:text-base px-4 py-2 sm:py-3 text-center"
+                className="w-full text-md sm:text-base px-4 py-2 sm:py-3 text-center"
               >
                 Entrance Test
               </TabsTrigger>
