@@ -60,7 +60,7 @@ A full-featured web application built for managing and consuming online courses.
 - Browse available courses and view course detail pages.
 
 #### Payment and Enrollment
-- Buy courses via integrated PayPal payment gateway.
+- Buy courses via integrated RazorPay payment gateway.
 
 #### My Courses and Progress Tracking
 - View enrolled courses and track progress through completed lectures.
