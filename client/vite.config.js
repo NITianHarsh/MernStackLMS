@@ -14,17 +14,5 @@ export default defineConfig({
     optimizeDeps: {
     exclude: ['razorpay'], // Exclude Node.js modules
   },
-   server: {
-    historyApiFallback: true, // For dev server
-  },
-  build: {
-    outDir: 'dist',
-    // For production routing
-    rollupOptions: {
-      output: {
-        // Ensures entry point is correct
-        entryFileNames: 'assets/[name]-[hash].js',
-      },
-    },
-  },
+
 });
