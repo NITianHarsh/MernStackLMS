@@ -16,6 +16,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "@/axiosInstance";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "react-toastify";
 
 function AddNewCourse() {
   const [darkMode, setDarkMode] = useState(false);
@@ -134,7 +135,7 @@ function AddNewCourse() {
         const course = data?.data;
 
         if (course?.instructorId !== auth?.user?._id) {
-          alert("You are not authorized to edit this course.");
+          toast.error("You are not authorized to edit this course.");
           return;
         }
 
@@ -160,7 +161,7 @@ function AddNewCourse() {
       }
     } catch (error) {
       console.error("Error creating/updating course:", error);
-      alert("Something went wrong while submitting the course.");
+      toast.error("Something went wrong while submitting the course.");
     }
   };
 
@@ -215,7 +216,7 @@ function AddNewCourse() {
       correctAnswerIndex < 0 ||
       correctAnswerIndex > 3
     ) {
-      alert("Please fill all question fields correctly");
+     toast.error("Please fill all question fields correctly");
       return;
     }
 
