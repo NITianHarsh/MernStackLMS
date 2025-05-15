@@ -156,49 +156,53 @@ function StudentViewCourseProgressPage() {
   return (
     <div className="flex flex-col h-screen bg-[#1c1d1f] text-white">
       {showConfetti && <Confetti />}
-      <div className="flex items-center justify-between p-4 bg-[#1c1d1f] border-b border-gray-700">
-        <div className="flex items-center space-x-4">
-          <Button
-            onClick={() => navigate("/student/student-courses")}
-            className="text-yellow-400"
-            variant="ghost"
-            size="sm"
-          >
-            <ChevronLeft className="h-4 w-4 mr-2" />
-            Back to My Courses Page
-          </Button>
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 bg-[#1c1d1f] border-b border-gray-700 text-center sm:text-left">
+  {/* Back Button + Title */}
+  <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2 sm:gap-4 text-center sm:text-left">
+    <Button
+      onClick={() => navigate("/student/student-courses")}
+      className="text-yellow-400"
+      variant="ghost"
+      size="sm"
+    >
+      <ChevronLeft className="h-4 w-4 mr-2" />
+      Back to My Courses Page
+    </Button>
 
-          <h1 className="text-lg font-bold hidden md:block">
-            {studentCurrentCourseProgress?.courseDetails?.title}
-          </h1>
-        </div>
-        <div className="flex justify-end items-center gap-4">
-          {studentCurrentCourseProgress?.courseDetails && (
-            <AskDoubt
-              studentId={auth?.user?._id}
-              courseId={studentCurrentCourseProgress.courseDetails._id}
-            />
-          )}
-          {/* <Button onClick={() => navigate("/student/doubt")} className="bg-white text-black">Ask Your Doubt</Button> */}
-          <Button onClick={() => setIsSideBarOpen(!isSideBarOpen)}>
-            {isSideBarOpen ? (
-              <ChevronRight className="h-5 w-5" />
-            ) : (
-              <ChevronLeft className="h-5 w-5" />
-            )}
-          </Button>
-        </div>
-      </div>
+    <h1 className="text-base sm:text-lg font-bold truncate max-w-full sm:max-w-[300px]">
+      {studentCurrentCourseProgress?.courseDetails?.title}
+    </h1>
+  </div>
 
-      <div className="flex flex-1 overflow-hidden">
+  {/* Ask Doubt + Sidebar Toggle */}
+  <div className="flex items-center justify-center sm:justify-end gap-4 w-full sm:w-auto">
+    {studentCurrentCourseProgress?.courseDetails && (
+      <AskDoubt
+        className="hidden sm:block"
+        studentId={auth?.user?._id}
+        courseId={studentCurrentCourseProgress.courseDetails._id}
+      />
+    )}
+    <Button onClick={() => setIsSideBarOpen(!isSideBarOpen)}>
+      {isSideBarOpen ? (
+        <ChevronRight className="h-5 w-5" />
+      ) : (
+        <ChevronLeft className="h-5 w-5" />
+      )}
+    </Button>
+  </div>
+</div>
+
+
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
         <div
-          className={`flex-1 ${
-            isSideBarOpen ? "mr-[0px]" : ""
+          className={`w-full md:flex-1 ${isSideBarOpen ? "md:mr-0" : ""
           } transition-all duration-300`}
         >
           <VideoPlayer
-            width="100%"
-            height="500px"
+             width="100%"
+             height="500px"
+             className="aspect-video" 
             url={currentLecture?.videoUrl}
             onProgressUpdate={setCurrentLecture}
             progressData={currentLecture}

@@ -121,7 +121,7 @@ const PomodoroFloatingWidget = () => {
       {/* Timer Widget */}
       {isOpen && (
         <div
-          className={`fixed bottom-24 right-6 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-5 z-50 transition-all duration-300 ${
+          className={`fixed bottom-24 right-6 sm:right-6 w-[90vw] sm:w-80 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-5 z-50 transition-all duration-300 ${
             isEnded ? "animate-pulse border-red-500 dark:border-red-500" : ""
           }`}
         >
@@ -156,7 +156,7 @@ const PomodoroFloatingWidget = () => {
                   min="1"
                   value={focusDuration}
                   onChange={handleFocusChange}
-                  className="w-14 px-2 py-1 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-16 sm:w-14 px-2 py-1 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
               <div className="flex items-center">
@@ -168,14 +168,14 @@ const PomodoroFloatingWidget = () => {
                   min="1"
                   value={breakDuration}
                   onChange={handleBreakChange}
-                  className="w-14 px-2 py-1 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-16 sm:w-14 px-2 py-1 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
             </div>
           )}
 
           {/* Control Buttons */}
-          <div className="flex justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-3">
             <button
               onClick={handleStartPause}
               className="px-4 py-2 bg-black hover:bg-gray-800 text-white rounded-lg shadow transition flex items-center"
@@ -271,7 +271,7 @@ const PomodoroFloatingWidget = () => {
         </div>
       )}
 
-      <ToastContainer />
+      <ToastContainer  position="bottom-center" autoClose={3000} />
     </>
   );
 };
