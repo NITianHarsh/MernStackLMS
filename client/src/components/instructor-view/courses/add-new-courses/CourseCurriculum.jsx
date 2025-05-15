@@ -123,6 +123,7 @@ function CourseCurriculum() {
   }
   async function handleMediaBulkUpload(event) {
     const selectedFiles = Array.from(event.target.files);
+    console.log(selectedFiles, "selectedFiles");
     const bulkFormData = new FormData();
 
     selectedFiles.forEach((fileItem) => bulkFormData.append("files", fileItem));
@@ -134,6 +135,7 @@ function CourseCurriculum() {
         setMediaUploadProgressPercentage
       );
 
+      console.log(response, "bulk");
       if (response?.success) {
         let cpyCourseCurriculumFormdata =
           areAllCourseCurriculumFormDataObjectsEmpty(courseCurriculumFormData)
@@ -276,21 +278,28 @@ function CourseCurriculum() {
               </div>
               <div className="mt-6">
                 {courseCurriculumFormData[index]?.videoUrl ? (
-                  <div className="flex gap-3">
-                    <VideoPlayer
-                      width="450px"
-                      height="200px"
-                      url={courseCurriculumFormData[index]?.videoUrl}
-                    />
-                    <Button onClick={() => handleReplaceVideo(index)}>
-                      Replace Video
-                    </Button>
-                    <Button
-                      onClick={() => handleDeleteLecture(index)}
-                      className="bg-red-900"
-                    >
-                      Delete Lecture
-                    </Button>
+                  <div className="flex flex-col items-start gap-3 max-w-full">
+                    <div className="w-full max-w-[450px]">
+                      <VideoPlayer
+                        width="100%"
+                        height="200px"
+                        url={courseCurriculumFormData[index]?.videoUrl}
+                      />
+                    </div>
+                    <div className="flex flex-row gap-2 w-full max-w-[450px]">
+                      <Button
+                        onClick={() => handleReplaceVideo(index)}
+                        className="flex-1"
+                      >
+                        Replace Video
+                      </Button>
+                      <Button
+                        onClick={() => handleDeleteLecture(index)}
+                        className="bg-red-900 flex-1"
+                      >
+                        Delete Lecture
+                      </Button>
+                    </div>
                   </div>
                 ) : (
                   <Input
