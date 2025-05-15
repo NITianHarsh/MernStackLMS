@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
-import { ArrowLeftCircle, Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import {
   courseCurriculumInitialFormData,
@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 
 function AddNewCourse() {
   const [darkMode, setDarkMode] = useState(false);
+
   useEffect(() => {
     const theme = localStorage.getItem("theme");
     if (theme === "dark") {
@@ -53,6 +54,7 @@ function AddNewCourse() {
     passingScore: "",
     questions: [],
   });
+
   const [newQuestion, setNewQuestion] = useState({
     questionText: "",
     options: ["", "", "", ""],
@@ -68,6 +70,7 @@ function AddNewCourse() {
     for (const key in courseLandingFormData) {
       if (isEmpty(courseLandingFormData[key])) return false;
     }
+
     let hasFreePreview = false;
     for (const item of courseCurriculumFormData) {
       if (
@@ -106,6 +109,7 @@ function AddNewCourse() {
     );
     return data;
   }
+
   const handleCreateCourse = async () => {
     const courseFinalFormData = {
       instructorId: auth?.user?._id,
@@ -128,7 +132,6 @@ function AddNewCourse() {
       let response;
 
       if (currentEditedCourseId !== null) {
-        // ✅ Fetch the course and validate ownership
         const { data } = await axiosInstance.get(
           `/instructor/course/get/${currentEditedCourseId}`
         );
@@ -196,6 +199,7 @@ function AddNewCourse() {
   useEffect(() => {
     if (currentEditedCourseId !== null) fetchCurrentCourseDetails();
   }, [currentEditedCourseId]);
+
   useEffect(() => {
     if (params?.courseId) setCurrentEditedCourseId(params?.courseId);
   }, [params?.courseId]);
@@ -216,7 +220,7 @@ function AddNewCourse() {
       correctAnswerIndex < 0 ||
       correctAnswerIndex > 3
     ) {
-     toast.error("Please fill all question fields correctly");
+      toast.error("Please fill all question fields correctly");
       return;
     }
 
@@ -239,12 +243,36 @@ function AddNewCourse() {
   };
 
   return (
-    <div className="w-full p-8 px-20 bg-gradient-to-br from-green-100 to-green-300 dark:bg-gray-900 dark:bg-none min-h-screen text-black dark:text-white transition-all duration-300 ease-in-out">
-      <div className="flex justify-between items-center mb-5">
-        <h1 className="text-3xl pl-3 font-extrabold text-green-800 dark:text-green-300">
-          Create a new course
-        </h1>
-        <div className="flex gap-3">
+    <div
+      className="
+    w-full px-4 sm:px-6 md:px-10 lg:px-20 py-6
+    bg-gradient-to-br from-green-100 to-green-300
+    dark:from-gray-900 dark:to-gray-800
+    min-h-screen
+    text-black dark:text-white
+    transition-all duration-300 ease-in-out
+  "
+    >
+      <div className="relative w-full mb-6">
+        {/* Left: Back Button */}
+        <div className="absolute left-0 top-1 sm:top-0">
+          <button
+            className="text-2xl sm:text-3xl font-extrabold text-green-800 dark:text-green-300 hover:scale-110 transition"
+            onClick={() => navigate(-1)}
+          >
+            &#60;
+          </button>
+        </div>
+
+        {/* Center: Title */}
+        <div className="flex justify-center">
+          <h1 className="text-center text-2xl sm:text-3xl font-extrabold text-green-800 dark:text-green-300">
+            Create a new course
+          </h1>
+        </div>
+
+        {/* Right: Actions (on same row in large screens, stacked below on small) */}
+        <div className="mt-4 sm:mt-0 sm:absolute sm:right-0 sm:top-0 flex justify-end sm:justify-start w-full sm:w-auto gap-3">
           <button
             onClick={toggleDarkMode}
             className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
@@ -257,7 +285,7 @@ function AddNewCourse() {
           </button>
           <Button
             disabled={!validateFormData()}
-            className="text-sm tracking-wider font-bold px-8 bg-green-600 text-white hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-400"
+            className="text-sm font-bold px-6 bg-green-600 text-white hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-400"
             onClick={handleCreateCourse}
           >
             SUBMIT
@@ -265,106 +293,104 @@ function AddNewCourse() {
         </div>
       </div>
 
-      <Card className="bg-white dark:bg-gray-800 text-black dark:text-white shadow-md">
-        <CardContent>
-          <div className="p-4">
-            <Tabs defaultValue="curriculum" className="space-y-4">
-              <TabsList className="bg-green-200 dark:bg-gray-700">
-                <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
-                <TabsTrigger value="course-landing-page">
-                  Course Landing Page
-                </TabsTrigger>
-                <TabsTrigger value="settings">Settings</TabsTrigger>
-                <TabsTrigger value="exam">Exam</TabsTrigger>
-              </TabsList>
-              <button
-                className="text-4xl font-extrabold absolute top-[27px] left-4 cursor-pointer text-green-800 dark:text-green-300 hover:scale-130 transition-all duration-300 ease-in-out"
-                onClick={() => navigate(-1)}
-              >
-                &#60;
-              </button>{" "}
-              <TabsContent value="curriculum">
-                <CourseCurriculum />
-              </TabsContent>
-              <TabsContent value="course-landing-page">
-                <CourseLanding />
-              </TabsContent>
-              <TabsContent value="settings">
-                <CourseSettings />
-              </TabsContent>
-              <TabsContent value="exam">
-                <div className="space-y-4">
-                  <Input
-                    placeholder="Exam Title"
-                    value={examData.title}
-                    onChange={(e) =>
-                      setExamData((prev) => ({
-                        ...prev,
-                        title: e.target.value,
-                      }))
-                    }
-                  />
-                  <Input
-                    type="number"
-                    placeholder="Duration (min)"
-                    value={examData.duration}
-                    onChange={(e) =>
-                      setExamData((prev) => ({
-                        ...prev,
-                        duration: parseInt(e.target.value),
-                      }))
-                    }
-                  />
-                  <Input
-                    type="number"
-                    placeholder="Passing Score"
-                    value={examData.passingScore}
-                    onChange={(e) =>
-                      setExamData((prev) => ({
-                        ...prev,
-                        passingScore: parseInt(e.target.value),
-                      }))
-                    }
-                  />
+      <Card className="bg-white dark:bg-gray-800 shadow-md">
+        <CardContent className="px-2 sm:px-4 py-4 text-black dark:text-white">
+          <Tabs defaultValue="curriculum" className="space-y-4 relative">
+            <TabsList className="bg-green-200 dark:bg-gray-700 flex-wrap">
+              <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
+              <TabsTrigger value="course-landing-page">
+                Landing Page
+              </TabsTrigger>
+              <TabsTrigger value="settings">Thumbnail</TabsTrigger>
+              <TabsTrigger value="exam">Entrance Test</TabsTrigger>
+            </TabsList>
 
-                  <Textarea
-                    placeholder="Question Text"
-                    value={newQuestion.questionText}
+            <TabsContent value="curriculum">
+              <CourseCurriculum />
+            </TabsContent>
+
+            <TabsContent value="course-landing-page">
+              <CourseLanding />
+            </TabsContent>
+
+            <TabsContent value="settings">
+              <CourseSettings />
+            </TabsContent>
+
+            <TabsContent value="exam">
+              <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Input
+                  placeholder="Exam Title"
+                  value={examData.title}
+                  onChange={(e) =>
+                    setExamData((prev) => ({ ...prev, title: e.target.value }))
+                  }
+                />
+                <Input
+                  type="number"
+                  placeholder="Duration (min)"
+                  value={examData.duration}
+                  onChange={(e) =>
+                    setExamData((prev) => ({
+                      ...prev,
+                      duration: parseInt(e.target.value),
+                    }))
+                  }
+                />
+                <Input
+                  type="number"
+                  placeholder="Passing Score"
+                  value={examData.passingScore}
+                  onChange={(e) =>
+                    setExamData((prev) => ({
+                      ...prev,
+                      passingScore: parseInt(e.target.value),
+                    }))
+                  }
+                />
+                <Textarea
+                  placeholder="Question Text"
+                  value={newQuestion.questionText}
+                  onChange={(e) =>
+                    setNewQuestion((prev) => ({
+                      ...prev,
+                      questionText: e.target.value,
+                    }))
+                  }
+                />
+                {newQuestion.options.map((opt, i) => (
+                  <Input
+                    key={i}
+                    placeholder={`Option ${i + 1}`}
+                    value={opt}
+                    onChange={(e) => handleQuestionChange(i, e.target.value)}
+                  />
+                ))}
+                <div>
+                  <label className="text-sm font-medium mb-1 block">
+                    Correct Answer Index
+                  </label>
+                  <Input
+                    type="number"
+                    min={0}
+                    max={3}
+                    value={newQuestion.correctAnswerIndex}
                     onChange={(e) =>
                       setNewQuestion((prev) => ({
                         ...prev,
-                        questionText: e.target.value,
+                        correctAnswerIndex: parseInt(e.target.value),
                       }))
                     }
                   />
-                  {newQuestion.options.map((opt, i) => (
-                    <Input
-                      key={i}
-                      placeholder={`Option ${i + 1}`}
-                      value={opt}
-                      onChange={(e) => handleQuestionChange(i, e.target.value)}
-                    />
-                  ))}
-                  <div>
-                    <label>Correct Answer Index</label>
-                    <Input
-                      type="number"
-                      min={0}
-                      max={3}
-                      value={newQuestion.correctAnswerIndex}
-                      onChange={(e) =>
-                        setNewQuestion((prev) => ({
-                          ...prev,
-                          correctAnswerIndex: parseInt(e.target.value),
-                        }))
-                      }
-                    />
-                  </div>
-                  <Button onClick={addQuestion}>Add Question</Button>
                 </div>
-              </TabsContent>
-            </Tabs>
-          </div>
+                <div className="md:col-span-2">
+                  <Button onClick={addQuestion} className="w-full sm:w-auto">
+                    Add Question
+                  </Button>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
     </div>
