@@ -16,6 +16,7 @@ import { StudentContext } from "@/context/student-context";
 import { CheckCircle, Globe, Lock, PlayCircle } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function StudentViewCourseDetailsPage() {
   const {
@@ -52,7 +53,7 @@ function StudentViewCourseDetailsPage() {
   async function fetchStudentViewCoursesDetails() {
     async function checkCoursePurchaseInfo(courseId, studentId) {
       const { data } = await axiosInstance.get(
-        `/student/course//purchase-info/${courseId}/${studentId}`
+        `/student/course/purchase-info/${courseId}/${studentId}`
       );
       console.log(data, "raaandhjdbsjjbchinaar");
       return data;
@@ -125,7 +126,7 @@ function StudentViewCourseDetailsPage() {
   const checkoutHandler = async (amount) => {
     const isScriptLoaded = await loadRazorpayScript();
     if (!isScriptLoaded) {
-      alert("Failed to load Razorpay.");
+     toast.error("Failed to load Razorpay.");
       return;
     }
 
