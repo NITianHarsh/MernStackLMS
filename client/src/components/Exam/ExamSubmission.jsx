@@ -2,8 +2,19 @@ import { toast } from "react-toastify";
 import axiosInstance from "@/axiosInstance";
 import TimerComponent from "./TimerComponent";
 import PreventCheating from "./PreventCheating";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { AuthContext } from "@/context/auth-context";
 
 const ExamSubmission = () => {
   const { examId } = useParams();
@@ -11,13 +22,16 @@ const ExamSubmission = () => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [startTime, setStartTime] = useState(null);
-  const [timeLimit, setTimeLimit] = useState(60 * 30); // default 1 min
+  const [timeLimit, setTimeLimit] = useState(60 * 30); // default 30 min
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // <-- New state
+  const { auth } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
         const response = await axiosInstance.get(`/exam/${examId}/questions`);
+        console.log("Exam questions:", response);
         setQuestions(response.data);
         setAnswers(response.data.map(() => ({ selectedOptionIndex: -1 })));
         setStartTime(Date.now());
@@ -47,34 +61,33 @@ const ExamSubmission = () => {
     }
   };
 
-  const submitExam = async (fromTimer = false) => {
-    if (
-      !fromTimer &&
-      !window.confirm("Are you sure you want to submit the exam?")
-    )
-      return;
-
+  // Actual submit logic, called after user confirms
+  const doSubmitExam = async (fromTimer = false) => {
     setIsSubmitting(true);
     const totalTimeTaken = Math.floor((Date.now() - startTime) / 1000);
 
     const submission = {
       answers,
       timeTaken: totalTimeTaken,
-      studentName: "Anonymous", // replace with actual student name
+      studentName: auth.user.userName, 
     };
 
     try {
       await axiosInstance.post(`/result/${examId}/submit`, submission);
       await exitFullScreenIfNeeded(); // exit full screen if active
+      setIsSubmitting(false);
+      setIsDialogOpen(false);
       navigate(`/student/results/${examId}`);
     } catch (error) {
       console.error("Error submitting exam", error);
+      setIsSubmitting(false);
+      setIsDialogOpen(false);
     }
   };
 
   const handleTimeUp = () => {
     toast.info("Time's up! Submitting exam...");
-    submitExam(true); // true to skip confirmation
+    doSubmitExam(true);
   };
 
   if (questions.length === 0)
@@ -86,9 +99,7 @@ const ExamSubmission = () => {
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 p-6 bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Exam
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Exam</h2>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             Total Questions: {questions.length}
           </p>
@@ -125,9 +136,7 @@ const ExamSubmission = () => {
                     onChange={() => handleOptionChange(idx, optionIndex)}
                     className="h-5 w-5 text-gray-900 dark:text-gray-300 focus:ring-gray-500 border-gray-300 dark:border-gray-600 dark:bg-gray-700"
                   />
-                  <span className="ml-3 text-gray-800 dark:text-gray-300">
-                    {option}
-                  </span>
+                  <span className="ml-3 text-gray-800 dark:text-gray-300">{option}</span>
                 </label>
               ))}
             </div>
@@ -137,7 +146,7 @@ const ExamSubmission = () => {
 
       <div className="mt-10 text-center">
         <button
-          onClick={() => submitExam(false)}
+          onClick={() => setIsDialogOpen(true)} // <-- Open dialog on click
           disabled={isSubmitting}
           className={`relative px-8 py-3 font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ${
             isSubmitting
@@ -190,6 +199,26 @@ const ExamSubmission = () => {
           )}
         </button>
       </div>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Submit</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to submit the exam? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDialogOpen(false)} disabled={isSubmitting}>
+              Cancel
+            </Button>
+            <Button onClick={() => doSubmitExam(false)} disabled={isSubmitting}>
+              Yes, Submit
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
