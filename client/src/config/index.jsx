@@ -16,7 +16,7 @@ export const signUpFormControls = [
   {
     name: "password",
     label: "Password",
-    placeholder: "Enter your password",
+    placeholder: "Must contain at least 6 characters",
     type: "password",
     componentType: "input",
   },
@@ -28,7 +28,6 @@ export const signUpFormControls = [
     options: [
       { id: "student", label: "Student" },
       { id: "instructor", label: "instructor" },
-      { id: "admin", label: "Admin" },
     ],
   },
 ];
