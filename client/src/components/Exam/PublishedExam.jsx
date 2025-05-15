@@ -9,6 +9,7 @@ import {
   PlayCircle,
 } from "lucide-react";
 import axiosInstance from "@/axiosInstance";
+import { toast } from "react-toastify";
 
 const PublishedExam = () => {
   const [exams, setExams] = useState([]);
@@ -21,7 +22,7 @@ const PublishedExam = () => {
         const res = await axiosInstance.get("/exam/published");
         setExams(res.data);
       } catch (error) {
-        console.error("Error fetching exams:", error);
+        toast.error("Error fetching exams:"+(error));
       } finally {
         setLoading(false);
       }

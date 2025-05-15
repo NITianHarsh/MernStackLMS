@@ -22,14 +22,12 @@ export default function AuthProvider({ children }) {
       });
       if (!data.success) {
         toast.error("User Registration failed!");
-        console.log("error data is ", data);
       } else {
         toast.success("User Registered and Welcome email sent successfully!");
       }
 
       setSignUpFormData(initialSignUpFormData);
     } catch (error) {
-      console.error("Registration error:", error);
       toast.error("An error occurred during registration. Please try again.");
       setSignUpFormData(initialSignUpFormData);
     }
@@ -52,11 +50,9 @@ export default function AuthProvider({ children }) {
       } else {
         setAuth({ isAuthenticated: false, user: null });
         toast.error("User login failed!");
-        console.log("Login failure data:", data);
       }
       setSignInFormData(initialSignInFormData);
     } catch (error) {
-      console.error("Login error:", error);
       setAuth({ isAuthenticated: false, user: null });
       toast.error("An error occurred during login. Please try again.");
       setSignInFormData(initialSignInFormData);
@@ -80,7 +76,6 @@ export default function AuthProvider({ children }) {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
       if (!error?.response?.data?.success) {
         setAuth({
           isAuthenticated: false,

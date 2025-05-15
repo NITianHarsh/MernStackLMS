@@ -27,7 +27,6 @@ function StudentHomePage() {
   }, []);
 
   function handleNavigateToCoursesPage(getCurrentId) {
-    console.log(getCurrentId);
     sessionStorage.removeItem("filters");
     const currentFilter = {
       category: [getCurrentId],
@@ -44,7 +43,6 @@ function StudentHomePage() {
     return data;
   }
   async function handleCourseNavigate(getCurrentCourseId) {
-    console.log(getCurrentCourseId);
 
     const response = await checkCoursePurchaseInfo(
       getCurrentCourseId,

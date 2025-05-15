@@ -38,11 +38,9 @@ function StudentViewCourseDetailsPage() {
   const navigate = useNavigate();
 
   function handleSetFreePreview(getCurrentVideoInfo) {
-    console.log(getCurrentVideoInfo);
     setDisplayCurrentVideoFreePreview(getCurrentVideoInfo?.videoUrl);
   }
   async function fetchStudentCoursesDetails(courseId) {
-    console.log("hello darling");
     const { data } = await axiosInstance.get(
       `/student/course/get/details/${courseId}`
     );
@@ -55,7 +53,6 @@ function StudentViewCourseDetailsPage() {
       const { data } = await axiosInstance.get(
         `/student/course/purchase-info/${courseId}/${studentId}`
       );
-      console.log(data, "raaandhjdbsjjbchinaar");
       return data;
     }
     const checkCoursePurchaseInfoResponse = checkCoursePurchaseInfo(
@@ -74,7 +71,6 @@ function StudentViewCourseDetailsPage() {
       currentCourseDetailsId,
       auth?.user?._id
     );
-    console.log(response, "radniingiichinaar");
     if (response?.success) {
       setStudentViewCourseDetails(response?.data);
       setLoadingState(false);
@@ -85,7 +81,6 @@ function StudentViewCourseDetailsPage() {
   }
 
   useEffect(() => {
-    console.log("hello baby");
     if (currentCourseDetailsId !== null) fetchStudentViewCoursesDetails();
   }, [currentCourseDetailsId]);
 
@@ -106,12 +101,6 @@ function StudentViewCourseDetailsPage() {
           (item) => item.freePreview
         )
       : -1;
-
-  console.log(
-    getIndexOfFreePreviewUrl,
-    studentViewCourseDetails?.curriculum[getIndexOfFreePreviewUrl],
-    "bro"
-  );
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -135,9 +124,6 @@ function StudentViewCourseDetailsPage() {
       const {
         data: { key },
       } = await axiosInstance.get("/api/getkey");
-      console.log(key, "keyyyyyyyyyy");
-      console.log(auth, "authhhhh");
-      console.log(studentViewCourseDetails, "asdffffffffffffffffffffff");
       // 2. Send full metadata to backend /checkout
       const {
         data: { order },
@@ -153,8 +139,7 @@ function StudentViewCourseDetailsPage() {
         instructorId: studentViewCourseDetails?.instructorId,
         instructorName: studentViewCourseDetails?.instructorName,
       });
-      console.log(key, "keyyyyyyyyyyyyyyy");
-      console.log(order, "orderrrrrrrrrrr");
+ 
       // 3. Setup Razorpay checkout
       const options = {
         key,
@@ -178,13 +163,11 @@ function StudentViewCourseDetailsPage() {
       razor.open();
       setDiscoutedPrice("");
     } catch (err) {
-      console.error("Checkout error:", err);
       toast.success("Razorpay is opening");
     }
   };
 
-  console.log(studentViewCourseDetails, "ghjhgjijluijklhuijl");
-  console.log(DiscountedPrice, "discount");
+ 
 
   return (
     <div className=" mx-auto p-4">
@@ -326,7 +309,7 @@ function StudentViewCourseDetailsPage() {
               height="200px"
               onEnded={() => {
                 // Prevent redirect or unwanted behavior
-                console.log("Video ended");
+                toast.success("Video ended");
               }}
             />
           </div>

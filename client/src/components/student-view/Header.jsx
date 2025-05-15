@@ -20,7 +20,6 @@ function StudentViewCommonHeader() {
   function handleLogout() {
     resetCredentials();
     sessionStorage.clear();
-    console.log("Logout successful");
   }
   useEffect(() => {
     const theme = localStorage.getItem("theme");

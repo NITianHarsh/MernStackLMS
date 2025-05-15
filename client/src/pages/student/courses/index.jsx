@@ -91,14 +91,12 @@ function StudentViewCoursesPage() {
     const indexOfCurrentSeection =
       Object.keys(cpyFilters).indexOf(getSectionId);
 
-    console.log(indexOfCurrentSeection, getSectionId);
     if (indexOfCurrentSeection === -1) {
       cpyFilters = {
         ...cpyFilters,
         [getSectionId]: [getCurrentOption.id],
       };
 
-      console.log(cpyFilters);
     } else {
       const indexOfCurrentOption = cpyFilters[getSectionId].indexOf(
         getCurrentOption.id
@@ -112,25 +110,20 @@ function StudentViewCoursesPage() {
     setFilters(cpyFilters);
     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
   }
-  console.log(filters);
 
   async function checkCoursePurchaseInfo(courseId, studentId) {
     const { data } = await axiosInstance.get(
       `/student/course/purchase-info/${courseId}/${studentId}`
     );
-    console.log(data, "dataaaaaaaaaaaaaaaaa");
     return data;
   }
 
   async function handleCourseNavigate(getCurrentCourseId) {
-    console.log("hello jan");
-    console.log(getCurrentCourseId);
 
     const response = await checkCoursePurchaseInfo(
       getCurrentCourseId,
       auth?.user?._id
     );
-    console.log(response, "jhsjhd");
     if (response?.success) {
       if (response?.data) {
         navigate(`/student/course-progress/${getCurrentCourseId}`);
@@ -139,9 +132,6 @@ function StudentViewCoursesPage() {
       }
     }
   }
-
-  console.log(studentViewCoursesList, "sdffffffffffffffffffffffffffffffffff");
-  console.log(loadingState, "loadingState");
 
   return (
     <div className="container mx-auto p-4">

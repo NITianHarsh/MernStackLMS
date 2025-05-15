@@ -112,7 +112,6 @@ const [isSubmitting, setIsSubmitting] = useState(false);
     submitExam(true);
   };
 
-  console.log(DiscountedPrice, "sdfghjkjhgfdfghjkjhgfdhjkjhgfghj");
   if (discount !== null) {
     return (
       <div className="max-w-xl mx-auto mt-10 text-center">

@@ -1,6 +1,7 @@
 import axiosInstance from "@/axiosInstance";
 import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Leaderboard = () => {
   const { examId } = useParams();
@@ -15,7 +16,7 @@ const Leaderboard = () => {
         );
         setLeaderboard(response.data);
       } catch (error) {
-        console.error("Error fetching leaderboard", error);
+        toast.error("Error fetching leaderboard:"+(error));
       } finally {
         setLoading(false);
       }
