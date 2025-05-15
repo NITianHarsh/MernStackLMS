@@ -18,7 +18,7 @@ const AboutUs = () => {
           <li>Database Optimization & Performance Tuning</li>
         </ul>
       ),
-      image: "gauravsimkar.jpg",
+      image: "GauravSimkar.png",
       socials: {
         linkedin: "https://www.linkedin.com/in/gauravsimkar/",
         github: "https://github.com/GauravSimkar",
@@ -50,7 +50,7 @@ const AboutUs = () => {
           <li>Backend: Node.js, Express, Strapi CMS, MongoDB</li>
         </ul>
       ),
-      image: "/Deepank.jpg",
+      image: "deepankImage.png",
       socials: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
