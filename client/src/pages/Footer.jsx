@@ -11,7 +11,7 @@ export default function Footer() {
             <h5 className="text-base font-semibold mb-1 uppercase text-gray-900">
               Useful Links
             </h5>
-            <ul className="space-y-1">
+            <ul className="flex flex-row gap-x-4">
               <li>
                 <Link
                   to="/aboutus"
