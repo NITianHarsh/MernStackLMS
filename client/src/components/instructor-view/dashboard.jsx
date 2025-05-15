@@ -148,8 +148,8 @@ function Dashboard({ listOfCourses }) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
           >
-{/*             <CanvasJSChart options={options} />
-          </motion.div> */}
+{/*             <CanvasJSChart options={options} /> */}
+          </motion.div>
         </DialogContent>
       </Dialog>
 
