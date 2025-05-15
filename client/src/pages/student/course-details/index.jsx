@@ -148,7 +148,7 @@ function StudentViewCourseDetailsPage() {
         name: "Deepank Kujur",
         description: "Course Purchase",
         order_id: order.id,
-        callback_url: "http://localhost:5000/api/paymentVerification", // Only required for server-side verification
+        callback_url: "https://mernstacklmsbackend.onrender.com/api/paymentVerification", // Only required for server-side verification
         prefill: {
           name: auth?.user?.name,
           email: auth?.user?.email,
