@@ -38,7 +38,7 @@ function Navbar() {
         <Link to="/" className="flex items-center space-x-3">
           <GraduationCap className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
           <span className="font-extrabold text-2xl text-emerald-800 dark:text-emerald-300">
-            Gyaan Path
+            ज्ञान पाठ
           </span>
         </Link>
       </div>
