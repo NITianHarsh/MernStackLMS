@@ -18,7 +18,7 @@ const AboutUs = () => {
           <li>Database Optimization & Performance Tuning</li>
         </ul>
       ),
-      image: "138660091.jpeg",
+      image: "gauravsimkar.jpg",
       socials: {
         linkedin: "https://www.linkedin.com/in/gauravsimkar/",
         github: "https://github.com/GauravSimkar",
@@ -66,10 +66,10 @@ const AboutUs = () => {
           <li>Database Optimization & Performance Tuning</li>
         </ul>
       ),
-      image: "138660091.jpeg",
+      image: "singhImg.jpg",
       socials: {
-        linkedin: "https://www.linkedin.com/in/gauravsimkar/",
-        github: "https://github.com/GauravSimkar",
+        linkedin: "https://www.linkedin.com/",
+        github: "https://github.com/",
       },
     },
   ];
