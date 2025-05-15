@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/table";
 import { IndianRupee, Users } from "lucide-react";
 import { useState } from "react";
-import CanvasJSReact from "@canvasjs/react-charts";
+// import CanvasJSReact from "@canvasjs/react-charts";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 
-const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+// const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 function Dashboard({ listOfCourses }) {
   const [chartData, setChartData] = useState([]);
@@ -148,8 +148,8 @@ function Dashboard({ listOfCourses }) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
           >
-            <CanvasJSChart options={options} />
-          </motion.div>
+{/*             <CanvasJSChart options={options} />
+          </motion.div> */}
         </DialogContent>
       </Dialog>
 
