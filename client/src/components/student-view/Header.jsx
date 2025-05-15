@@ -43,7 +43,7 @@ function StudentViewCommonHeader() {
         >
           <GraduationCap className="h-8 w-8 text-white" />
           <span className="text-2xl font-bold text-white tracking-wide">
-            LMS Learn
+            Gyaan Path
           </span>
         </div>
 
