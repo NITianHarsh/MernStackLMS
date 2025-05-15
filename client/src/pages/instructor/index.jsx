@@ -171,7 +171,7 @@ function InstructorDashboardpage() {
             <Link to={"/instructor"} className="flex items-center space-x-3">
               <GraduationCap className="h-8 w-8 text-green-600 dark:text-green-400" />
               <span className="font-extrabold text-2xl text-green-800 dark:text-green-300">
-                LMS LEARN
+                Gyaan Path
               </span>
             </Link>
           </div>
