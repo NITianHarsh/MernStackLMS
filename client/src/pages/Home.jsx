@@ -24,7 +24,7 @@ export default function HomePage() {
             <span className="text-emerald-600 dark:text-emerald-400">
               Learning Potential
             </span>{" "}
-            with LMS Learn
+            with Gyaan Path
           </motion.h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-xl">
             Join thousands of learners and instructors on the most engaging and
