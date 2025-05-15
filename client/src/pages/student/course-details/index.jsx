@@ -145,7 +145,7 @@ function StudentViewCourseDetailsPage() {
         key,
         amount: order.amount,
         currency: "INR",
-        name: "Deepank Kujur",
+        name: "Gyaan Path",
         description: "Course Purchase",
         order_id: order.id,
         callback_url: "https://mernstacklmsbackend.onrender.com/api/paymentVerification", // Only required for server-side verification
