@@ -296,13 +296,39 @@ function AddNewCourse() {
       <Card className="bg-white dark:bg-gray-800 shadow-md">
         <CardContent className="px-2 sm:px-4 py-4 text-black dark:text-white">
           <Tabs defaultValue="curriculum" className="space-y-4 relative">
-            <TabsList className="bg-green-200 dark:bg-gray-700 flex-wrap">
-              <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
-              <TabsTrigger value="course-landing-page">
+            <TabsList
+              className="
+                w-full
+                grid grid-cols-2 grid-rows-2 gap-2
+                sm:grid-cols-2 sm:grid-rows-2
+                md:grid-cols-4 md:grid-rows-1
+                bg-green-200 dark:bg-gray-700
+              "
+            >
+              <TabsTrigger
+                value="curriculum"
+                className="w-full text-sm sm:text-base px-4 py-2 sm:py-3 text-center"
+              >
+                Curriculum
+              </TabsTrigger>
+              <TabsTrigger
+                value="course-landing-page"
+                className="w-full text-sm sm:text-base px-4 py-2 sm:py-3 text-center"
+              >
                 Landing Page
               </TabsTrigger>
-              <TabsTrigger value="settings">Thumbnail</TabsTrigger>
-              <TabsTrigger value="exam">Entrance Test</TabsTrigger>
+              <TabsTrigger
+                value="settings"
+                className="w-full text-sm sm:text-base px-4 py-2 sm:py-3 text-center"
+              >
+                Thumbnail
+              </TabsTrigger>
+              <TabsTrigger
+                value="exam"
+                className="w-full text-sm sm:text-base px-4 py-2 sm:py-3 text-center"
+              >
+                Entrance Test
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="curriculum">
