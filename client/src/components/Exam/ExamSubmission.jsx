@@ -31,12 +31,11 @@ const ExamSubmission = () => {
     const fetchQuestions = async () => {
       try {
         const response = await axiosInstance.get(`/exam/${examId}/questions`);
-        console.log("Exam questions:", response);
         setQuestions(response.data);
         setAnswers(response.data.map(() => ({ selectedOptionIndex: -1 })));
         setStartTime(Date.now());
       } catch (error) {
-        console.error("Error fetching exam questions", error);
+        toast.error("Error fetching exam questions"+(error));
       }
     };
 
@@ -56,7 +55,7 @@ const ExamSubmission = () => {
       try {
         await document.exitFullscreen();
       } catch (err) {
-        console.error("Error exiting fullscreen:", err);
+        toast.error("Error exiting fullscreen:"+(err));
       }
     }
   };
@@ -79,7 +78,7 @@ const ExamSubmission = () => {
       setIsDialogOpen(false);
       navigate(`/student/results/${examId}`);
     } catch (error) {
-      console.error("Error submitting exam", error);
+      toast.error("Error submitting exam"+(error));
       setIsSubmitting(false);
       setIsDialogOpen(false);
     }

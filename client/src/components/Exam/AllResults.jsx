@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import axiosInstance from "@/axiosInstance";
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const AllResults = () => {
   const { examId } = useParams();
@@ -12,7 +13,7 @@ const AllResults = () => {
         const response = await axiosInstance.get(`/result/${examId}/results`);
         setResults(response.data);
       } catch (error) {
-        console.error("Error fetching results", error);
+        toast.error("Error fetching results: " + (error.message || error));
       }
     };
     fetchResults();

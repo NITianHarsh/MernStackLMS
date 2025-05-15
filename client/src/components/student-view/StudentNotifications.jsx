@@ -25,7 +25,6 @@ const StudentNotifications = () => {
       .get(`/doubt/notifications/${studentId}`)
       .then((res) => setSessions(res.data.sessions || []))
       .catch((err) => {
-        console.error("Fetch error:", err);
         toast.error("Failed to fetch notifications");
       });
   }, [studentId]);

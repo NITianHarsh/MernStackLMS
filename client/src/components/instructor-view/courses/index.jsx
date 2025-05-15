@@ -41,7 +41,6 @@ function InstructorCourses({ listOfCourses }) {
       });
       toast.success("Publish status updated");
     } catch (error) {
-      console.error("Toggle error:", error);
       toast.error("Failed to update publish status");
 
       setCourses((prev) =>
@@ -65,7 +64,6 @@ function InstructorCourses({ listOfCourses }) {
       setCourses((prev) => prev.filter((course) => course._id !== courseId));
       toast.success("Course deleted successfully.");
     } catch (error) {
-      console.error("Delete error:", error);
       toast.error("Failed to delete the course.");
     }
   };

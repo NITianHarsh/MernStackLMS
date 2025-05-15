@@ -39,7 +39,7 @@ const InstructorNotification = () => {
       setMeeting(meetingData);
       await handleCreateSession(meetingData);
     } catch (err) {
-      console.error("Zoom Error:", err);
+      toast.error("Zoom Error:"+(err));
       setError("Error creating Zoom meeting.");
     } finally {
       setLoading(false);
@@ -108,7 +108,6 @@ const InstructorNotification = () => {
       setSelectedDoubtIds([]);
       setForm({ date: "", time: "", note: "" });
     } catch (err) {
-      console.error("Error scheduling session:", err);
       toast.error("Failed to schedule session");
     }
   };

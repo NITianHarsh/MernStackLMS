@@ -69,7 +69,6 @@ function StudentViewCourseProgressPage() {
         if (response?.data?.progress?.length === 0) {
           setCurrentLecture(response?.data?.courseDetails?.curriculum[0]);
         } else {
-          console.log("logging here");
           const lastIndexOfViewedAsTrue = response?.data?.progress.reduceRight(
             (acc, obj, index) => {
               return acc === -1 && obj.viewed ? index : acc;
@@ -101,7 +100,6 @@ function StudentViewCourseProgressPage() {
   }
 
   async function updateCourseProgress() {
-    console.log("fsdgsah;ddddddddddddddddddddddddddd");
     if (currentLecture) {
       const response = await markLectureAsViewedService(
         auth?.user?._id,
@@ -151,7 +149,6 @@ function StudentViewCourseProgressPage() {
     if (showConfetti) setTimeout(() => setShowConfetti(false), 15000);
   }, [showConfetti]);
 
-  console.log(currentLecture, "currentLectureeeeeeeeeeeeeeeeeeee");
 
   return (
     <div className="flex flex-col h-screen bg-[#1c1d1f] text-white">

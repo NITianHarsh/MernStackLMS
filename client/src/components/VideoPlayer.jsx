@@ -146,7 +146,6 @@ function VideoPlayer({
         onProgress={handleProgress}
         onEnded={() => {
           setPlaying(false); // Stop the player
-          console.log("Video ended"); // Optional: for debugging
         }}
       />
 

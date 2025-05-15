@@ -16,7 +16,7 @@ const ExamList = () => {
         const res = await axiosInstance.get("/exam/getExamList");
         setExams(res.data);
       } catch (error) {
-        console.error("Error fetching exams:", error);
+        toast.error("Error fetching exams:"+(error));
       } finally {
         setLoading(false);
       }
@@ -36,7 +36,6 @@ const ExamList = () => {
         )
       );
     } catch (err) {
-      console.error(err);
       toast.error("Failed to publish exam.");
     } finally {
       setPublishingId(null);

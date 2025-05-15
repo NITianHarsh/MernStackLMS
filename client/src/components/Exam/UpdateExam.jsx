@@ -33,7 +33,7 @@ const UpdateExam = () => {
           questions: questionsWithCorrectAnswer,
         });
       } catch (error) {
-        console.error("Error fetching exam:", error);
+        toast.error("Error fetching exam:"+(error));
       }
     };
 
@@ -104,7 +104,7 @@ const UpdateExam = () => {
       toast.success("Exam updated successfully!");
       navigate(-1);
     } catch (error) {
-      console.error("Error updating exam:", error);
+      toast.error("Error updating exam:"+(error));
       toast.error("Failed to update exam.");
     } finally {
       setIsSubmitting(false);

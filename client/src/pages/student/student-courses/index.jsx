@@ -17,7 +17,6 @@ function StudentCoursesPage() {
     const { data } = await axiosInstance.get(
       `/student/courses-bought/get/${studentId}`
     );
-    console.log(data, "raandddddkkakckkkksd");
     return data;
   }
 
@@ -27,7 +26,6 @@ function StudentCoursesPage() {
     if (response?.success) {
       setStudentBoughtCoursesList(response?.data);
     }
-    console.log(response);
   }
 
   useEffect(() => {
