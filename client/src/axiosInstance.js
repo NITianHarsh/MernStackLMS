@@ -2,7 +2,7 @@ import axios from "axios";
 
 // axios instance with a base URL
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000", // Base URL for all API requests
+  baseURL: "https://mernstacklmsbackend.onrender.com", // Base URL for all API requests
 });
 
 // Add a request interceptor to the axios instance, everytime we refresh it will check user is authenticated or not based on this access token
