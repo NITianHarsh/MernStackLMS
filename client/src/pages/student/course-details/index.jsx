@@ -63,7 +63,7 @@ function StudentViewCourseDetailsPage() {
       checkCoursePurchaseInfoResponse?.success &&
       checkCoursePurchaseInfoResponse?.data
     ) {
-      navigate(`/course-progress/${currentCourseDetailsId}`);
+      navigate(`/student/course-progress/${currentCourseDetailsId}`);
       return;
     }
 
