@@ -2,7 +2,6 @@
 
 A full-featured web application built for managing and consuming online courses. This platform supports both **Instructor** and **Student** roles, with secure authentication, course creation, video streaming, and Razorpay-based payments.
 
----
 
 ## 🔧 Tech Stack
 
@@ -11,9 +10,9 @@ A full-featured web application built for managing and consuming online courses.
 - **Database:** MongoDB
 - **Authentication:** JWT
 - **Payments:** Razorpay SDK
-- **Styling:** Tailwind CSS / CSS Modules
+- **Styling:** Tailwind CSS / CSS Modules , shadcn ui
+- **Proctoring + Timer:** Custom logic for fullscreen/tab tracking, Pomodoro-based exam flow
 
----
 
 ## 🚀 Features
 
@@ -26,7 +25,6 @@ A full-featured web application built for managing and consuming online courses.
 ### 🔒 Protected Routes (Route Guard)
 - Ensures only authenticated users can access certain pages like dashboards.
 
----
 
 ### 👨‍🏫 Instructor Functionality ********************
 
@@ -48,7 +46,14 @@ A full-featured web application built for managing and consuming online courses.
 #### Dashboard Overview
 - Final polished instructor dashboard with analytics and course views.
 
----
+ #### Exam Creation & Management 
+-Create two types of exams:
+-Discount Exam: Students get a course discount upon passing.
+-Practice Exam: Timed 30-minute mock test for preparation.
+-Set questions, time duration, pass criteria, and exam rules.
+-Mark exam as active/inactive (for scheduling).
+-Update exams anytime.
+
 
 ### 🎓 Student Functionality *************************
 
@@ -60,9 +65,34 @@ A full-featured web application built for managing and consuming online courses.
 - Browse available courses and view course detail pages.
 
 #### Payment and Enrollment
-- Buy courses via integrated RazorPay payment gateway.
+-Purchase course via Razorpay (discounts applied if exam passed).
+-Access purchased courses in "My Courses" section.
 
 #### My Courses and Progress Tracking
 - View enrolled courses and track progress through completed lectures.
 
+#### Exam Types
+Discount Exam: Unlocks course discounts upon passing.
+Practice Exam: 30-minute test to simulate real exam.
+
+#### Anti-Cheating Mechanisms
+Tab switch detection: Instant warning or auto-submission.
+Fullscreen enforcement: Exam starts only in fullscreen mode.
+Keyboard lock: Disables common keys (Alt, F12, Ctrl+C/V).
+Context menu disabled: Right-click blocked.
+Copy/paste disabled.
+
+#### Results and Feedback
+Instant scorecard on submission.
+View correct answers (if allowed by instructor).
+Leaderboard showing top performers for the course exam.
+
+####  Pomodoro Timer Integration
+Boosts student focus and productivity.
+
+ Key Features:
+Built-in Pomodoro Timer with customizable durations.
+Default cycle: 25 minutes focus + 5 minutes break.
+Auto-switching between focus and break intervals.
+Clear visual countdown.
 
