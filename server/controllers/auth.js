@@ -1,7 +1,9 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { otpStore } from "../server.js"; // Adjust the import path as necessary
 import sendWelcomeEmail from "../helper/sendWelcomeEmail.js";
+import sendResetOtpEmail from "../helper/sendVerifyOTP.js";
 
 const registerUser = async (req, res) => {
   const { userName, userEmail, password, role } = req.body;
@@ -21,7 +23,7 @@ const registerUser = async (req, res) => {
     userEmail,
     role,
     password: hashPassword,
-    userImage:undefined,
+    userImage: undefined,
   });
 
   await newUser.save();
@@ -42,7 +44,10 @@ const loginUser = async (req, res) => {
   const { userEmail, password } = req.body;
 
   const checkUser = await User.findOne({ userEmail });
-  if (!checkUser || !bcrypt.compare(password, checkUser.password)) {
+  const isMatch =
+    checkUser && (await bcrypt.compare(password, checkUser.password));
+
+  if (!isMatch) {
     return res.status(401).json({
       success: false,
       message: "Invalid credentials",
@@ -88,38 +93,82 @@ const checkAuth = (req, res) => {
   });
 };
 
+const requestPasswordReset = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Email is required." });
+  }
+
+  const user = await User.findOne({ userEmail: email.trim().toLowerCase() });
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found." });
+  }
+
+  // Generate OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+  otpStore.set(email, {
+    otp,
+    expiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes from now
+  });
+
+  // Auto-cleanup after 5 minutes
+  setTimeout(() => otpStore.delete(email), 5 * 60 * 1000);
+
+  try {
+    await sendResetOtpEmail(user.userEmail, user.userName, otp);
+    return res
+      .status(200)
+      .json({ success: true, message: "OTP sent to email." });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to send OTP." });
+  }
+};
+
 const resetPassword = async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({
-      success: false,
-      message: "Email and password are required.",
-    });
+  const { email, password, confirmPassword, otp } = req.body;
+  const record = otpStore.get(email);
+  if (!record || record.expiresAt < Date.now()) {
+    return res.status(400).json({ message: "OTP expired or invalid" });
   }
 
-  const checkUser = await User.findOne({
-    userEmail: email.trim().toLowerCase(),
-  });
-
-  if (!checkUser) {
-    return res.status(404).json({
-      success: false,
-      message: "User not found.",
-    });
+  if (!email || !password || !confirmPassword || !otp) {
+    return res
+      .status(400)
+      .json({ success: false, message: "All fields are required." });
   }
+
+  if (otp !== record.otp) {
+    return res.status(401).json({ message: "Incorrect OTP" });
+  }
+  if (password !== confirmPassword) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Passwords do not match." });
+  }
+
+  const user = await User.findOne({ userEmail: email.trim().toLowerCase() });
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found." });
+  }
+
   const hashPassword = await bcrypt.hash(password, 10);
-  checkUser.password = hashPassword;
-  await checkUser.save();
+  user.password = hashPassword;
+  await user.save();
 
-  res.status(200).json({
-    success: true,
-    message: "Password updated successfully.",
-  });
+  return res
+    .status(200)
+    .json({ success: true, message: "Password updated successfully." });
 };
 
 const uploadImage = async (req, res) => {
-  try {  
+  try {
     const { imageUrl } = req.body;
 
     if (!imageUrl) {
@@ -127,7 +176,7 @@ const uploadImage = async (req, res) => {
         .status(400)
         .json({ success: false, message: "No image URL provided" });
     }
-    
+
     const userId = req.user._id;
 
     const updatedUser = await User.findByIdAndUpdate(
@@ -135,7 +184,7 @@ const uploadImage = async (req, res) => {
       { userImage: imageUrl },
       { new: true }
     );
-    
+
     res.status(200).json({
       success: true,
       message: "Profile image updated",
@@ -147,4 +196,11 @@ const uploadImage = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, resetPassword, checkAuth, uploadImage };
+export {
+  registerUser,
+  loginUser,
+  requestPasswordReset,
+  resetPassword,
+  checkAuth,
+  uploadImage,
+};

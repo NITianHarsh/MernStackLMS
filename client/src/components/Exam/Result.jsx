@@ -16,7 +16,7 @@ const Results = () => {
         );
         setResult(response.data);
       } catch (error) {
-        toast.error("Error fetching result:"+(error));
+        toast.error("Error fetching result:" + error);
       }
     };
 

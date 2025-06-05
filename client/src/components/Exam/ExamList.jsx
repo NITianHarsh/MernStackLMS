@@ -16,7 +16,7 @@ const ExamList = () => {
         const res = await axiosInstance.get("/exam/getExamList");
         setExams(res.data);
       } catch (error) {
-        toast.error("Error fetching exams:"+(error));
+        toast.error("Error fetching exams:" + error);
       } finally {
         setLoading(false);
       }

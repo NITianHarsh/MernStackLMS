@@ -271,7 +271,7 @@ const PomodoroFloatingWidget = () => {
         </div>
       )}
 
-      <ToastContainer  position="bottom-center" autoClose={3000} />
+      <ToastContainer position="bottom-center" autoClose={3000} />
     </>
   );
 };

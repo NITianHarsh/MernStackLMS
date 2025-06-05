@@ -11,7 +11,7 @@ function CommonLayout() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-black dark:text-white">
-      {!isExamRoute &&<Footer/> && <StudentViewCommonHeader />}
+      {!isExamRoute && <Footer /> && <StudentViewCommonHeader />}
 
       <main>
         <Outlet />

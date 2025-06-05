@@ -51,16 +51,16 @@ function StudentViewCommonHeader() {
         <div className="flex items-center gap-4">
           {/* Notification Icon - always visible */}
           <Button
-          onClick={toggleDarkMode}
-          variant="ghost"
-          className="text-white hover:text-teal-300 hover:bg-teal-600 transition px-2 py-2 rounded-md"
-        >
-          {darkMode ? (
-            <Sun className="h-5 w-5" />
-          ) : (
-            <Moon className="h-5 w-5" />
-          )}
-        </Button>
+            onClick={toggleDarkMode}
+            variant="ghost"
+            className="text-white hover:text-teal-300 hover:bg-teal-600 transition px-2 py-2 rounded-md"
+          >
+            {darkMode ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+          </Button>
           <Button
             variant="ghost"
             className="text-white hover:text-teal-300 hover:bg-teal-600 transition px-2 py-2 rounded-md"
@@ -125,6 +125,7 @@ function StudentViewCommonHeader() {
           </Button>
 
           <Button
+          variant="ghost"
             className="flex items-center gap-2 text-sm font-medium text-teal-700 hover:text-teal-600 hover:bg-teal-100 px-4 py-2 rounded-md transition"
             onClick={() => navigate("/student/student-courses")}
           >

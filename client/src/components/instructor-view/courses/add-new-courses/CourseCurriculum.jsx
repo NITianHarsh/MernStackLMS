@@ -123,7 +123,6 @@ function CourseCurriculum() {
   }
   async function handleMediaBulkUpload(event) {
     const selectedFiles = Array.from(event.target.files);
-    console.log(selectedFiles, "selectedFiles");
     const bulkFormData = new FormData();
 
     selectedFiles.forEach((fileItem) => bulkFormData.append("files", fileItem));
@@ -135,7 +134,6 @@ function CourseCurriculum() {
         setMediaUploadProgressPercentage
       );
 
-      console.log(response, "bulk");
       if (response?.success) {
         let cpyCourseCurriculumFormdata =
           areAllCourseCurriculumFormDataObjectsEmpty(courseCurriculumFormData)

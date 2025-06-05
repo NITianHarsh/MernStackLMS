@@ -43,7 +43,6 @@ function StudentHomePage() {
     return data;
   }
   async function handleCourseNavigate(getCurrentCourseId) {
-
     const response = await checkCoursePurchaseInfo(
       getCurrentCourseId,
       auth?.user?._id

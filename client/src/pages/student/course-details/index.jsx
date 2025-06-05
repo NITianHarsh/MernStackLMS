@@ -115,7 +115,7 @@ function StudentViewCourseDetailsPage() {
   const checkoutHandler = async (amount) => {
     const isScriptLoaded = await loadRazorpayScript();
     if (!isScriptLoaded) {
-     toast.error("Failed to load Razorpay.");
+      toast.error("Failed to load Razorpay.");
       return;
     }
 
@@ -139,7 +139,7 @@ function StudentViewCourseDetailsPage() {
         instructorId: studentViewCourseDetails?.instructorId,
         instructorName: studentViewCourseDetails?.instructorName,
       });
- 
+
       // 3. Setup Razorpay checkout
       const options = {
         key,
@@ -148,7 +148,8 @@ function StudentViewCourseDetailsPage() {
         name: "Gyaan Path",
         description: "Course Purchase",
         order_id: order.id,
-        callback_url: "https://mernstacklmsbackend.onrender.com/api/paymentVerification", // Only required for server-side verification
+        callback_url:
+          "https://mernstacklmsbackend.onrender.com/api/paymentVerification", // Only required for server-side verification
         prefill: {
           name: auth?.user?.name,
           email: auth?.user?.email,
@@ -166,8 +167,6 @@ function StudentViewCourseDetailsPage() {
       toast.success("Razorpay is opening");
     }
   };
-
- 
 
   return (
     <div className=" mx-auto p-4">

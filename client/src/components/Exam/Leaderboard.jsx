@@ -16,7 +16,7 @@ const Leaderboard = () => {
         );
         setLeaderboard(response.data);
       } catch (error) {
-        toast.error("Error fetching leaderboard:"+(error));
+        toast.error("Error fetching leaderboard:" + error);
       } finally {
         setLoading(false);
       }

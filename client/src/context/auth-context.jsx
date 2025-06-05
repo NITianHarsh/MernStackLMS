@@ -35,6 +35,7 @@ export default function AuthProvider({ children }) {
 
   async function handleLoginUser(e) {
     e.preventDefault();
+    
     try {
       const { data } = await axiosInstance.post("/auth/login", signInFormData);
       if (data?.success) {

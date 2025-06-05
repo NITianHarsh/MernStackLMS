@@ -57,7 +57,7 @@ export const getInstructorSessions = async (req, res) => {
     // Fetch sessions that are scheduled for the future
     const sessions = await ScheduledSession.find({
       instructor: instructorId,
-      dateTime: { $gt: now },  // Only future sessions
+      dateTime: { $gt: now }, // Only future sessions
     })
       .populate("students")
       .exec();
@@ -76,7 +76,7 @@ export const getStudentNotifications = async (req, res) => {
       students: studentId,
       dateTime: { $gte: new Date() }, // Only future sessions
     }).sort({ dateTime: 1 });
-    
+
     res.status(200).json({ sessions });
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch student sessions" });

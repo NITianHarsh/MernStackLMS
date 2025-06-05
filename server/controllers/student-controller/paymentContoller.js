@@ -8,7 +8,6 @@ import StudentCourses from "../../models/StudentCourses.js";
 // import Razorpay from 'razorpay';
 // import { validatePaymentVerification } from 'razorpay/dist/utils/razorpay-utils.js'; // for ESM
 
-
 export const checkout = async (req, res) => {
   const {
     amount,
@@ -44,8 +43,6 @@ export const checkout = async (req, res) => {
       paymentMethod: "Razorpay",
       orderDate: new Date(),
     });
-   console.log('orderrrrrrrrr createddddddddddd')
-   console.log(order.id)
     res.status(200).json({
       success: true,
       order,
@@ -60,7 +57,8 @@ export const checkout = async (req, res) => {
 };
 
 export const paymentVerification = async (req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+    req.body;
 
   const body = razorpay_order_id + "|" + razorpay_payment_id;
   const expectedSignature = crypto
@@ -82,11 +80,8 @@ export const paymentVerification = async (req, res) => {
       razorpay_payment_id,
       razorpay_signature,
     });
- console.log(razorpay_order_id,'iddddddddorderrrrrrrr'
- )
     // Find the original order
     const order = await Order.findOne({ razorpayOrderId: razorpay_order_id });
-    console.log(order)
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -144,7 +139,9 @@ export const paymentVerification = async (req, res) => {
     });
 
     // Redirect to frontend success page
-    res.redirect(`https://gyaanpath.onrender.com/student/paymentsuccess?reference=${razorpay_payment_id}`);
+    res.redirect(
+      `https://gyaanpath.onrender.com/student/paymentsuccess?reference=${razorpay_payment_id}`
+    );
   } catch (error) {
     console.error("Verification failed:", error);
     res.status(500).json({
@@ -156,7 +153,6 @@ export const paymentVerification = async (req, res) => {
 
 // export const paymentVerification =async (req,res)=>{
 
-
 // const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
 //   const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -165,7 +161,7 @@ export const paymentVerification = async (req, res) => {
 //     .createHmac("sha256", process.env.RAZORPAY_API_SECRET)
 //     .update(body.toString())
 //     .digest("hex");
-//     // checking signature is same or not 
+//     // checking signature is same or not
 // //   console.log("sig received ", razorpay_signature);
 // //   console.log("sig generated ", expectedSignature);
 
@@ -178,7 +174,7 @@ export const paymentVerification = async (req, res) => {
 //     await Payment.create({
 //         razorpay_order_id,
 //         razorpay_payment_id,
-//         razorpay_signature 
+//         razorpay_signature
 //     });
 //     res.redirect(`http://localhost:5173/paymentsuccess?reference=${razorpay_payment_id}`) // frontend ka url hona chahiye
 //   } else {
@@ -187,7 +183,5 @@ export const paymentVerification = async (req, res) => {
 //       message: "Signature mismatch",
 //     });
 //   }
-
-
 
 // };

@@ -1,5 +1,9 @@
 import express from "express";
-import { getCurrentCourseProgress, markCurrentLectureAsViewed, resetCurrentCourseProgress } from "../../controllers/student-controller/course-progress-controller.js";
+import {
+  getCurrentCourseProgress,
+  markCurrentLectureAsViewed,
+  resetCurrentCourseProgress,
+} from "../../controllers/student-controller/course-progress-controller.js";
 
 const router = express.Router();
 

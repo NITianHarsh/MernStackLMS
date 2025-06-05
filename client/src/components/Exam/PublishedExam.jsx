@@ -22,7 +22,7 @@ const PublishedExam = () => {
         const res = await axiosInstance.get("/exam/published");
         setExams(res.data);
       } catch (error) {
-        toast.error("Error fetching exams:"+(error));
+        toast.error("Error fetching exams:" + error);
       } finally {
         setLoading(false);
       }

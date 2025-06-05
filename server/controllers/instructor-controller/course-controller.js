@@ -10,7 +10,7 @@ const addNewCourse = async (req, res) => {
     if (!courseData.title || !courseData.instructorId || !courseData.exam) {
       return res.status(400).json({
         success: false,
-        message: "Course title, instructor ID, and exam details are required"
+        message: "Course title, instructor ID, and exam details are required",
       });
     }
 
@@ -74,7 +74,6 @@ const updateCourseByID = async (req, res) => {
   try {
     const id = req.params.id;
     const updatedCourseData = req.body;
-  console.log(req.body,'reqq.body')
     // // Ensure that we don't update critical course fields (like instructorId) unintentionally
     // if (updatedCourseData.instructorId) {
     //   return res.status(400).json({
@@ -83,9 +82,13 @@ const updateCourseByID = async (req, res) => {
     //   });
     // }
     // Find and update the course
-    const updatedCourse = await Course.findByIdAndUpdate(id, updatedCourseData, {
-      new: true, // Returns the updated document
-    });
+    const updatedCourse = await Course.findByIdAndUpdate(
+      id,
+      updatedCourseData,
+      {
+        new: true, // Returns the updated document
+      }
+    );
 
     // Check if course was found and updated
     if (updatedCourse) {
@@ -196,5 +199,5 @@ export {
   updateCourseByID,
   updateCoursePublishStatus,
   deleteCourseByID,
-  updateExamForCourse
+  updateExamForCourse,
 };

@@ -52,7 +52,7 @@ const markCurrentLectureAsViewed = async (req, res) => {
       progress.lecturesProgress.length === course.curriculum.length &&
       progress.lecturesProgress.every((item) => item.viewed);
 
-    if (allLecturesViewed) { 
+    if (allLecturesViewed) {
       progress.completed = true;
       progress.completionDate = new Date();
 
@@ -111,7 +111,6 @@ const getCurrentCourseProgress = async (req, res) => {
           message: "Course not found",
         });
       }
-      console.log('i am herrrrreeeeeeeeeeeeeeeee')
       return res.status(200).json({
         success: true,
         message: "No progress found, you can start watching the course",
@@ -122,9 +121,8 @@ const getCurrentCourseProgress = async (req, res) => {
         },
       });
     }
- console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
     const courseDetails = await Course.findById(courseId);
-  
+
     res.status(200).json({
       success: true,
       data: {
@@ -135,7 +133,6 @@ const getCurrentCourseProgress = async (req, res) => {
         isPurchased: true,
       },
     });
-
   } catch (error) {
     console.log(error);
     res.status(500).json({

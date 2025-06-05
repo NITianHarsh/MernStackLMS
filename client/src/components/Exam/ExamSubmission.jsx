@@ -35,7 +35,7 @@ const ExamSubmission = () => {
         setAnswers(response.data.map(() => ({ selectedOptionIndex: -1 })));
         setStartTime(Date.now());
       } catch (error) {
-        toast.error("Error fetching exam questions"+(error));
+        toast.error("Error fetching exam questions" + error);
       }
     };
 
@@ -55,7 +55,7 @@ const ExamSubmission = () => {
       try {
         await document.exitFullscreen();
       } catch (err) {
-        toast.error("Error exiting fullscreen:"+(err));
+        toast.error("Error exiting fullscreen:" + err);
       }
     }
   };
@@ -68,7 +68,7 @@ const ExamSubmission = () => {
     const submission = {
       answers,
       timeTaken: totalTimeTaken,
-      studentName: auth.user.userName, 
+      studentName: auth.user.userName,
     };
 
     try {
@@ -78,7 +78,7 @@ const ExamSubmission = () => {
       setIsDialogOpen(false);
       navigate(`/student/results/${examId}`);
     } catch (error) {
-      toast.error("Error submitting exam"+(error));
+      toast.error("Error submitting exam" + error);
       setIsSubmitting(false);
       setIsDialogOpen(false);
     }
@@ -98,7 +98,9 @@ const ExamSubmission = () => {
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 p-6 bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Exam</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Exam
+          </h2>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             Total Questions: {questions.length}
           </p>
@@ -135,7 +137,9 @@ const ExamSubmission = () => {
                     onChange={() => handleOptionChange(idx, optionIndex)}
                     className="h-5 w-5 text-gray-900 dark:text-gray-300 focus:ring-gray-500 border-gray-300 dark:border-gray-600 dark:bg-gray-700"
                   />
-                  <span className="ml-3 text-gray-800 dark:text-gray-300">{option}</span>
+                  <span className="ml-3 text-gray-800 dark:text-gray-300">
+                    {option}
+                  </span>
                 </label>
               ))}
             </div>
@@ -205,11 +209,16 @@ const ExamSubmission = () => {
           <DialogHeader>
             <DialogTitle>Confirm Submit</DialogTitle>
             <DialogDescription>
-              Are you sure you want to submit the exam? This action cannot be undone.
+              Are you sure you want to submit the exam? This action cannot be
+              undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDialogOpen(false)} disabled={isSubmitting}>
+            <Button
+              variant="outline"
+              onClick={() => setIsDialogOpen(false)}
+              disabled={isSubmitting}
+            >
               Cancel
             </Button>
             <Button onClick={() => doSubmitExam(false)} disabled={isSubmitting}>

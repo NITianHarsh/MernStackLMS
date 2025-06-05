@@ -39,7 +39,7 @@ const InstructorNotification = () => {
       setMeeting(meetingData);
       await handleCreateSession(meetingData);
     } catch (err) {
-      toast.error("Zoom Error:"+(err));
+      toast.error("Zoom Error:" + err);
       setError("Error creating Zoom meeting.");
     } finally {
       setLoading(false);

@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-
 const StartExam = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
@@ -31,8 +30,7 @@ const StartExam = () => {
   const [originalPrice, setOriginalPrice] = useState(); // Replace with actual price if needed
   const [eligible, setEligible] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchExam = async () => {
@@ -82,7 +80,6 @@ const [isSubmitting, setIsSubmitting] = useState(false);
     if (!fromTimer && !isDialogOpen) return;
 
     setIsSubmitting(true);
-  
 
     const totalTimeTaken = Math.floor((Date.now() - startTime) / 1000);
     const correctAnswers = calculateScore();
@@ -102,9 +99,9 @@ const [isSubmitting, setIsSubmitting] = useState(false);
       setFinalPrice(originalPrice);
       setEligible(false);
     }
-    
-  setIsSubmitting(false);
-  setIsDialogOpen(false);
+
+    setIsSubmitting(false);
+    setIsDialogOpen(false);
   };
 
   const handleTimeUp = () => {
@@ -265,7 +262,8 @@ const [isSubmitting, setIsSubmitting] = useState(false);
 
       <div className="mt-10 text-center">
         <button
-          onClick={() => setIsDialogOpen(true)} disabled={isSubmitting}
+          onClick={() => setIsDialogOpen(true)}
+          disabled={isSubmitting}
           className="relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-medium text-white transition-all duration-300 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-lg hover:shadow-indigo-500/50 group"
         >
           <span className="relative">Submit Exam</span>
@@ -286,27 +284,29 @@ const [isSubmitting, setIsSubmitting] = useState(false);
         </button>
       </div>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>Confirm Submit</DialogTitle>
-      <DialogDescription>
-        Are you sure you want to submit the exam? You will not be able to change your answers after submission.
-      </DialogDescription>
-    </DialogHeader>
-    <DialogFooter>
-      <Button variant="outline" onClick={() => setIsDialogOpen(false)} disabled={isSubmitting}>
-        Cancel
-      </Button>
-      <Button onClick={submitExam} disabled={isSubmitting}>
-        {isSubmitting ? "Submitting..." : "Yes, Submit"}
-      </Button>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
-
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Submit</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to submit the exam? You will not be able to
+              change your answers after submission.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsDialogOpen(false)}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+            <Button onClick={submitExam} disabled={isSubmitting}>
+              {isSubmitting ? "Submitting..." : "Yes, Submit"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
-
-    
   );
 };
 

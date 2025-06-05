@@ -165,20 +165,14 @@ function App() {
           <Route path="doubt" element={<AskDoubt />} />
         </Route>
 
-        <Route
-          path="/aboutus"
-          element={<AboutUs/>}
-        />
-        <Route
-          path="/termsandconditions"
-          element={<TermsAndConditions/>}
-        />
+        <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/termsandconditions" element={<TermsAndConditions />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
       <PomodoroFloatingWidget />
-      <Footer/>
+      <Footer />
     </>
   );
 }

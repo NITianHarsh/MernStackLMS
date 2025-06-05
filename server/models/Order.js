@@ -38,7 +38,7 @@ const orderSchema = new mongoose.Schema({
     enum: ["Created", "Success", "Failed", "Pending"],
     default: "Created", // Default to "Created" during checkout
   },
-  
+
   paymentMethod: {
     type: String,
     default: "Razorpay",
@@ -48,11 +48,11 @@ const orderSchema = new mongoose.Schema({
     enum: ["Paid", "Unpaid", "Pending"],
     default: "Pending", // Default to "Pending" during checkout
   },
-  
+
   paymentId: String,
 
   amount: {
-    type: Number, 
+    type: Number,
     required: true, // Ensure that amount is stored as it's used during checkout
   },
 

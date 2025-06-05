@@ -75,9 +75,9 @@ const AboutUs = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0f0c29] via-[#302b63] to-[#24243e] pb-16">
-      <Navbar/>
-      <h1 className="text-5xl font-extrabold text-center text-white mb-20 tracking-wide">
+    <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#0f0c29] dark:via-[#302b63] dark:to-[#24243e] pb-16 transition-colors duration-300">
+      <Navbar />
+      <h1 className="text-5xl font-extrabold text-center text-gray-900 dark:text-white mb-20 tracking-wide">
         Meet Our Team
       </h1>
 
@@ -86,7 +86,7 @@ const AboutUs = () => {
         {users.map((user, index) => (
           <div
             key={index}
-            className="relative bg-opacity-10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 w-[340px] shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out"
+            className="relative bg-gradient-to-br from-green-200 via-emerald-300 to-green-400 dark:bg-none bg-opacity-60 dark:bg-opacity-10 backdrop-blur-lg border border-white/30 dark:border-white/20 rounded-3xl p-8 w-[340px] shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out"
           >
             {/* Profile Image */}
             <div className="flex justify-center -mt-20">
@@ -98,10 +98,10 @@ const AboutUs = () => {
             </div>
 
             {/* User Info */}
-            <h2 className="text-2xl text-white font-bold mt-6 text-center">
+            <h2 className="text-2xl text-gray-800 dark:text-white font-bold mt-6 text-center">
               {user.name}
             </h2>
-            <p className="text-sm text-purple-300 font-semibold mb-4 text-center">
+            <p className="text-sm text-purple-600 dark:text-purple-300 font-semibold mb-4 text-center">
               {user.role}
             </p>
 
@@ -109,19 +109,21 @@ const AboutUs = () => {
             <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mb-4" />
 
             {/* Description */}
-            <div className="text-sm text-gray-200">{user.description}</div>
+            <div className="text-sm text-gray-700 dark:text-gray-200">
+              {user.description}
+            </div>
 
             {/* Social Media */}
             <div className="flex justify-center gap-6 mt-6">
               <a href={user.socials.linkedin} target="_blank" rel="noreferrer">
                 <FaLinkedin
-                  className="text-blue-500 hover:text-blue-600 transition-all duration-200"
+                  className="text-blue-600 dark:text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 transition-all duration-200"
                   size={24}
                 />
               </a>
               <a href={user.socials.github} target="_blank" rel="noreferrer">
                 <FaGithub
-                  className="text-gray-300 hover:text-white transition-all duration-200"
+                  className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-all duration-200"
                   size={24}
                 />
               </a>

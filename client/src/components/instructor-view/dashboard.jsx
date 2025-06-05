@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -7,21 +6,34 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IndianRupee, Users } from "lucide-react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  Legend,
+} from "recharts";
 import { useState } from "react";
-// import CanvasJSReact from "@canvasjs/react-charts";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
-
-// const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+import { IndianRupee, Users } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 function Dashboard({ listOfCourses }) {
   const [chartData, setChartData] = useState([]);
-  const [sortField, setSortField] = useState(null);
   const [chartTitle, setChartTitle] = useState("");
+  const [sortField, setSortField] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const COLORS = [
+    "#0088FE",
+    "#00C49F",
+    "#FFBB28",
+    "#FF8042",
+    "#A28CFE",
+    "#FE6F5E",
+  ];
 
   // Calculate total students, profit, and student list
   const { totalStudents, totalProfit, studentList } = listOfCourses.reduce(
@@ -99,22 +111,31 @@ function Dashboard({ listOfCourses }) {
       },
     },
   ];
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    index,
+  }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-  // CanvasJS Chart Options
-  const options = {
-    animationEnabled: true,
-    exportEnabled: true,
-    theme: "dark2",
-    title: {
-      text: chartTitle,
-    },
-    data: [
-      {
-        type: "pie",
-        indexLabel: "{label}: {y}",
-        dataPoints: chartData,
-      },
-    ],
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
   };
 
   return (
@@ -147,8 +168,32 @@ function Dashboard({ listOfCourses }) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
+            className="w-full h-[300px] sm:h-[400px]"
           >
-{/*             <CanvasJSChart options={options} /> */}
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={chartData}
+                  dataKey="y"
+                  nameKey="label"
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  label={renderCustomizedLabel}
+                >
+                  {chartData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
           </motion.div>
         </DialogContent>
       </Dialog>
