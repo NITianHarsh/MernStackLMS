@@ -16,31 +16,33 @@ const PomodoroFloatingWidget = () => {
 
   const toggleWidget = () => setIsOpen(!isOpen);
 
-  // Load state from localStorage on mount
-  useEffect(() => {
-    const savedState = localStorage.getItem("pomodoroState");
-    if (savedState) {
-      const {
-        focusDuration,
-        breakDuration,
-        minutes,
-        seconds,
-        isRunning,
-        isBreak,
-        isEnded,
-      } = JSON.parse(savedState);
+useEffect(() => {
+  const savedState = localStorage.getItem("pomodoroState");
+  if (savedState) {
+    const {
+      focusDuration,
+      breakDuration,
+      minutes,
+      seconds,
+      isRunning,
+      isBreak,
+      isEnded,
+    } = JSON.parse(savedState);
 
-      setFocusDuration(focusDuration);
-      setBreakDuration(breakDuration);
-      setMinutes(minutes);
-      setSeconds(seconds);
-      setIsRunning(isRunning);
-      setIsBreak(isBreak);
-      setIsEnded(isEnded);
+    setFocusDuration(focusDuration);
+    setBreakDuration(breakDuration);
+    setMinutes(minutes);
+    setSeconds(seconds);
+    setIsRunning(isRunning);
+    setIsBreak(isBreak);
+    setIsEnded(isEnded);
+    if (isRunning) {
+      setIsOpen(true);
     }
-  }, []);
+  }
+}, []);
 
-  // Save state to localStorage whenever relevant state changes
+
   useEffect(() => {
     localStorage.setItem(
       "pomodoroState",
