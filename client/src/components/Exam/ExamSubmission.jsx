@@ -94,7 +94,7 @@ const ExamSubmission = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <PreventCheating />
+      <PreventCheating onCheatingDetected={() => doSubmitExam(true)} maxTabSwitches={2} />
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 p-6 bg-green-50 dark:bg-green-900 rounded-xl shadow-sm border border-green-200 dark:border-green-800">
         <div>
