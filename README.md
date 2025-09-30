@@ -3,6 +3,8 @@
 A full-featured web application built for managing and consuming online courses. This platform supports both **Instructor** and **Student** roles, with secure authentication, course creation, video streaming, and Razorpay-based payments.
 
 
+## Live Demo: https://gyaanpath.onrender.com/
+
 ## 🔧 Tech Stack
 
 - **Frontend:** React, React Router
