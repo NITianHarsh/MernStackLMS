@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 
-const PreventCheating = () => {
+const PreventCheating = ({ onCheatingDetected, maxTabSwitches = 1 }) => {
+  let tabSwitchCount = 0;
+
   useEffect(() => {
-    // 1. Force Fullscreen
+    //  Force Fullscreen
     const goFullScreen = () => {
       const elem = document.documentElement;
       if (elem.requestFullscreen) elem.requestFullscreen();
@@ -12,64 +14,62 @@ const PreventCheating = () => {
       else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
     };
 
-    // 2. Disable Right Click, Drag, and Text Selection
+    //  Disable Right Click, Drag, Text Selection
     const disableRightClick = (e) => e.preventDefault();
     const disableDrag = (e) => e.preventDefault();
-    const disableTextSelection = (e) => e.preventDefault();
+    document.body.style.userSelect = "none"; // Disable text selection
 
-    // 3. Disable Shortcuts like F12, Ctrl+U, Ctrl+Shift+I, F11 (Fullscreen)
+    //  Disable certain keyboard shortcuts
     const disableShortcuts = (e) => {
       if (
         e.ctrlKey ||
         e.altKey ||
         e.metaKey ||
-        e.key === "F12" || // Disable F12 (Dev Tools)
-        e.key === "F11" || // Disable F11 (Fullscreen)
-        (e.key === "u" && e.ctrlKey) || // Ctrl+U (View source)
-        (e.key === "i" && e.ctrlKey && e.shiftKey) // Ctrl+Shift+I (Inspect)
+        e.key === "F12" ||
+        e.key === "F11" ||
+        (e.key === "u" && e.ctrlKey) ||
+        (e.key === "i" && e.ctrlKey && e.shiftKey)
       ) {
         e.preventDefault();
       }
     };
 
-    // 4. Prevent Back Navigation
+    // Prevent Back Navigation
     const preventBackNavigation = () => {
       window.history.pushState(null, "", window.location.href);
     };
+    const handlePopState = () => window.history.pushState(null, "", window.location.href);
 
-    const handlePopState = () => {
-      window.history.pushState(null, "", window.location.href);
-    };
-
-    // 5. Prevent Tab Switching (Alert and submit exam)
+    // Tab switch detection
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        toast.error("Tab switching is not allowed during the exam!");
-        // Trigger automatic exam submission (can be added here)
-        // handleSubmit();
+        tabSwitchCount++;
+        toast.error("Tab switching detected!");
+
+        if (tabSwitchCount > maxTabSwitches) {
+          toast.error("Maximum tab switch limit reached. Submitting exam...");
+          if (onCheatingDetected) onCheatingDetected();
+        }
       }
     };
 
-    // Apply all restrictions
     goFullScreen();
     preventBackNavigation();
     window.addEventListener("popstate", handlePopState);
     window.addEventListener("contextmenu", disableRightClick);
-    window.addEventListener("dragstart", disableDrag); // Prevent dragging
-    document.body.style.userSelect = "none"; // Disable text selection
+    window.addEventListener("dragstart", disableDrag);
     window.addEventListener("keydown", disableShortcuts);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
-    // Cleanup
     return () => {
       window.removeEventListener("popstate", handlePopState);
       window.removeEventListener("contextmenu", disableRightClick);
       window.removeEventListener("dragstart", disableDrag);
-      document.body.style.userSelect = ""; // Re-enable text selection
+      document.body.style.userSelect = "";
       window.removeEventListener("keydown", disableShortcuts);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, []);
+  }, [onCheatingDetected, maxTabSwitches]);
 
   return null;
 };
